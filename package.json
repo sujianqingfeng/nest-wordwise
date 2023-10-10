@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "reflect-metadata": "^0.1.13",
@@ -51,5 +52,4 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
   }
-  
 }
