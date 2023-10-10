@@ -5,7 +5,7 @@ export class AuthController {
 
   @Get()
   getAuth() {
-    return 'fffff'
+    return { auth: 'works' }
   }
 
 }
