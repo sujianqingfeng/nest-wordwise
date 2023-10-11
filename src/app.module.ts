@@ -5,7 +5,12 @@ import { AppController } from './app.controller'
 import { AuthModule } from './modules/auth/auth.module'
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env.development',
+    }), 
+    AuthModule
+  ],
   controllers: [AppController],
   providers: [],
 })
