@@ -20,7 +20,7 @@ export class GoogleAuthService implements AuthProvider {
     const redirectUri = process.env.GOOGLE_REDIRECT_URI
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
     
-    const res = await  this.httpService.axiosRef.post('https://oauth2.googleapis.com/token', {
+    return this.httpService.post('https://oauth2.googleapis.com/token', {
       code,
       client_id: clientId,
       client_secret: clientSecret,
@@ -29,18 +29,16 @@ export class GoogleAuthService implements AuthProvider {
     }, {
       proxy: {
         protocol: 'http',
-        host: '192.168.123.104',
+        host: '127.0.0.1',
         port: 7890
       }
     })
-    console.log('🚀 ~ file: google.ts:39 ~ GoogleAuthService ~ getToken ~ res:', res)
-
-    // .pipe(
-    //   tap(val => console.log(`BEFORE MAP: ${val}`)),
-    //   catchError(err => {
-    //     console.log(`CAUGHT ERROR: ${err}`)
-    //     return err
-    //   })
-    // )
+      .pipe(
+        tap(val => console.log(`BEFORE MAP: ${val}`)),
+        catchError(err => {
+          console.log(`CAUGHT ERROR: ${err}`)
+          return err
+        })
+      )
   }
 }

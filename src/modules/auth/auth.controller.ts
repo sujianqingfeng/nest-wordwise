@@ -28,7 +28,6 @@ export class AuthController {
   @Post()
   async getAuth(@Body() body: AuthReq) {
     const { provider, code } = body
-    await this.authService.getAuthProvider(provider).getToken(code)
-    
+    return this.authService.getAuthProvider(provider).getToken(code)
   }
 }
