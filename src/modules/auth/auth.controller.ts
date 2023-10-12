@@ -3,7 +3,7 @@ import { from } from 'rxjs'
 import { map, toArray } from 'rxjs/operators'
 import { AUTH_PROVIDERS } from 'src/constants'
 import { AuthService } from './auth.service'
-import type { AuthProvidersItemResp, AuthReq } from 'src/api.interface'
+import type { AuthProvidersItemResp, AuthReq } from './auth.interface'
 
 @Controller('auth')
 export class AuthController {
@@ -26,7 +26,7 @@ export class AuthController {
   }
 
   @Post()
-  async getAuth(@Body() body: AuthReq) {
+  getAuth(@Body() body: AuthReq) {
     const { provider, code } = body
     return this.authService.getAuthProvider(provider).getToken(code)
   }
