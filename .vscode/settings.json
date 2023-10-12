@@ -11,5 +11,8 @@
     "json",
     "jsonc",
     "json5"
+  ],
+  "cSpell.words": [
+    "wordwise"
   ]
 }

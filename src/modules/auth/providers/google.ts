@@ -1,8 +1,7 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { Observable } from 'rxjs'
-import { tap, map, switchMap, } from 'rxjs/operators'
+import { map, switchMap, } from 'rxjs/operators'
 import type { AuthProvider } from './provider.interface'
 
 const proxy =  {
@@ -20,7 +19,6 @@ export class GoogleAuthService implements AuthProvider {
 
   constructor(
     private readonly httpService: HttpService,
-    private jwtService: JwtService
   ) {}
 
   getAuthUrl(): string {
@@ -42,7 +40,7 @@ export class GoogleAuthService implements AuthProvider {
     return `${GOOGLE_AUTH_URL}?${urlParams}`
   }
 
-  getToken(code: string) {
+  getUser(code: string) {
     const clientId = process.env.GOOGLE_CLIENT_ID
     const redirectUri = process.env.GOOGLE_REDIRECT_URI
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
@@ -58,17 +56,10 @@ export class GoogleAuthService implements AuthProvider {
         map(val => val.data.access_token),
         switchMap((access_token) => this.httpService.get(GOOGLE_USER_INFO_URL, { params: { access_token }, proxy })),
         map(val => val.data),
-        tap((data) => {
-          // TODO: to db
-          const { name, picture, email } = data
-          console.log('🚀 ~ file: google.ts:63 ~ GoogleAuthService ~ tap ~ email:', email)
-        }),
         map(data => {
-          const { name, email } = data
-          return this.jwtService.sign({ name, email })
-        }),
-        map(token => ({ token })),
+          const { name, email, picture: avatar } = data
+          return { name, email, avatar }
+        })
       ) 
-     
   }
 }
