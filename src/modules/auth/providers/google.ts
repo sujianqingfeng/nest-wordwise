@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
 import { map, switchMap, } from 'rxjs/operators'
 import type { AuthProvider } from './provider.interface'
 

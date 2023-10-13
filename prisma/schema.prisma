@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -16,6 +13,21 @@ model User {
   email     String   @unique
   name      String?
   avatar    String?
+
+  profile   Profile?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Word {
+  id       String  @id @default(uuid())
+  text     String
+  phonetic String?
+}
+
+model Profile {
+  id     String @id @default(uuid())
+  userId String  @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
