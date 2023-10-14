@@ -38,14 +38,14 @@ export class AuthController {
     const { email, name, avatar } = googleUser
     const where = { email }
 
-    const user = await this.userService.user(where)
+    let user = await this.userService.user(where)
     if (user) {
       this.userService.updateUser({ where, data: { name, avatar } })
     } else {
-      this.userService.createUser(googleUser)
+      user = await this.userService.createUser(googleUser)
     }
 
-    const token = this.jwtService.sign({ email, name })
+    const token = this.jwtService.sign({ email, name, id: user.id })
     return { token, ...googleUser }
   }
 }
