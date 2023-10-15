@@ -6,7 +6,9 @@ import { AUTH_PROVIDERS } from 'src/constants'
 import { AuthService } from './auth.service'
 import { UserService } from '../user/user.service'
 import type { AuthProvidersItemResp, AuthReq } from './auth.interface'
+import { Public } from '@/decorator'
 
+@Public()
 @Controller('auth')
 export class AuthController {
 
