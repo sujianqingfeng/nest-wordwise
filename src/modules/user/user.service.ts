@@ -1,13 +1,20 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
+import { type Request } from  'express'
 import { PrismaService } from 'src/modules/common/prisma.service'
+import { ProfileService } from '../profile/profile.service'
 
 @Injectable()
 export class UserService {
 
   constructor(
-    private readonly prismaService: PrismaService
+    private prismaService: PrismaService,
+    private profileService: ProfileService
   ) {}
+
+  profile(req: Request) {
+    return this.profileService.profile({ userId: req.user.id })
+  }
 
   async user(userWhereUniqueInput: Prisma.UserWhereUniqueInput): Promise<User | null> {
     return this.prismaService.user.findUnique({ where: userWhereUniqueInput })

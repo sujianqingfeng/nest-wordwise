@@ -1,13 +1,16 @@
 import { HttpService } from '@nestjs/axios'
-import { Injectable } from '@nestjs/common'
+import { Injectable, Req } from '@nestjs/common'
 import { Signer } from '@volcengine/openapi'
+import { type Request } from 'express'
 import { DictionaryProvider } from './provider.interface'
+import { UserService } from '@/modules/user/user.service'
 
 @Injectable()
 export class VolcanoEngineService implements DictionaryProvider {
 
   constructor(
-    private readonly httpService: HttpService,
+    private httpService: HttpService,
+    private userService: UserService 
   ) {}
 
   signer() {
@@ -27,7 +30,10 @@ export class VolcanoEngineService implements DictionaryProvider {
     console.log('🚀 ~ file: volcano-engine.service.ts:27 ~ VolcanoEngineService ~ signer ~ url:', url)
   }
 
-  find(word: string): string {
+  async find(@Req() req: Request, word: string) {
+    const profile = await this.userService.profile(req)
+    console.log('🚀 ~ file: volcano-engine.service.ts:35 ~ VolcanoEngineService ~ find ~ profile:', profile)
+
     return 'volcano'
   }
 }

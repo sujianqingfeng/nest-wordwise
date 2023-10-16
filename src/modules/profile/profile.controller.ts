@@ -1,4 +1,5 @@
-import { Controller, Get, Req } from '@nestjs/common'
+import { Controller, Get, Req, Put, Body } from '@nestjs/common'
+import { Profile } from '@prisma/client'
 import { type Request } from 'express'
 import { ProfileService } from './profile.service'
 
@@ -19,4 +20,11 @@ export class ProfileController {
 
     return this.profileService.createProfile({ userId: id })
   }
+
+  @Put()
+  async updateProfile(@Body() body: Profile) {
+    const profile = await this.profileService.updateProfile({ where: { id: body.id }, data: body })
+    return profile
+  }
+  
 }

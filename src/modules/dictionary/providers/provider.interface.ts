@@ -1,3 +1,5 @@
+import { type Request } from 'express'
+
 export interface DictionaryProvider {
-  find(word: string): string
+  find(req: Request, word: string): Promise<string> 
 }

@@ -16,4 +16,11 @@ export class ProfileService {
     return this.prismaService.profile.create({ data })
   }
 
+  updateProfile(params: {
+    where: Prisma.ProfileWhereUniqueInput,
+    data: Partial<Prisma.ProfileUpdateInput>
+  }) {
+    return this.prismaService.profile.update(params)
+  }
+
 }

@@ -1,3 +1,5 @@
 {
-  "extends": "@sujian/typescript" 
+  "extends": "@sujian/typescript",
+  "rules": {
+  } 
 }
