@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios'
-import { Injectable, Req } from '@nestjs/common'
-import { type Request } from 'express'
+import { Injectable } from '@nestjs/common'
 import { tap } from 'rxjs/operators'
 import type { DictionaryProvider } from './provider.interface'
 
@@ -15,7 +14,7 @@ export class FreeDictionaryService implements DictionaryProvider {
     private readonly httpService: HttpService
   ) {}
 
-  find(@Req() req: Request, word: string): any {
+  translate( word: string): any {
     return this.httpService.get(`${url}/${word}`)
       .pipe(
         tap(val => {

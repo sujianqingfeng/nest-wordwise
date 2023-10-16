@@ -1,5 +1,9 @@
-import { type Request } from 'express'
+import { Profile } from '@prisma/client'
+import { type Observable } from 'rxjs'
 
+interface TranslateResult {
+  result: string
+}
 export interface DictionaryProvider {
-  find(req: Request, word: string): Promise<string> 
+  translate(word: string, profile: Profile): Observable<TranslateResult> 
 }

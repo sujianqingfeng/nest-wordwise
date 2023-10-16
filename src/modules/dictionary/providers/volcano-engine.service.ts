@@ -1,19 +1,18 @@
 import { HttpService } from '@nestjs/axios'
-import { Injectable, Req } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+import { Profile } from '@prisma/client'
 import { Signer } from '@volcengine/openapi'
-import { type Request } from 'express'
+import { map } from 'rxjs'
 import { DictionaryProvider } from './provider.interface'
-import { UserService } from '@/modules/user/user.service'
 
 @Injectable()
 export class VolcanoEngineService implements DictionaryProvider {
 
   constructor(
     private httpService: HttpService,
-    private userService: UserService 
   ) {}
 
-  signer() {
+  sign(accessKeyId: string, secretKey: string) {
     const s = new Signer({
       method: 'POST',
       region: 'cn-north-1',
@@ -23,17 +22,30 @@ export class VolcanoEngineService implements DictionaryProvider {
       }
     }, 'translate')
 
-    const url = s.getSignUrl({
-      accessKeyId: '',
-      secretKey: ''
+    return s.getSignUrl({
+      accessKeyId,
+      secretKey
     })
-    console.log('🚀 ~ file: volcano-engine.service.ts:27 ~ VolcanoEngineService ~ signer ~ url:', url)
   }
 
-  async find(@Req() req: Request, word: string) {
-    const profile = await this.userService.profile(req)
-    console.log('🚀 ~ file: volcano-engine.service.ts:35 ~ VolcanoEngineService ~ find ~ profile:', profile)
+  translate(word: string, profile: Profile) {
+    const query = this.sign(profile.volcanoAccessKeyId, profile.volcanoSecretKey)
 
-    return 'volcano'
+    return this.httpService.post(`https://translate.volcengineapi.com?${query}`, {
+      'TargetLanguage': 'zh',
+      'TextList': [word]
+    }).pipe(
+      map(res => res.data),
+      map(data => {
+        const { TranslationList } = data
+        const res = {
+          result: ''
+        }
+        if (TranslationList.length) {
+          res.result = TranslationList[0].Translation
+        }
+        return res
+      })
+    )
   }
 }

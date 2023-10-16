@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common'
+import { Profile } from '@prisma/client'
 import { VolcanoEngineService } from './providers/volcano-engine.service'
 
 @Injectable()
 export class DictionaryService {
 
   constructor(
-    private readonly volcanoEngineService: VolcanoEngineService 
+    private volcanoEngineService: VolcanoEngineService,
   ) {}
 
-  find(word: string): string {
-    return this.volcanoEngineService.find(word)
+  async find( word: string, profile: Profile) {
+    return this.volcanoEngineService.translate(word, profile)
   }
 }
