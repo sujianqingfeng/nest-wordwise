@@ -9,12 +9,12 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  avatar    String?
+  id     String  @id @default(uuid())
+  email  String  @unique
+  name   String?
+  avatar String?
 
-  profile   Profile?
+  profile Profile?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -23,14 +23,39 @@ model User {
 model Word {
   id       String  @id @default(uuid())
   text     String
-  phonetic String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Profile {
   id     String @id @default(uuid())
-  userId String  @unique
+  userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  volcanoAccessKeyId String? 
-  volcanoSecretKey  String?
+  volcanoAccessKeyId String?
+  volcanoSecretKey   String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
+}
+
+model Dictionary {
+  id          String   @id @default(uuid())
+  word        String   @unique
+  sw          String
+  phonetic    String?
+  definition  String?
+  translation String?
+  pos         String?
+  collins     Int      @default(0)
+  oxford      Int      @default(0)
+  tag         String?
+  bnc         Int?
+  frq         Int?
+  exchange    String?
+  detail      String?
+  audio       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
