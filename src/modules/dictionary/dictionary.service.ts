@@ -1,15 +1,27 @@
 import { Injectable } from '@nestjs/common'
-import { Profile } from '@prisma/client'
-import { VolcanoEngineService } from './providers/volcano-engine.service'
+import { Dictionary, Prisma } from '@prisma/client'
+import { PrismaService } from '../common/prisma.service'
 
 @Injectable()
 export class DictionaryService {
 
   constructor(
-    private volcanoEngineService: VolcanoEngineService,
+    private prismaService: PrismaService,
   ) {}
 
-  async find( word: string, profile: Profile) {
-    return this.volcanoEngineService.translate(word, profile)
+  word(where: Prisma.DictionaryWhereUniqueInput) {
+    return this.prismaService.dictionary.findUnique({
+      where
+    })
+  }
+
+  words(params: { 
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.DictionaryWhereUniqueInput;
+    where?: Prisma.DictionaryWhereInput;
+    orderBy?: Prisma.DictionaryOrderByWithRelationInput; 
+  }): Promise<Dictionary[]> {
+    return this.prismaService.dictionary.findMany(params)
   }
 }

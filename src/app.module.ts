@@ -8,6 +8,7 @@ import { AuthGuard } from './guards/auth'
 import { AuthModule } from './modules/auth/auth.module'
 import { CommonModule } from './modules/common/common.module'
 import { ProfileModule } from './modules/profile/profile.module'
+import { TranslatorModule } from './modules/translator/translator.module'
 import { UserModule } from './modules/user/user.module'
 import { WordModule } from './modules/word/word.module'
 @Module({
@@ -22,7 +23,8 @@ import { WordModule } from './modules/word/word.module'
     AuthModule,
     UserModule,
     WordModule,
-    ProfileModule
+    ProfileModule,
+    TranslatorModule
   ],
   controllers: [AppController],
   providers: [
