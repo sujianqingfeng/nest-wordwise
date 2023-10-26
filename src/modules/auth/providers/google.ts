@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
-import { map, switchMap, } from 'rxjs/operators'
 import type { AuthProvider } from './provider.interface'
 
 const proxy =  {
@@ -39,26 +38,26 @@ export class GoogleAuthService implements AuthProvider {
     return `${GOOGLE_AUTH_URL}?${urlParams}`
   }
 
-  getUser(code: string) {
+  async getUserByToken(token: string) {
+    const { data } = await this.httpService.axiosRef.get(GOOGLE_USER_INFO_URL, { params: { access_token: token }, proxy })
+    const { name, email, picture: avatar } = data
+    return { name, email, avatar }
+  }
+
+  async getUserByCode(code: string) {
     const clientId = process.env.GOOGLE_CLIENT_ID
     const redirectUri = process.env.GOOGLE_REDIRECT_URI
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
-    
-    return this.httpService.post(GOOGLE_ACCESS_TOKEN_OBTAIN_URL, {
+
+    const { data }  = await this.httpService.axiosRef.post(GOOGLE_ACCESS_TOKEN_OBTAIN_URL, {
       code,
       client_id: clientId,
       client_secret: clientSecret,
       redirect_uri: redirectUri,
       grant_type: 'authorization_code',
     }, { proxy })
-      .pipe(
-        map(val => val.data.access_token),
-        switchMap((access_token) => this.httpService.get(GOOGLE_USER_INFO_URL, { params: { access_token }, proxy })),
-        map(val => val.data),
-        map(data => {
-          const { name, email, picture: avatar } = data
-          return { name, email, avatar }
-        })
-      ) 
+
+    const { access_token } = data
+    return this.getUserByToken(access_token)
   }
 }

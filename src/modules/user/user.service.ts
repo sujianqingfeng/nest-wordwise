@@ -35,4 +35,12 @@ export class UserService {
     }) 
   }
 
+  upsert(email: string, { create, update }:  {create: Prisma.UserCreateInput, update: Partial<Prisma.UserUpdateInput>}) {
+    return this.prismaService.user.upsert({
+      where: { email },
+      create,
+      update
+    }) as unknown as Prisma.UserGetPayload<true>
+  }
+
 }

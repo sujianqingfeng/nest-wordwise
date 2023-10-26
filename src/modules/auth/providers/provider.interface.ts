@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs'
-
 export interface User {
   name: string
   email: string
@@ -8,5 +6,6 @@ export interface User {
 
 export interface AuthProvider  {
   getAuthUrl(): string
-  getUser(code: string): Observable<User>
+  getUserByCode(code: string): Promise<User>
+  getUserByToken(token: string): Promise<User>
 }
