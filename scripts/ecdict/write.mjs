@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PrismaClient } from '@prisma/client'
 import { parse }  from 'csv-parse'
+// TODO: prisma 有db方法
 import 'dotenv/config'
 
 const __filename = fileURLToPath(import.meta.url)
