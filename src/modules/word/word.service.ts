@@ -19,7 +19,7 @@ export class WordService {
     return this.prisma.word.findMany(params)
   }
 
-  createWord(data: Prisma.WordCreateInput): Promise<Word> {
+  createWord(data: Prisma.WordUncheckedCreateInput ): Promise<Word> {
     return this.prisma.word.create({ data })
   }
 }
