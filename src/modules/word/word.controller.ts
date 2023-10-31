@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req } from '@nestjs/common'
+import { Controller, Get, Post, Body, Req, Delete } from '@nestjs/common'
 import { CreateWordDto } from './word.dto'
 import { WordService } from './word.service'
 import type { Request } from 'express'
@@ -20,5 +20,12 @@ export class WordController {
     const { id } = req.user
     const { word } = createWordDto
     return this.wordService.createWord({ word, userId: id })
+  }
+  
+  @Delete()
+  deleteWord(@Req() req: Request, @Body() createWordDto: CreateWordDto) {
+    const { id } = req.user
+    const { word } = createWordDto
+    return this.wordService.deleteWord(id, word)
   }
 }
