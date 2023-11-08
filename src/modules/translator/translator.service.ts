@@ -4,10 +4,7 @@ import { VolcanoEngineService } from './providers/volcano-engine.service'
 
 @Injectable()
 export class TranslatorService {
-
-  constructor(
-    private volcanoEngineService: VolcanoEngineService
-  ) {}
+  constructor(private volcanoEngineService: VolcanoEngineService) {}
 
   translate(text: string, profile: Profile) {
     return this.volcanoEngineService.translate(text, profile)

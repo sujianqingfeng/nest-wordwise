@@ -13,12 +13,12 @@ import { UserModule } from './modules/user/user.module'
 import { WordModule } from './modules/word/word.module'
 @Module({
   imports: [
-    ConfigModule.forRoot(), 
+    ConfigModule.forRoot(),
     CommonModule.forRoot(),
     JwtModule.register({
       secret: JWT_SECRET,
       signOptions: { expiresIn: '30d' },
-      global: true,
+      global: true
     }),
     AuthModule,
     UserModule,
@@ -30,8 +30,8 @@ import { WordModule } from './modules/word/word.module'
   providers: [
     {
       provide: 'APP_GUARD',
-      useClass: AuthGuard,
+      useClass: AuthGuard
     }
-  ],
+  ]
 })
 export class AppModule {}

@@ -8,6 +8,6 @@ import { WordService } from '../word/word.service'
   imports: [UserModule],
   controllers: [DictionaryController],
   providers: [DictionaryService, WordService],
-  exports: [DictionaryService],
+  exports: [DictionaryService]
 })
 export class DictionaryModule {}

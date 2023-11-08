@@ -4,12 +4,12 @@ import { PrismaService } from '../common/prisma.service'
 
 @Injectable()
 export class ProfileService {
-  constructor(
-    private prismaService: PrismaService,
-  ) {}
+  constructor(private prismaService: PrismaService) {}
 
   profile(profileWhereUniqueInput: Prisma.ProfileWhereUniqueInput) {
-    return this.prismaService.profile.findUnique({ where: profileWhereUniqueInput })
+    return this.prismaService.profile.findUnique({
+      where: profileWhereUniqueInput
+    })
   }
 
   createProfile(data: Prisma.ProfileUncheckedCreateInput) {
@@ -17,10 +17,9 @@ export class ProfileService {
   }
 
   updateProfile(params: {
-    where: Prisma.ProfileWhereUniqueInput,
+    where: Prisma.ProfileWhereUniqueInput
     data: Partial<Prisma.ProfileUpdateInput>
   }) {
     return this.prismaService.profile.update(params)
   }
-
 }

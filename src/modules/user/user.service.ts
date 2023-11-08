@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
-import { type Request } from  'express'
+import { type Request } from 'express'
 import { PrismaService } from 'src/modules/common/prisma.service'
 import { ProfileService } from '../profile/profile.service'
 
 @Injectable()
 export class UserService {
-
   constructor(
     private prismaService: PrismaService,
     private profileService: ProfileService
@@ -16,7 +15,9 @@ export class UserService {
     return this.profileService.profile({ userId: req.user.id })
   }
 
-  async user(userWhereUniqueInput: Prisma.UserWhereUniqueInput): Promise<User | null> {
+  async user(
+    userWhereUniqueInput: Prisma.UserWhereUniqueInput
+  ): Promise<User | null> {
     return this.prismaService.user.findUnique({ where: userWhereUniqueInput })
   }
 
@@ -25,22 +26,30 @@ export class UserService {
   }
 
   async updateUser(params: {
-    where: Prisma.UserWhereUniqueInput,
+    where: Prisma.UserWhereUniqueInput
     data: Partial<Prisma.UserUpdateInput>
   }): Promise<User> {
     const { where, data } = params
     return this.prismaService.user.update({
       data,
-      where,
-    }) 
+      where
+    })
   }
 
-  upsert(email: string, { create, update }:  {create: Prisma.UserCreateInput, update: Partial<Prisma.UserUpdateInput>}) {
+  upsert(
+    email: string,
+    {
+      create,
+      update
+    }: {
+      create: Prisma.UserCreateInput
+      update: Partial<Prisma.UserUpdateInput>
+    }
+  ) {
     return this.prismaService.user.upsert({
       where: { email },
       create,
       update
     }) as unknown as Prisma.UserGetPayload<true>
   }
-
 }

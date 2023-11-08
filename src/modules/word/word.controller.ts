@@ -1,14 +1,11 @@
+import type { Request } from 'express'
 import { Controller, Get, Post, Body, Req, Delete, Query } from '@nestjs/common'
 import { CreateWordDto, QueryWordListDto } from './word.dto'
 import { WordService } from './word.service'
-import type { Request } from 'express'
 
 @Controller('word')
 export class WordController {
-
-  constructor(
-    private wordService: WordService
-  ) {}
+  constructor(private wordService: WordService) {}
 
   @Get('/list')
   getWords(@Req() req: Request, @Query() query: QueryWordListDto) {
@@ -23,7 +20,7 @@ export class WordController {
     const { word } = createWordDto
     return this.wordService.createWord({ word, userId: id })
   }
-  
+
   @Delete()
   deleteWord(@Req() req: Request, @Body() createWordDto: CreateWordDto) {
     const { id } = req.user

@@ -6,17 +6,15 @@ import { IS_PUBLIC_KEY } from '@/decorator'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-
   constructor(
     private jwtService: JwtService,
-    private reflector: Reflector,
+    private reflector: Reflector
   ) {}
 
   async canActivate(context) {
-
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
-      context.getClass(),
+      context.getClass()
     ])
 
     if (isPublic) {
@@ -31,22 +29,18 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(
-        token,
-        {
-          secret: JWT_SECRET
-        }
-      )
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: JWT_SECRET
+      })
       request['user'] = payload
     } catch {
       throw new UnauthorizedException()
     }
-    
+
     return true
   }
 
   private extractTokenFromHeader(request: any): string | undefined {
-
     const [type, token] = request.headers.authorization?.split(' ') ?? []
     if (type === 'Bearer') {
       return token
@@ -54,7 +48,7 @@ export class AuthGuard implements CanActivate {
 
     const cookie = request.headers.cookie as string
     if (cookie && cookie.includes('token=')) {
-      const current = cookie.split(';').find(str => str.includes('token'))
+      const current = cookie.split(';').find((str) => str.includes('token'))
       const [type, token] = current.split('=')[1].split(' ')
       if (type === 'Bearer') {
         return token

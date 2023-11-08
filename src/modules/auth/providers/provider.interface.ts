@@ -4,7 +4,7 @@ export interface User {
   avatar: string
 }
 
-export interface AuthProvider  {
+export interface AuthProvider {
   getAuthUrl(): string
   getUserByCode(code: string): Promise<User>
   getUserByToken(token: string): Promise<User>

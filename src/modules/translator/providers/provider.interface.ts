@@ -5,5 +5,5 @@ interface TranslateResult {
   result: string
 }
 export interface DictionaryProvider {
-  translate(word: string, profile: Profile): Observable<TranslateResult> 
+  translate(word: string, profile: Profile): Observable<TranslateResult>
 }

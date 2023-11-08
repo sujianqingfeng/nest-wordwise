@@ -5,12 +5,12 @@ export type AuthProvidersItemResp = {
   authUrl: string
 }
 
-export type AuthReq =  {
+export type AuthReq = {
   code: string
   provider: string
 }
 
-export type AuthTokenReq =  {
+export type AuthTokenReq = {
   token: string
   provider: string
 }

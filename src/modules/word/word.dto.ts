@@ -2,7 +2,7 @@ import { IsNotEmpty } from 'class-validator'
 
 export class CreateWordDto {
   @IsNotEmpty()
-    word: string
+  word: string
 }
 
 export class QueryWordListDto {

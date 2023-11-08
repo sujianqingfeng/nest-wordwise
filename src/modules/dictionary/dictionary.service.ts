@@ -4,10 +4,7 @@ import { PrismaService } from '../common/prisma.service'
 
 @Injectable()
 export class DictionaryService {
-
-  constructor(
-    private prismaService: PrismaService,
-  ) {}
+  constructor(private prismaService: PrismaService) {}
 
   word(where: Prisma.DictionaryWhereUniqueInput) {
     return this.prismaService.dictionary.findUnique({
@@ -15,12 +12,12 @@ export class DictionaryService {
     })
   }
 
-  words(params: { 
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.DictionaryWhereUniqueInput;
-    where?: Prisma.DictionaryWhereInput;
-    orderBy?: Prisma.DictionaryOrderByWithRelationInput; 
+  words(params: {
+    skip?: number
+    take?: number
+    cursor?: Prisma.DictionaryWhereUniqueInput
+    where?: Prisma.DictionaryWhereInput
+    orderBy?: Prisma.DictionaryOrderByWithRelationInput
   }): Promise<Dictionary[]> {
     return this.prismaService.dictionary.findMany(params)
   }

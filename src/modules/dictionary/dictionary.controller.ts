@@ -5,10 +5,9 @@ import { WordService } from '../word/word.service'
 
 @Controller('dictionary')
 export class DictionaryController {
-
   constructor(
     private dictionaryService: DictionaryService,
-    private wordService: WordService,
+    private wordService: WordService
   ) {}
 
   @Get('query/:word')
@@ -17,8 +16,8 @@ export class DictionaryController {
     const isCollectedWord = await this.wordService.find({ word })
     const result: DictQueryResultDto = {
       ...dictionary,
-      isCollected: !!isCollectedWord,
-    } 
+      isCollected: !!isCollectedWord
+    }
     return result
   }
 
@@ -28,8 +27,8 @@ export class DictionaryController {
       where: {
         sw: {
           contains: word
-        } 
-      } 
+        }
+      }
     })
   }
 }

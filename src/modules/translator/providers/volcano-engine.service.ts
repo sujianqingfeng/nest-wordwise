@@ -7,20 +7,20 @@ import { DictionaryProvider } from './provider.interface'
 
 @Injectable()
 export class VolcanoEngineService implements DictionaryProvider {
-
-  constructor(
-    private httpService: HttpService,
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   sign(accessKeyId: string, secretKey: string) {
-    const s = new Signer({
-      method: 'POST',
-      region: 'cn-north-1',
-      params: {
-        Action: 'TranslateText',
-        Version: '2020-06-01'
-      }
-    }, 'translate')
+    const s = new Signer(
+      {
+        method: 'POST',
+        region: 'cn-north-1',
+        params: {
+          Action: 'TranslateText',
+          Version: '2020-06-01'
+        }
+      },
+      'translate'
+    )
 
     return s.getSignUrl({
       accessKeyId,
@@ -29,23 +29,28 @@ export class VolcanoEngineService implements DictionaryProvider {
   }
 
   translate(word: string, profile: Profile) {
-    const query = this.sign(profile.volcanoAccessKeyId, profile.volcanoSecretKey)
-
-    return this.httpService.post(`https://translate.volcengineapi.com?${query}`, {
-      'TargetLanguage': 'zh',
-      'TextList': [word]
-    }).pipe(
-      map(res => res.data),
-      map(data => {
-        const { TranslationList } = data
-        const res = {
-          result: ''
-        }
-        if (TranslationList.length) {
-          res.result = TranslationList[0].Translation
-        }
-        return res
-      })
+    const query = this.sign(
+      profile.volcanoAccessKeyId,
+      profile.volcanoSecretKey
     )
+
+    return this.httpService
+      .post(`https://translate.volcengineapi.com?${query}`, {
+        TargetLanguage: 'zh',
+        TextList: [word]
+      })
+      .pipe(
+        map((res) => res.data),
+        map((data) => {
+          const { TranslationList } = data
+          const res = {
+            result: ''
+          }
+          if (TranslationList.length) {
+            res.result = TranslationList[0].Translation
+          }
+          return res
+        })
+      )
   }
 }

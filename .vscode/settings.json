@@ -10,11 +10,9 @@
     "typescriptreact",
     "json",
     "jsonc",
-    "json5"
+    "json5",
+    "package.json"
   ],
-  "cSpell.words": [
-    "ecdict",
-    "volcengine",
-    "wordwise"
-  ]
+  "eslint.experimental.useFlatConfig": true,
+  "cSpell.words": ["ecdict", "volcengine", "wordwise"]
 }

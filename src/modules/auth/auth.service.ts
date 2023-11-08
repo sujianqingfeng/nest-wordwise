@@ -20,9 +20,12 @@ export class AuthService {
     }
   }
 
-  async getTokenUser(user:  User) {
-    const { email, name, } = user
-    const { id } = await this.userService.upsert(user.email, { create: user, update: user })
+  async getTokenUser(user: User) {
+    const { email, name } = user
+    const { id } = await this.userService.upsert(user.email, {
+      create: user,
+      update: user
+    })
     const token = this.jwtService.sign({ email, name, id })
     return { token, id, ...user }
   }

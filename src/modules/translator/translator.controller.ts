@@ -5,7 +5,6 @@ import { UserService } from '../user/user.service'
 
 @Controller('translator')
 export class TranslatorController {
-
   constructor(
     private userService: UserService,
     private translatorService: TranslatorService

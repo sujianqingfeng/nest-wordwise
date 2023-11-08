@@ -1,18 +1,19 @@
+import type {
+  AuthProvidersItemResp,
+  AuthReq,
+  AuthTokenReq
+} from './auth.interface'
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { from } from 'rxjs'
 import { map, toArray } from 'rxjs/operators'
 import { AUTH_PROVIDERS } from 'src/constants'
 import { AuthService } from './auth.service'
-import type { AuthProvidersItemResp, AuthReq, AuthTokenReq } from './auth.interface'
 import { Public } from '@/decorator'
 
 @Public()
 @Controller('auth')
 export class AuthController {
-
-  constructor(
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Get('providers')
   providers() {
@@ -22,11 +23,7 @@ export class AuthController {
         authUrl: this.authService.getAuthProvider(provider).getAuthUrl()
       }
     }
-    return from(AUTH_PROVIDERS)
-      .pipe(
-        map(mapToProviders),
-        toArray()
-      )
+    return from(AUTH_PROVIDERS).pipe(map(mapToProviders), toArray())
   }
 
   @Post()

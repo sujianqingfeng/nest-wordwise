@@ -5,10 +5,7 @@ import { ProfileService } from './profile.service'
 
 @Controller('profile')
 export class ProfileController {
-
-  constructor(
-    private profileService: ProfileService
-  ) {}
+  constructor(private profileService: ProfileService) {}
 
   @Get()
   async getProfile(@Req() req: Request) {
@@ -23,8 +20,10 @@ export class ProfileController {
 
   @Put()
   async updateProfile(@Body() body: Profile) {
-    const profile = await this.profileService.updateProfile({ where: { id: body.id }, data: body })
+    const profile = await this.profileService.updateProfile({
+      where: { id: body.id },
+      data: body
+    })
     return profile
   }
-  
 }
