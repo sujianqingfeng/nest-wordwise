@@ -1,6 +1,6 @@
-import { defineConfig } from '@sujian/eslint-config'
+const { defineConfig } = require('@sujian/eslint-config')
 
-export default defineConfig({
+module.exports = defineConfig({
   overrides: {
     typescript: {
       '@typescript-eslint/no-extraneous-class': 'off'

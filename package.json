@@ -1,6 +1,5 @@
 {
   "name": "nest-wordwise",
-  "type": "module",
   "version": "1.0.0",
   "private": true,
   "description": "wordwise-backend",

@@ -1,3 +1,4 @@
+import type { QueryPageResult } from 'types'
 import { Injectable } from '@nestjs/common'
 import { Prisma, Word } from '@prisma/client'
 import { PrismaService } from '../common/prisma.service'
@@ -6,14 +7,28 @@ import { PrismaService } from '../common/prisma.service'
 export class WordService {
   constructor(private prisma: PrismaService) {}
 
-  words(params: {
+  async words(params: {
     skip?: number
     take?: number
     cursor?: Prisma.WordWhereUniqueInput
     where?: Prisma.WordWhereInput
     orderBy?: Prisma.WordOrderByWithRelationInput
-  }): Promise<Word[]> {
-    return this.prisma.word.findMany(params)
+  }): Promise<QueryPageResult<Word>> {
+    const [list, total] = await Promise.all([
+      this.prisma.word.findMany(params),
+      this.prisma.word.count({ where: params.where })
+    ])
+
+    const meta = this.prisma.queryPageMeta({
+      total,
+      skip: params.skip,
+      take: params.take
+    })
+
+    return {
+      list,
+      ...meta
+    }
   }
 
   find(where: Prisma.WordWhereUniqueInput) {
