@@ -3,3 +3,4 @@ export type QueryPageResult<T> = {
   total: number
   list: T[]
 }
+

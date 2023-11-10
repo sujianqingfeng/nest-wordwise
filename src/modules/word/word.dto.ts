@@ -1,11 +1,10 @@
-import { IsNotEmpty } from 'class-validator'
+import { QueryPageDto } from '@/utils/dto'
+import { IsNotEmpty,IsNumber } from 'class-validator'
 
 export class CreateWordDto {
   @IsNotEmpty()
   word: string
 }
 
-export class QueryWordListDto {
-  skip?: number
-  take?: number
+export class QueryWordListDto extends QueryPageDto {
 }

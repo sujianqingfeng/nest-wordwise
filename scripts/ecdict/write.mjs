@@ -3,8 +3,6 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PrismaClient } from '@prisma/client'
 import { parse }  from 'csv-parse'
-// TODO: prisma 有db方法
-import 'dotenv/config'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -34,9 +32,7 @@ const defaultZero = (str, defaultValue = 0) => {
 
 const main = async () => {
   const csv = await readFile(resolve(CSV_FILE))
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.POSTGRES_PRISMA_URL,
-  })
+  const prisma = new PrismaClient()
   const records = await parseCSV(csv)
 
   const len = records.length
@@ -70,7 +66,6 @@ const main = async () => {
   }
 
   prisma.$disconnect()
-
   console.log('end')
 }
 

@@ -8,8 +8,8 @@ export class WordService {
   constructor(private prisma: PrismaService) {}
 
   async words(params: {
-    skip?: number
-    take?: number
+    skip: number
+    take: number
     cursor?: Prisma.WordWhereUniqueInput
     where?: Prisma.WordWhereInput
     orderBy?: Prisma.WordOrderByWithRelationInput

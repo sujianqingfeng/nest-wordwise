@@ -7,7 +7,7 @@ import { WordService } from './word.service'
 export class WordController {
   constructor(private wordService: WordService) {}
 
-  @Get('/page')
+  @Get('/list')
   getWords(@Req() req: Request, @Query() query: QueryWordListDto) {
     const { id } = req.user
     const { skip, take } = query

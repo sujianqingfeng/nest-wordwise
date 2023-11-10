@@ -19,7 +19,8 @@
     "migrate": "prisma migrate dev --name",
     "generate": "prisma generate",
     "studio": "prisma studio",
-    "dict:write": "node scripts/ecdict/write.mjs"
+    "dict:write": "node scripts/ecdict/write.mjs",
+    "dev:db": "docker-compose -f docker-compose-dev.yml up"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
