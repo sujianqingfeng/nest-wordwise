@@ -1,4 +1,10 @@
-import { Controller } from '@nestjs/common'
+import { Controller, Get, Req } from '@nestjs/common'
+import { type Request } from 'express'
 
 @Controller('user')
-export class UserController {}
+export class UserController {
+  @Get()
+  info(@Req() req: Request) {
+    return req.user
+  }
+}

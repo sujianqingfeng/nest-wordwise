@@ -11,21 +11,12 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Word" (
-    "id" TEXT NOT NULL,
-    "text" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Word_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Profile" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "volcanoAccessKeyId" TEXT,
     "volcanoSecretKey" TEXT,
+    "deepLAuthKey" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -55,6 +46,17 @@ CREATE TABLE "Dictionary" (
     CONSTRAINT "Dictionary_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Word" (
+    "id" TEXT NOT NULL,
+    "word" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Word_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -64,5 +66,14 @@ CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 -- CreateIndex
 CREATE UNIQUE INDEX "Dictionary_word_key" ON "Dictionary"("word");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Word_word_key" ON "Word"("word");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Word_userId_key" ON "Word"("userId");
+
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Word" ADD CONSTRAINT "Word_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
