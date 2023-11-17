@@ -2,11 +2,11 @@ import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { Profile } from '@prisma/client'
 import { Signer } from '@volcengine/openapi'
-import { map } from 'rxjs'
-import { DictionaryProvider } from './provider.interface'
+import { TranslatorProvider } from './provider.interface'
+import { createTranslateResult } from './utils'
 
 @Injectable()
-export class VolcanoEngineService implements DictionaryProvider {
+export class VolcanoEngineService implements TranslatorProvider {
   constructor(private httpService: HttpService) {}
 
   sign(accessKeyId: string, secretKey: string) {
@@ -28,29 +28,25 @@ export class VolcanoEngineService implements DictionaryProvider {
     })
   }
 
-  translate(word: string, profile: Profile) {
+  async translate(word: string, profile: Profile) {
     const query = this.sign(
       profile.volcanoAccessKeyId,
       profile.volcanoSecretKey
     )
 
-    return this.httpService
-      .post(`https://translate.volcengineapi.com?${query}`, {
+    const res = await this.httpService.axiosRef.post(
+      `https://translate.volcengineapi.com?${query}`,
+      {
         TargetLanguage: 'zh',
         TextList: [word]
-      })
-      .pipe(
-        map((res) => res.data),
-        map((data) => {
-          const { TranslationList } = data
-          const res = {
-            result: ''
-          }
-          if (TranslationList.length) {
-            res.result = TranslationList[0].Translation
-          }
-          return res
-        })
-      )
+      }
+    )
+
+    const { TranslationList } = res.data
+    let result = ''
+    if (TranslationList.length) {
+      result = TranslationList[0].Translation
+    }
+    return createTranslateResult({ result })
   }
 }

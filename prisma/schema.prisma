@@ -29,6 +29,8 @@ model Profile {
   volcanoAccessKeyId String?
   volcanoSecretKey   String?
 
+  deepLAuthKey String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

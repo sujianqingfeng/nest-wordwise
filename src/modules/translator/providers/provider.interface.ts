@@ -1,9 +1,8 @@
 import { Profile } from '@prisma/client'
-import { type Observable } from 'rxjs'
 
-interface TranslateResult {
+export interface TranslateResult {
   result: string
 }
-export interface DictionaryProvider {
-  translate(word: string, profile: Profile): Observable<TranslateResult>
+export interface TranslatorProvider {
+  translate(text: string, profile: Profile): Promise<TranslateResult>
 }

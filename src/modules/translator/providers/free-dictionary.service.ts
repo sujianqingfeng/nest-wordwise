@@ -1,4 +1,4 @@
-import type { DictionaryProvider } from './provider.interface'
+import type { TranslatorProvider } from './provider.interface'
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { tap } from 'rxjs/operators'
@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators'
 const url = 'https://api.dictionaryapi.dev/api/v2/entries/en'
 
 @Injectable()
-export class FreeDictionaryService implements DictionaryProvider {
+export class FreeDictionaryService implements TranslatorProvider {
   constructor(private readonly httpService: HttpService) {}
 
   translate(word: string): any {

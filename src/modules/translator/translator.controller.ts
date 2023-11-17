@@ -1,5 +1,6 @@
-import { Controller, Param, Req, Get } from '@nestjs/common'
+import { Controller, Req, Post, Body } from '@nestjs/common'
 import { type Request } from 'express'
+import { TranslateDto } from './translator.interface'
 import { TranslatorService } from './translator.service'
 import { UserService } from '../user/user.service'
 
@@ -10,9 +11,10 @@ export class TranslatorController {
     private translatorService: TranslatorService
   ) {}
 
-  @Get('translate/:word')
-  async find(@Req() req: Request, @Param('text') text: string) {
+  @Post('translate')
+  async find(@Req() req: Request, @Body() body: TranslateDto) {
     const profile = await this.userService.profile(req)
+    const { text } = body
     return this.translatorService.translate(text, profile)
   }
 }

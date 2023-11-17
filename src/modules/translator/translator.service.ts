@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { Profile } from '@prisma/client'
-import { VolcanoEngineService } from './providers/volcano-engine.service'
+import { DeepLService } from './providers/deep-l.service'
 
 @Injectable()
 export class TranslatorService {
-  constructor(private volcanoEngineService: VolcanoEngineService) {}
+  constructor(private deepLService: DeepLService) {}
 
   translate(text: string, profile: Profile) {
-    return this.volcanoEngineService.translate(text, profile)
+    return this.deepLService.translate(text, profile)
   }
 }

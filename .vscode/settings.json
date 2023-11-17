@@ -14,5 +14,5 @@
     "package.json"
   ],
   "eslint.experimental.useFlatConfig": true,
-  "cSpell.words": ["ecdict", "volcengine", "wordwise"]
+  "cSpell.words": ["Deepl", "ecdict", "volcengine", "wordwise"]
 }
