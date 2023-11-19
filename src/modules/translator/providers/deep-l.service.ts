@@ -12,14 +12,15 @@ export class DeepLService implements TranslatorProvider {
 
   async translate(text: string, profile: Profile) {
     const authKey = profile.deepLAuthKey
-    if (authKey) {
+    if (!authKey) {
       throw new Error('deepL-auth-key is not set')
     }
 
     const res = await this.httpService.axiosRef.post(
       `${FREE_API_DOMAIN}/v2/translate`,
       {
-        text: [text]
+        text: [text],
+        target_lang: 'ZH'
       },
       {
         headers: {
@@ -27,11 +28,6 @@ export class DeepLService implements TranslatorProvider {
           'Content-Type': 'application/json'
         }
       }
-    )
-
-    console.log(
-      '🚀 ~ file: deep-l.service.ts:29 ~ DeepLService ~ translate ~ res:',
-      res
     )
     const { translations } = res.data
 
