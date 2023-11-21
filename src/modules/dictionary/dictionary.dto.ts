@@ -1,5 +1,5 @@
-import { type Dictionary } from '@prisma/client'
+import type { IDictionaryQueryResult } from './providers/provider.interface'
 import { createDto } from '@/utils/dto'
-export class DictQueryResultDto extends createDto<Dictionary>() {
+export class DictQueryResultWithUserDataDto extends createDto<IDictionaryQueryResult>() {
   isCollected: boolean
 }

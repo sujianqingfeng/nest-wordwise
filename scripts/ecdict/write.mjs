@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PrismaClient } from '@prisma/client'
-import { parse }  from 'csv-parse'
+import { parse } from 'csv-parse'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -14,9 +14,7 @@ const parseCSV = (csv) => {
   return new Promise((resolve, reject) => {
     parse(csv, (err, records) => {
       if (err) {
-        (
-          reject(err)
-        ) 
+        reject(err)
       }
       resolve(records)
     })
@@ -37,7 +35,21 @@ const main = async () => {
 
   const len = records.length
   for (let i = 1; i < len; i++) {
-    const [word, phonetic, definition, translation, pos, collins, oxford, tag, bnc, frq, exchange, detail, audio] = records[i]
+    const [
+      word,
+      phonetic,
+      definition,
+      translation,
+      pos,
+      collins,
+      oxford,
+      tag,
+      bnc,
+      frq,
+      exchange,
+      detail,
+      audio
+    ] = records[i]
     const data = {
       word,
       sw: stripWord(word),
@@ -48,7 +60,7 @@ const main = async () => {
       collins: defaultZero(collins),
       oxford: defaultZero(oxford),
       tag,
-      bnc: defaultZero(bnc, null), 
+      bnc: defaultZero(bnc, null),
       frq: defaultZero(frq, null),
       exchange,
       detail,
@@ -70,4 +82,3 @@ const main = async () => {
 }
 
 main()
-

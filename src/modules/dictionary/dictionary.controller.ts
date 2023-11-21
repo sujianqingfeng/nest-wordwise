@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common'
-import { DictQueryResultDto } from './dictionary.dto'
+import { DictQueryResultWithUserDataDto } from './dictionary.dto'
 import { DictionaryService } from './dictionary.service'
 import { WordService } from '../word/word.service'
 
@@ -12,23 +12,13 @@ export class DictionaryController {
 
   @Get('query/:word')
   async query(@Param('word') word: string) {
-    const dictionary = await this.dictionaryService.word({ word })
+    const dictionary = await this.dictionaryService.query(word)
     const isCollectedWord = await this.wordService.find({ word })
-    const result: DictQueryResultDto = {
+
+    const result: DictQueryResultWithUserDataDto = {
       ...dictionary,
       isCollected: !!isCollectedWord
     }
     return result
-  }
-
-  @Get('match/:word')
-  async match(@Param('word') word: string) {
-    return this.dictionaryService.words({
-      where: {
-        sw: {
-          contains: word
-        }
-      }
-    })
   }
 }

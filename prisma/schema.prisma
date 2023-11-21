@@ -15,10 +15,10 @@ model User {
   avatar String?
 
   profile Profile?
-  words     Word[]
+  words   Word[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model Profile {
@@ -26,42 +26,66 @@ model Profile {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  volcanoAccessKeyId String?
-  volcanoSecretKey   String?
+  volcanoAccessKeyId String? @map("volcano_access_key_id")
+  volcanoSecretKey   String? @map("volcano_secret_key")
 
-  deepLAuthKey String?
+  deepLAuthKey String? @map("deep_l_auth_key")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model Dictionary {
-  id          String   @id @default(uuid())
-  word        String   @unique
-  sw          String
-  phonetic    String?
-  definition  String?
-  translation String?
-  pos         String?
-  collins     Int      @default(0)
-  oxford      Int      @default(0)
-  tag         String?
-  bnc         Int?
-  frq         Int?
-  exchange    String?
-  detail      String?
-  audio       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id   String @id @default(uuid())
+  word String @unique
+  sw   String
+
+  ukPhonetic String @map("uk_phonetic")
+  usPhonetic String @map("us_phonetic")
+  ukSpeech   String @map("uk_speech")
+  usSpeech   String @map("us_speech")
+
+  forms      DictionaryForm[]
+  translates DictionaryTranslate[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model DictionaryForm {
+  id    String @id @default(uuid())
+  word  String
+  name  String
+  value String
+
+  dictionary   Dictionary? @relation(fields: [dictionaryId], references: [id])
+  dictionaryId String?     @map("dictionary_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model DictionaryTranslate {
+  id   String @id @default(uuid())
+  word String
+
+  translate String
+  position  String
+
+  dictionary   Dictionary? @relation(fields: [dictionaryId], references: [id])
+  dictionaryId String?     @map("dictionary_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model Word {
   id   String @id @default(uuid())
   word String @unique
 
-  userId String @unique
+  userId String @unique @map("user_id")
   user   User   @relation(fields: [userId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
