@@ -13,6 +13,7 @@ export class DictionaryService {
   ) {}
 
   async query(word: string): Promise<IDictionaryQueryResult> {
+    // query local
     const localResult = await this.prismaService.dictionary.findUnique({
       where: { word },
       include: {
@@ -28,23 +29,37 @@ export class DictionaryService {
       return localResult
     }
 
+    // query forms
+    const wordForm = await this.prismaService.dictionaryForm.findFirst({
+      where: { value: word }
+    })
+    if (wordForm) {
+      return this.query(wordForm.word)
+    }
+
+    // query translates
     const result = await this.youdaoDictionaryService.query(word)
     const { forms, translates, ...rest } = result
-    this.writeDictionary({
-      word,
-      sw: stripWord(word),
-      ...rest,
-      translates: {
-        createMany: {
-          data: translates.map((item) => ({ ...item, word }))
+    const { ukPhonetic, ukSpeech } = rest
+    //
+    if (ukPhonetic && ukSpeech) {
+      this.writeDictionary({
+        word,
+        sw: stripWord(word),
+        ...rest,
+        translates: {
+          createMany: {
+            data: translates.map((item) => ({ ...item, word }))
+          }
+        },
+        forms: {
+          createMany: {
+            data: forms.map((item) => ({ ...item, word }))
+          }
         }
-      },
-      forms: {
-        createMany: {
-          data: forms.map((item) => ({ ...item, word }))
-        }
-      }
-    })
+      })
+    }
+
     return result
   }
 
@@ -53,23 +68,11 @@ export class DictionaryService {
     const result = await this.prismaService.dictionary.findUnique({
       where: { word }
     })
-    console.log(
-      '🚀 ~ file: dictionary.service.ts:56 ~ DictionaryService ~ writeDictionary ~ result:',
-      result
-    )
 
     if (!result) {
-      console.log(
-        '🚀 ~ file: dictionary.service.ts:62 ~ DictionaryService ~ writeDictionary ~ result:',
-        result
-      )
-      const res = await this.prismaService.dictionary.create({
+      await this.prismaService.dictionary.create({
         data
       })
-      console.log(
-        '🚀 ~ file: dictionary.service.ts:66 ~ DictionaryService ~ writeDictionary ~ res:',
-        res
-      )
     }
   }
 

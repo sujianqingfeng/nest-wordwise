@@ -13,6 +13,10 @@ const USER_AGENT =
 export class YouDaoDictionaryService implements IDictionaryProvider {
   constructor(private httpService: HttpService) {}
 
+  getSpeechUrl(speech?: string) {
+    return speech ? `https://dict.youdao.com/dictvoice?audio=${speech}` : ''
+  }
+
   async query(word: string): Promise<IDictionaryQueryResult> {
     const res = await this.httpService.axiosRef.post(
       DICT_URL,
@@ -36,21 +40,21 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
     const { ec } = res.data
     const {
       word: {
-        usphone: usPhonetic,
-        ukphone: ukPhonetic,
-        ukspeech: ukSpeech,
-        usspeech: usSpeech,
-        trs,
-        wfs
+        usphone: usPhonetic = '',
+        ukphone: ukPhonetic = '',
+        ukspeech: ukSpeech = '',
+        usspeech: usSpeech = '',
+        trs = [],
+        wfs = []
       }
     } = ec
 
     return {
       word,
       ukPhonetic,
-      ukSpeech: `https://dict.youdao.com/dictvoice?${ukSpeech}`,
+      ukSpeech: this.getSpeechUrl(ukSpeech),
       usPhonetic,
-      usSpeech: `https://dict.youdao.com/dictvoice?${usSpeech}`,
+      usSpeech: this.getSpeechUrl(usSpeech),
       translates: trs.map((item: any) => {
         return {
           translate: item.tran,

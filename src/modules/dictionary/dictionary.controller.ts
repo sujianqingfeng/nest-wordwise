@@ -1,23 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common'
-import { DictQueryResultWithUserDataDto } from './dictionary.dto'
+import { Controller, Get, Query } from '@nestjs/common'
+import { DictQueryDto, DictQueryResultDto } from './dictionary.dto'
 import { DictionaryService } from './dictionary.service'
-import { WordService } from '../word/word.service'
 
 @Controller('dictionary')
 export class DictionaryController {
-  constructor(
-    private dictionaryService: DictionaryService,
-    private wordService: WordService
-  ) {}
+  constructor(private dictionaryService: DictionaryService) {}
 
-  @Get('query/:word')
-  async query(@Param('word') word: string) {
+  @Get('query')
+  async query(@Query() query: DictQueryDto) {
+    const { word } = query
     const dictionary = await this.dictionaryService.query(word)
-    const isCollectedWord = await this.wordService.find({ word })
 
-    const result: DictQueryResultWithUserDataDto = {
-      ...dictionary,
-      isCollected: !!isCollectedWord
+    const result: DictQueryResultDto = {
+      ...dictionary
     }
     return result
   }
