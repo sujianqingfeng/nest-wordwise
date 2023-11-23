@@ -5,7 +5,7 @@ import { PrismaService } from '../common/prisma.service'
 
 @Injectable()
 export class WordService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
 
   async words(params: {
     skip: number
@@ -15,11 +15,11 @@ export class WordService {
     orderBy?: Prisma.WordOrderByWithRelationInput
   }): Promise<QueryPageResult<Word>> {
     const [list, total] = await Promise.all([
-      this.prisma.word.findMany(params),
-      this.prisma.word.count({ where: params.where })
+      this.prismaService.word.findMany(params),
+      this.prismaService.word.count({ where: params.where })
     ])
 
-    const meta = this.prisma.queryPageMeta({
+    const meta = this.prismaService.queryPageMeta({
       total,
       skip: params.skip,
       take: params.take
@@ -31,15 +31,19 @@ export class WordService {
     }
   }
 
+  allWords(where?: Prisma.WordWhereInput) {
+    return this.prismaService.word.findMany({ where })
+  }
+
   find(where: Prisma.WordWhereUniqueInput) {
-    return this.prisma.word.findUnique({ where })
+    return this.prismaService.word.findUnique({ where })
   }
 
   createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {
-    return this.prisma.word.create({ data })
+    return this.prismaService.word.create({ data })
   }
 
   deleteWord(userId: string, word: string) {
-    return this.prisma.word.delete({ where: { word, userId } })
+    return this.prismaService.word.delete({ where: { word, userId } })
   }
 }

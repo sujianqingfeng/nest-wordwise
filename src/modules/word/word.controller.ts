@@ -30,11 +30,17 @@ export class WordController {
     return this.wordService.words({ skip, take, where: { userId: id } })
   }
 
+  @Get('/all')
+  getAllWords(@Req() req: Request) {
+    const { id: userId } = req.user
+    return this.wordService.allWords({ userId })
+  }
+
   @Post()
-  createWord(@Req() req: Request, @Body() createWordDto: CreateWordDto) {
-    const { id } = req.user
-    const { word } = createWordDto
-    return this.wordService.createWord({ word, userId: id })
+  createWord(@Req() req: Request, @Body() body: CreateWordDto) {
+    const { id: userId } = req.user
+    const { word } = body
+    return this.wordService.createWord({ word, userId })
   }
 
   @Delete()
