@@ -70,7 +70,7 @@ model DictionaryTranslate {
   word String
 
   translate String
-  position  String
+  position  String? @default("")
 
   dictionary   Dictionary? @relation(fields: [dictionaryId], references: [id])
   dictionaryId String?     @map("dictionary_id")
@@ -82,6 +82,8 @@ model DictionaryTranslate {
 model Word {
   id   String @id @default(uuid())
   word String @unique
+
+  simpleTranslate String? @map("simple_translate")
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id])

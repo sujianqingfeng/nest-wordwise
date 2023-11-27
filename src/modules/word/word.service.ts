@@ -39,8 +39,14 @@ export class WordService {
     return this.prismaService.word.findUnique({ where })
   }
 
-  createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {
-    return this.prismaService.word.create({ data })
+  async createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {
+    const { word } = data
+    const first = await this.prismaService.dictionaryTranslate.findFirst({
+      where: { word }
+    })
+    return this.prismaService.word.create({
+      data: { ...data, simpleTranslate: first.translate }
+    })
   }
 
   deleteWord(userId: string, word: string) {

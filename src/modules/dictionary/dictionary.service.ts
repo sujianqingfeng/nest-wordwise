@@ -4,7 +4,10 @@ import { IDictionaryQueryResult } from './providers/provider.interface'
 import { stripWord } from './providers/utils'
 import { YouDaoDictionaryService } from './providers/youdao.service'
 import { PrismaService } from '../common/prisma.service'
+import { createSafePromise } from '@/utils'
+import { createLogger } from '@/utils/logger'
 
+const logger = createLogger('DictionaryService')
 @Injectable()
 export class DictionaryService {
   constructor(
@@ -70,9 +73,13 @@ export class DictionaryService {
     })
 
     if (!result) {
-      await this.prismaService.dictionary.create({
-        data
-      })
+      const [isOk, e] = await createSafePromise(
+        this.prismaService.dictionary.create
+      )({ data })
+
+      if (!isOk) {
+        logger.error(`writeDictionary failed: ${word}`, e.message)
+      }
     }
   }
 
