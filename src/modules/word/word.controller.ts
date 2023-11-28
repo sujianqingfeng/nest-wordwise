@@ -1,5 +1,6 @@
 import type { Request } from 'express'
 import { Controller, Get, Post, Body, Req, Delete, Query } from '@nestjs/common'
+import { subYears } from 'date-fns'
 import {
   CreateWordDto,
   QueryCollectedResultDto,
@@ -34,6 +35,19 @@ export class WordController {
   getAllWords(@Req() req: Request) {
     const { id: userId } = req.user
     return this.wordService.allWords({ userId })
+  }
+
+  @Get('/year-calendar')
+  getCollectionCalendar(@Req() req: Request) {
+    const { id: userId } = req.user
+    const now = new Date()
+    return this.wordService.groupByCreatedAt({
+      userId,
+      createdAt: {
+        gte: subYears(now, 1),
+        lt: now
+      }
+    })
   }
 
   @Post()

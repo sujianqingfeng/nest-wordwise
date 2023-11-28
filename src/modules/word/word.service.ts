@@ -39,6 +39,14 @@ export class WordService {
     return this.prismaService.word.findUnique({ where })
   }
 
+  groupByCreatedAt(where?: Prisma.WordWhereInput) {
+    return this.prismaService.word.groupBy({
+      by: ['createdAt'],
+      _count: {},
+      where
+    })
+  }
+
   async createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {
     const { word } = data
     const first = await this.prismaService.dictionaryTranslate.findFirst({
