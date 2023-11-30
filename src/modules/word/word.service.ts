@@ -40,11 +40,8 @@ export class WordService {
   }
 
   groupByCreatedAt(where?: Prisma.WordWhereInput) {
-    return this.prismaService.word.groupBy({
-      by: ['createdAt'],
-      _count: {},
-      where
-    })
+    // TODO: no api support
+    return this.prismaService.word.groupBy({ where, by: ['createdAt'] })
   }
 
   async createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {
