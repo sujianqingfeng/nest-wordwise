@@ -1,6 +1,7 @@
 import type { QueryPageResult } from 'types'
 import { Injectable } from '@nestjs/common'
 import { Prisma, Word } from '@prisma/client'
+import { CalendarDto } from './word.interface'
 import { PrismaService } from '../common/prisma.service'
 
 @Injectable()
@@ -39,9 +40,24 @@ export class WordService {
     return this.prismaService.word.findUnique({ where })
   }
 
-  groupByCreatedAt(where?: Prisma.WordWhereInput) {
-    // TODO: no api support
-    return this.prismaService.word.groupBy({ where, by: ['createdAt'] })
+  async groupByCreatedAt(where?: Prisma.WordWhereInput) {
+    const words = await this.prismaService.word.findMany({ where })
+
+    const map = new Map<string, number>()
+    words.forEach((item) => {
+      const date = item.createdAt.toISOString().slice(0, 10)
+      if (map.has(date)) {
+        map.set(date, map.get(date) + 1)
+      } else {
+        map.set(date, 1)
+      }
+    })
+
+    const result: CalendarDto = {}
+    for (const [key, value] of map) {
+      result[key] = { count: value }
+    }
+    return result
   }
 
   async createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {

@@ -6,7 +6,7 @@ import { TransformInterceptor } from './interceptors/transform.interceptor'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true })
   app.useGlobalInterceptors(new TransformInterceptor())
-  app.useGlobalPipes(new ValidationPipe({transform: true}))
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   await app.listen(3456)
 }
