@@ -48,8 +48,11 @@ export class AuthGuard implements CanActivate {
 
     const cookie = request.headers.cookie as string
     if (cookie && cookie.includes('token=')) {
-      const current = cookie.split(';').find((str) => str.includes('token'))
-      const [type, token] = current.split('=')[1].split(' ')
+      const current = cookie
+        .split(';')
+        .find((str) => str.includes('token=Bearer'))
+
+      const [type, token] = decodeURIComponent(current).split('=')[1].split(' ')
       if (type === 'Bearer') {
         return token
       }

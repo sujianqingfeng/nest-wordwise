@@ -3,7 +3,8 @@ import type {
   AuthReq,
   AuthTokenReq
 } from './auth.interface'
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import type { Response } from 'express'
+import { Body, Controller, Get, Post, Res } from '@nestjs/common'
 import { from } from 'rxjs'
 import { map, toArray } from 'rxjs/operators'
 import { AUTH_PROVIDERS } from 'src/constants'
@@ -27,11 +28,23 @@ export class AuthController {
   }
 
   @Post()
-  async auth(@Body() body: AuthReq) {
+  async auth(
+    @Body() body: AuthReq,
+    @Res({ passthrough: true }) response: Response
+  ) {
     const { provider, code } = body
+
     const authProvider = this.authService.getAuthProvider(provider)
     const user = await authProvider.getUserByCode(code)
-    return this.authService.getTokenUser(user)
+    const info = await this.authService.getTokenUser(user)
+    const cookieToken = `Bearer ${info.token}`
+
+    console.log(
+      '🚀 ~ file: auth.controller.ts:42 ~ AuthController ~ cookieToken:',
+      cookieToken
+    )
+    response.cookie('token', cookieToken, { httpOnly: true })
+    return info
   }
 
   @Post('token')
