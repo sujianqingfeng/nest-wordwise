@@ -1,8 +1,16 @@
 import { Module } from '@nestjs/common'
 import { drizzleProvider, DrizzleProvider } from './drizzle.provider'
 
-@Module({
-  providers: [...drizzleProvider],
-  exports: [DrizzleProvider]
-})
-export class DrizzleModule {}
+@Module({})
+export class DrizzleModule {
+  static forRoot() {
+    const providers = [...drizzleProvider]
+
+    return {
+      global: true,
+      module: DrizzleModule,
+      providers,
+      exports: [DrizzleProvider]
+    }
+  }
+}

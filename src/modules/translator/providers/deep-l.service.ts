@@ -1,6 +1,6 @@
+import type { Profile } from '@/modules/drizzle/types'
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
-import { Profile } from '@prisma/client'
 import { TranslatorProvider } from './provider.interface'
 import { createTranslateResult } from './utils'
 

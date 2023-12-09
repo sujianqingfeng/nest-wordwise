@@ -21,12 +21,12 @@ import { WordModule } from './modules/word/word.module'
       signOptions: { expiresIn: '30d' },
       global: true
     }),
+    DrizzleModule.forRoot(),
     AuthModule,
     UserModule,
-    DrizzleModule
-    // WordModule,
-    // ProfileModule,
-    // TranslatorModule
+    WordModule,
+    ProfileModule,
+    TranslatorModule
   ],
   controllers: [AppController],
   providers: [

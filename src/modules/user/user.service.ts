@@ -1,7 +1,6 @@
 import type { DrizzleDB, UserInsert } from '../drizzle/types'
 import { Inject, Injectable } from '@nestjs/common'
 import { eq, or } from 'drizzle-orm'
-import { type Request } from 'express'
 import { DrizzleProvider } from '../drizzle/drizzle.provider'
 import { users } from '../drizzle/schema'
 import { ProfileService } from '../profile/profile.service'
@@ -13,8 +12,8 @@ export class UserService {
     @Inject(DrizzleProvider) private drizzleDB: DrizzleDB
   ) {}
 
-  profile(req: Request) {
-    // return this.profileService.profile({ userId: req.user.id })
+  profile(useId: number) {
+    return this.profileService.profile(useId)
   }
 
   _createUserWhere(where: { id?: number; email?: string }) {

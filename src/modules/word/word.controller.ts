@@ -1,6 +1,5 @@
 import type { Request } from 'express'
 import { Controller, Get, Post, Body, Req, Delete, Query } from '@nestjs/common'
-import { subYears } from 'date-fns'
 import {
   CreateWordDto,
   QueryCollectedResultDto,
@@ -20,15 +19,15 @@ export class WordController {
   ): Promise<QueryCollectedResultDto> {
     const { id: userId } = req.user
     const { word } = query
-    const isCollected = await this.wordService.find({ word, userId })
+    const isCollected = await this.wordService.word({ word, userId })
     return { isCollected: !!isCollected }
   }
 
   @Get('/list')
   getWords(@Req() req: Request, @Query() query: QueryWordListDto) {
-    const { id } = req.user
-    const { skip, take } = query
-    return this.wordService.words({ skip, take, where: { userId: id } })
+    const { id: userId } = req.user
+    const { limit, offset } = query
+    return this.wordService.words({ limit, offset, userId })
   }
 
   @Get('/all')
@@ -40,14 +39,7 @@ export class WordController {
   @Get('/year-calendar')
   getCollectionCalendar(@Req() req: Request) {
     const { id: userId } = req.user
-    const now = new Date()
-    return this.wordService.groupByCreatedAt({
-      userId,
-      createdAt: {
-        gte: subYears(now, 1),
-        lt: now
-      }
-    })
+    return this.wordService.groupByCreatedAt(userId)
   }
 
   @Post()
@@ -59,8 +51,8 @@ export class WordController {
 
   @Delete()
   deleteWord(@Req() req: Request, @Body() createWordDto: CreateWordDto) {
-    const { id } = req.user
+    const { id: userId } = req.user
     const { word } = createWordDto
-    return this.wordService.deleteWord(id, word)
+    return this.wordService.deleteWord({ word, userId })
   }
 }

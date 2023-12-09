@@ -14,7 +14,7 @@ export const users = pgTable('users', {
   name: varchar('name', { length: 12 }),
   avatar: varchar('avatar', { length: 255 }),
 
-  createAt: date('create_at').defaultNow()
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
 export const usersRelations = relations(users, ({ one, many }) => ({
@@ -31,9 +31,11 @@ export const profiles = pgTable('profiles', {
   deepLAuthKey: varchar('deep_l_auth_key', { length: 50 }),
   openAIKey: varchar('open_ai_key', { length: 50 }),
 
-  userId: serial('user_id').references(() => users.id),
+  userId: serial('user_id')
+    .notNull()
+    .references(() => users.id),
 
-  createAt: date('create_at').defaultNow()
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
 // words
@@ -45,7 +47,7 @@ export const words = pgTable('words', {
 
   userId: serial('user_id').references(() => users.id),
 
-  createAt: date('create_at').defaultNow()
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
 export const wordsRelations = relations(words, ({ many }) => ({
@@ -87,7 +89,7 @@ export const dictionary = pgTable('dictionary', {
   ukSpeech: varchar('uk_speech', { length: 100 }),
   usSpeech: varchar('us_speech', { length: 100 }),
 
-  createAt: date('create_at').defaultNow()
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
 export const dictionaryRelations = relations(dictionary, ({ many }) => ({
@@ -101,7 +103,7 @@ export const dictionaryForms = pgTable('dictionary_forms', {
   name: varchar('name', { length: 10 }),
   value: varchar('value', { length: 20 }),
 
-  createAt: date('create_at').defaultNow()
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
 export const dictionaryFormsRelations = relations(
@@ -120,7 +122,7 @@ export const dictionaryTranslates = pgTable('dictionary_translates', {
   translate: varchar('translate', { length: 100 }),
   position: varchar('position', { length: 10 }),
 
-  createAt: date('create_at').defaultNow()
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
 export const dictionaryTranslatesRelations = relations(

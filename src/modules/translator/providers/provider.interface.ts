@@ -1,4 +1,4 @@
-import { Profile } from '@prisma/client'
+import type { Profile } from '@/modules/drizzle/types'
 
 export interface TranslateResult {
   result: string

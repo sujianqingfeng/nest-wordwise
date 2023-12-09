@@ -1,7 +1,7 @@
 import type { IDictionaryQueryResult } from './providers/provider.interface'
 import { IsNotEmpty } from 'class-validator'
-import { createDto } from '@/utils/dto'
-export class DictQueryResultDto extends createDto<IDictionaryQueryResult>() {}
+import { createDtoByType } from '@/utils/dto'
+export class DictQueryResultDto extends createDtoByType<IDictionaryQueryResult>() {}
 
 export class DictQueryDto {
   @IsNotEmpty()

@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator'
-import { QueryPageDto } from '@/utils/dto'
+import { QueryPageDto } from '@/utils/page'
 
 export class CreateWordDto {
   @IsNotEmpty()
@@ -16,4 +16,10 @@ export class QueryCollectedWordDto {
 
 export class QueryCollectedResultDto {
   isCollected: boolean
+}
+
+export interface CalendarDto {
+  [key: string]: {
+    count: number
+  }
 }

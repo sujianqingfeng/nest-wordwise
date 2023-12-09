@@ -1,6 +1,9 @@
-export type QueryPageResult<T> = {
+export type QueryPageMetaResult = {
+  totalPages: number
   isLast: boolean
   total: number
-  list: T[]
 }
 
+export type QueryPageResult<T> = QueryPageMetaResult & {
+  list: T[]
+}

@@ -1,29 +1,101 @@
+import type { DrizzleDB, Word, WordInsert } from '../drizzle/types'
 import type { QueryPageResult } from 'types'
-import { Injectable } from '@nestjs/common'
-import { Prisma, Word } from '@prisma/client'
-import { CalendarDto } from './word.interface'
-import { PrismaService } from '../common/prisma.service'
+import { Inject, Injectable } from '@nestjs/common'
+import { subYears } from 'date-fns'
+import { and, eq, gt, lte, sql } from 'drizzle-orm'
+// import { CalendarDto } from './word.dto'
+import { DrizzleProvider } from '../drizzle/drizzle.provider'
+import schema from '../drizzle/export-all-schema'
+import { QueryPageDto, queryPageMeta } from '@/utils/page'
 
+type PersonWordWhere = { word: string; userId: number }
 @Injectable()
 export class WordService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(@Inject(DrizzleProvider) private drizzleDB: DrizzleDB) {}
 
-  async words(params: {
-    skip: number
-    take: number
-    cursor?: Prisma.WordWhereUniqueInput
-    where?: Prisma.WordWhereInput
-    orderBy?: Prisma.WordOrderByWithRelationInput
-  }): Promise<QueryPageResult<Word>> {
-    const [list, total] = await Promise.all([
-      this.prismaService.word.findMany(params),
-      this.prismaService.word.count({ where: params.where })
-    ])
+  _createUserWordWhere(where: PersonWordWhere) {
+    return and(
+      this._createWordWhere(where.word),
+      this._createUserWhere(where.userId)
+    )
+  }
 
-    const meta = this.prismaService.queryPageMeta({
-      total,
-      skip: params.skip,
-      take: params.take
+  _createUserWhere(userId: number) {
+    return eq(schema.words.userId, userId)
+  }
+
+  _createWordWhere(word: string) {
+    return eq(schema.words.word, word)
+  }
+
+  allWords(where: { userId: number }) {
+    return this.drizzleDB.query.words.findMany({
+      where: this._createUserWhere(where.userId)
+    })
+  }
+
+  word(where: PersonWordWhere) {
+    return this.drizzleDB.query.words.findFirst({
+      where: this._createUserWordWhere(where)
+    })
+  }
+
+  deleteWord(where: PersonWordWhere) {
+    return this.drizzleDB
+      .delete(schema.words)
+      .where(this._createUserWordWhere(where))
+  }
+
+  async createWord(data: WordInsert): Promise<Word> {
+    const { word } = data
+
+    const firstTranslation =
+      await this.drizzleDB.query.dictionaryTranslates.findFirst({
+        where: this._createWordWhere(word)
+      })
+
+    const result = await this.drizzleDB
+      .insert(schema.words)
+      .values({
+        ...data,
+        simpleTranslate: firstTranslation.translate
+      })
+      .returning()
+
+    return result[0]
+  }
+
+  async words(
+    params: QueryPageDto & { userId: number }
+  ): Promise<QueryPageResult<Word>> {
+    const { userId, limit, offset } = params
+
+    // TODO: extract to a function
+
+    // const total = await this.drizzleDB
+    //   .select({
+    //     total: count()
+    //   })
+    //   .from(schema.words)
+    //   .groupBy(schema.users.id)
+    //   .where(this._createUserWhere(userId))
+
+    const list = await this.drizzleDB
+      .select()
+      .from(schema.words)
+      .limit(limit)
+      .offset(offset)
+      .where(this._createUserWhere(userId))
+
+    // const [list, total] = await Promise.all([
+    //   this.prismaService.word.findMany(params),
+    //   this.prismaService.word.count({ where: params.where })
+    // ])
+
+    const meta = queryPageMeta({
+      total: 100,
+      limit,
+      offset
     })
 
     return {
@@ -32,45 +104,45 @@ export class WordService {
     }
   }
 
-  allWords(where?: Prisma.WordWhereInput) {
-    return this.prismaService.word.findMany({ where })
-  }
+  async groupByCreatedAt(userId: number) {
+    const now = new Date()
+    const beforeAYear = subYears(now, 1)
 
-  find(where: Prisma.WordWhereUniqueInput) {
-    return this.prismaService.word.findUnique({ where })
-  }
+    const words = await this.drizzleDB
+      .select()
+      .from(schema.words)
+      .where(
+        and(
+          this._createUserWhere(userId),
+          gt(schema.words.createAt, beforeAYear),
+          lte(schema.words.createAt, now)
+        )
+      )
+      .groupBy(sql`DATE(${schema.words.createAt})`)
 
-  async groupByCreatedAt(where?: Prisma.WordWhereInput) {
-    const words = await this.prismaService.word.findMany({ where })
+    console.log(
+      '🚀 ~ file: word.service.ts:112 ~ WordService ~ groupByCreatedAt ~ words:',
+      words
+    )
 
-    const map = new Map<string, number>()
-    words.forEach((item) => {
-      const date = item.createdAt.toISOString().slice(0, 10)
-      if (map.has(date)) {
-        map.set(date, map.get(date) + 1)
-      } else {
-        map.set(date, 1)
-      }
-    })
+    return {}
 
-    const result: CalendarDto = {}
-    for (const [key, value] of map) {
-      result[key] = { count: value }
-    }
-    return result
-  }
+    // const words = await this.prismaService.word.findMany({ where })
 
-  async createWord(data: Prisma.WordUncheckedCreateInput): Promise<Word> {
-    const { word } = data
-    const first = await this.prismaService.dictionaryTranslate.findFirst({
-      where: { word }
-    })
-    return this.prismaService.word.create({
-      data: { ...data, simpleTranslate: first.translate }
-    })
-  }
+    // const map = new Map<string, number>()
+    // words.forEach((item) => {
+    //   const date = item.createdAt.toISOString().slice(0, 10)
+    //   if (map.has(date)) {
+    //     map.set(date, map.get(date) + 1)
+    //   } else {
+    //     map.set(date, 1)
+    //   }
+    // })
 
-  deleteWord(userId: string, word: string) {
-    return this.prismaService.word.delete({ where: { word, userId } })
+    // const result: CalendarDto = {}
+    // for (const [key, value] of map) {
+    //   result[key] = { count: value }
+    // }
+    // return result
   }
 }

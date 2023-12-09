@@ -1,5 +1,5 @@
+import type { Profile } from '@/modules/drizzle/types'
 import { Injectable } from '@nestjs/common'
-import { Profile } from '@prisma/client'
 import { DeepLService } from './providers/deep-l.service'
 
 @Injectable()
