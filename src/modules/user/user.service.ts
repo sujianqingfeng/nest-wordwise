@@ -1,55 +1,56 @@
-import { Injectable } from '@nestjs/common'
-import { Prisma, User } from '@prisma/client'
+import type { DrizzleDB, UserInsert } from '../drizzle/types'
+import { Inject, Injectable } from '@nestjs/common'
+import { eq, or } from 'drizzle-orm'
 import { type Request } from 'express'
-import { PrismaService } from 'src/modules/common/prisma.service'
+import { DrizzleProvider } from '../drizzle/drizzle.provider'
+import { users } from '../drizzle/schema'
 import { ProfileService } from '../profile/profile.service'
 
 @Injectable()
 export class UserService {
   constructor(
-    private prismaService: PrismaService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    @Inject(DrizzleProvider) private drizzleDB: DrizzleDB
   ) {}
 
   profile(req: Request) {
-    return this.profileService.profile({ userId: req.user.id })
+    // return this.profileService.profile({ userId: req.user.id })
   }
 
-  async user(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput
-  ): Promise<User | null> {
-    return this.prismaService.user.findUnique({ where: userWhereUniqueInput })
+  _createUserWhere(where: { id?: number; email?: string }) {
+    const { id, email } = where
+    return or(eq(users.id, id), eq(users.email, email))
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prismaService.user.create({ data })
-  }
-
-  async updateUser(params: {
-    where: Prisma.UserWhereUniqueInput
-    data: Partial<Prisma.UserUpdateInput>
-  }): Promise<User> {
-    const { where, data } = params
-    return this.prismaService.user.update({
-      data,
-      where
+  user(where: { id?: number; email?: string }) {
+    return this.drizzleDB.query.users.findFirst({
+      where: this._createUserWhere(where)
     })
   }
 
-  upsert(
-    email: string,
-    {
-      create,
-      update
-    }: {
-      create: Prisma.UserCreateInput
-      update: Partial<Prisma.UserUpdateInput>
-    }
-  ) {
-    return this.prismaService.user.upsert({
-      where: { email },
-      create,
-      update
-    }) as unknown as Prisma.UserGetPayload<true>
+  async createUser(user: UserInsert) {
+    return await this.drizzleDB.insert(users).values(user).returning()
+  }
+
+  updateUser(user: UserInsert, where: { id?: number; email?: string }) {
+    return this.drizzleDB
+      .update(users)
+      .set(user)
+      .where(this._createUserWhere(where))
+      .returning()
+  }
+
+  upsert(user: UserInsert) {
+    return this.drizzleDB
+      .insert(users)
+      .values(user)
+      .onConflictDoUpdate({
+        target: users.email,
+        set: {
+          avatar: user.avatar,
+          name: user.name
+        }
+      })
+      .returning()
   }
 }

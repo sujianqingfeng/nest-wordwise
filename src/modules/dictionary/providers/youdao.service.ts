@@ -68,7 +68,7 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
       ukSpeech: this.getSpeechUrl(ukSpeech),
       usPhonetic,
       usSpeech: this.getSpeechUrl(usSpeech),
-      translates: trs.map((item: any) => {
+      translations: trs.map((item: any) => {
         return {
           translate: item.tran,
           position: item.pos

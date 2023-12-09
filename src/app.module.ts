@@ -6,15 +6,16 @@ import { AppController } from './app.controller'
 import { JWT_SECRET } from './constants'
 import { AuthGuard } from './guards/auth'
 import { AuthModule } from './modules/auth/auth.module'
-import { CommonModule } from './modules/common/common.module'
+import { DrizzleModule } from './modules/drizzle/drizzle.module'
 import { ProfileModule } from './modules/profile/profile.module'
 import { TranslatorModule } from './modules/translator/translator.module'
 import { UserModule } from './modules/user/user.module'
 import { WordModule } from './modules/word/word.module'
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    CommonModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     JwtModule.register({
       secret: JWT_SECRET,
       signOptions: { expiresIn: '30d' },
@@ -22,9 +23,10 @@ import { WordModule } from './modules/word/word.module'
     }),
     AuthModule,
     UserModule,
-    WordModule,
-    ProfileModule,
-    TranslatorModule
+    DrizzleModule
+    // WordModule,
+    // ProfileModule,
+    // TranslatorModule
   ],
   controllers: [AppController],
   providers: [
