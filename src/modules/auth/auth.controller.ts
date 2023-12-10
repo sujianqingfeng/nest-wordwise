@@ -35,7 +35,12 @@ export class AuthController {
     const { provider, code } = body
 
     const authProvider = this.authService.getAuthProvider(provider)
+
     const user = await authProvider.getUserByCode(code)
+    console.log(
+      '🚀 ~ file: auth.controller.ts:44 ~ AuthController ~ user:',
+      user
+    )
     const info = await this.authService.getTokenUser(user)
     const cookieToken = `Bearer ${info.token}`
 

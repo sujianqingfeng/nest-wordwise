@@ -18,7 +18,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate": "drizzle-kit generate:pg",
     "migrate": "drizzle-kit push:pg",
-    "studio": "prisma studio",
+    "studio": "drizzle-kit studio",
     "dict:write": "node scripts/ecdict/write.mjs",
     "dev:db": "docker-compose -f docker-compose-dev.yml up"
   },
@@ -37,7 +37,6 @@
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.29.1",
     "openai": "^4.20.1",
-    "postgres": "^3.4.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },

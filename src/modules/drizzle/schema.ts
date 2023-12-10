@@ -10,7 +10,7 @@ import {
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
-  email: text('email').primaryKey(),
+  email: varchar('email', { length: 50 }).unique(),
   name: varchar('name', { length: 12 }),
   avatar: varchar('avatar', { length: 255 }),
 
