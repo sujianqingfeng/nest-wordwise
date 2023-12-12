@@ -49,7 +49,7 @@ export class GoogleAuthService implements AuthProvider {
     const redirectUri = process.env.GOOGLE_REDIRECT_URI
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 
-    const { data, statusText } = await this.httpService.axiosRef.post(
+    const { data } = await this.httpService.axiosRef.post(
       GOOGLE_ACCESS_TOKEN_OBTAIN_URL,
       {
         code,
@@ -59,10 +59,6 @@ export class GoogleAuthService implements AuthProvider {
         grant_type: 'authorization_code'
       },
       { proxy }
-    )
-    console.log(
-      '🚀 ~ file: google.ts:53 ~ GoogleAuthService ~ getUserByCode ~ statusText:',
-      statusText
     )
 
     const { access_token } = data

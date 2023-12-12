@@ -109,7 +109,10 @@ export class WordService {
     const beforeAYear = subYears(now, 1)
 
     const words = await this.drizzleDB
-      .select()
+      .select({
+        count: sql`COUNT(${schema.words.id})`,
+        date: sql`DATE(${schema.words.createAt})`
+      })
       .from(schema.words)
       .where(
         and(

@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config'
-import { drizzle } from 'drizzle-orm/postgres-js'
-import { Pool } from 'pg'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Client } from 'pg'
+
 import schema from './export-all-schema'
 
 export const DrizzleProvider = 'drizzleProvider'
@@ -9,12 +10,13 @@ export const drizzleProvider = [
   {
     provide: DrizzleProvider,
     inject: [ConfigService],
-    useFactory: (configService: ConfigService) => {
+    useFactory: async (configService: ConfigService) => {
       const connectionString = configService.get<string>('DATABASE_URL')
-      const pool = new Pool({
+      const client = new Client({
         connectionString
       })
-      return drizzle(pool, { schema, logger: true })
+      await client.connect()
+      return drizzle(client, { schema, logger: true })
     }
   }
 ]
