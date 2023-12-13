@@ -4,14 +4,21 @@ import { Inject, Injectable } from '@nestjs/common'
 import { subYears } from 'date-fns'
 import { and, eq, gt, lte, sql } from 'drizzle-orm'
 import { CalendarDto } from './word.dto'
-import { DrizzleProvider } from '../drizzle/drizzle.provider'
-import schema from '../drizzle/export-all-schema'
-import { QueryPageDto, queryPageMeta } from '@/utils/page'
+import {
+  DrizzleHelperProvider,
+  DrizzleProvider,
+  schema,
+  type PageHelper
+} from '../drizzle/drizzle.provider'
+import { QueryPageDto } from '@/utils/page'
 
 type PersonWordWhere = { word: string; userId: number }
 @Injectable()
 export class WordService {
-  constructor(@Inject(DrizzleProvider) private drizzleDB: DrizzleDB) {}
+  constructor(
+    @Inject(DrizzleProvider) private drizzleDB: DrizzleDB,
+    @Inject(DrizzleHelperProvider) private drizzleDBHelper: PageHelper
+  ) {}
 
   _createUserWordWhere(where: PersonWordWhere) {
     return and(
@@ -70,35 +77,14 @@ export class WordService {
   ): Promise<QueryPageResult<Word>> {
     const { userId, limit, offset } = params
 
-    // TODO: extract to a function
-
-    const total = (
-      await this.drizzleDB
-        .select({
-          count: sql<number>`COUNT(${schema.words.id})`.mapWith(Number)
-        })
-        .from(schema.words)
-        .groupBy(schema.words.id)
-        .where(this._createUserWhere(userId))
-    )[0].count
-
-    const list = await this.drizzleDB
-      .select()
-      .from(schema.words)
-      .limit(limit)
-      .offset(offset - 1)
-      .where(this._createUserWhere(userId))
-
-    const meta = queryPageMeta({
-      total,
+    const result = await this.drizzleDBHelper.queryPageList({
+      where: this._createUserWhere(userId),
       limit,
-      offset
+      offset,
+      from: schema.words
     })
 
-    return {
-      list,
-      ...meta
-    }
+    return result
   }
 
   async groupByCreatedAt(userId: number) {

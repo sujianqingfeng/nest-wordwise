@@ -1,7 +1,7 @@
-import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import schema from './export-all-schema'
 
-export type DrizzleDB = PostgresJsDatabase<typeof schema>
+export type DrizzleDB = NodePgDatabase<typeof schema>
 
 export type UserInsert = typeof schema.users.$inferInsert
 

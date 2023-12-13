@@ -1,6 +1,7 @@
 import type { AuthProvider } from './provider.interface'
 import { HttpService } from '@nestjs/axios'
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { createLogger } from '@/utils/logger'
 
 const proxy = {
   protocol: 'http',
@@ -11,6 +12,8 @@ const proxy = {
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const GOOGLE_ACCESS_TOKEN_OBTAIN_URL = 'https://oauth2.googleapis.com/token'
 const GOOGLE_USER_INFO_URL = 'https://www.googleapis.com/oauth2/v3/userinfo'
+
+const logger = createLogger('google-auth')
 
 @Injectable()
 export class GoogleAuthService implements AuthProvider {
@@ -49,19 +52,24 @@ export class GoogleAuthService implements AuthProvider {
     const redirectUri = process.env.GOOGLE_REDIRECT_URI
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 
-    const { data } = await this.httpService.axiosRef.post(
-      GOOGLE_ACCESS_TOKEN_OBTAIN_URL,
-      {
-        code,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-        grant_type: 'authorization_code'
-      },
-      { proxy }
-    )
+    try {
+      const { data } = await this.httpService.axiosRef.post(
+        GOOGLE_ACCESS_TOKEN_OBTAIN_URL,
+        {
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code'
+        },
+        { proxy }
+      )
 
-    const { access_token } = data
-    return this.getUserByToken(access_token)
+      const { access_token } = data
+      return this.getUserByToken(access_token)
+    } catch (error) {
+      logger.error(error)
+      throw new UnauthorizedException()
+    }
   }
 }
