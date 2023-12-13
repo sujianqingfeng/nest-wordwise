@@ -19,9 +19,10 @@ export class ProfileService {
   }
 
   updateProfile(useId: number, profile: ProfileInsert) {
+    const { id, userId, createAt, ...rest } = profile
     return this.drizzleDB
       .update(schema.profiles)
-      .set(profile)
+      .set(rest)
       .where(eq(schema.profiles.userId, useId))
       .returning()
   }

@@ -3,7 +3,7 @@ import type { QueryPageResult } from 'types'
 import { Inject, Injectable } from '@nestjs/common'
 import { subYears } from 'date-fns'
 import { and, eq, gt, lte, sql } from 'drizzle-orm'
-// import { CalendarDto } from './word.dto'
+import { CalendarDto } from './word.dto'
 import { DrizzleProvider } from '../drizzle/drizzle.provider'
 import schema from '../drizzle/export-all-schema'
 import { QueryPageDto, queryPageMeta } from '@/utils/page'
@@ -72,28 +72,25 @@ export class WordService {
 
     // TODO: extract to a function
 
-    // const total = await this.drizzleDB
-    //   .select({
-    //     total: count()
-    //   })
-    //   .from(schema.words)
-    //   .groupBy(schema.users.id)
-    //   .where(this._createUserWhere(userId))
+    const total = (
+      await this.drizzleDB
+        .select({
+          count: sql<number>`COUNT(${schema.words.id})`.mapWith(Number)
+        })
+        .from(schema.words)
+        .groupBy(schema.words.id)
+        .where(this._createUserWhere(userId))
+    )[0].count
 
     const list = await this.drizzleDB
       .select()
       .from(schema.words)
       .limit(limit)
-      .offset(offset)
+      .offset(offset - 1)
       .where(this._createUserWhere(userId))
 
-    // const [list, total] = await Promise.all([
-    //   this.prismaService.word.findMany(params),
-    //   this.prismaService.word.count({ where: params.where })
-    // ])
-
     const meta = queryPageMeta({
-      total: 100,
+      total,
       limit,
       offset
     })
@@ -108,10 +105,10 @@ export class WordService {
     const now = new Date()
     const beforeAYear = subYears(now, 1)
 
-    const words = await this.drizzleDB
+    const dateCounts = await this.drizzleDB
       .select({
-        count: sql`COUNT(${schema.words.id})`,
-        date: sql`DATE(${schema.words.createAt})`
+        count: sql<number>`COUNT(${schema.words.id})`.mapWith(Number),
+        date: sql<string>`DATE(${schema.words.createAt})`
       })
       .from(schema.words)
       .where(
@@ -123,29 +120,10 @@ export class WordService {
       )
       .groupBy(sql`DATE(${schema.words.createAt})`)
 
-    console.log(
-      '🚀 ~ file: word.service.ts:112 ~ WordService ~ groupByCreatedAt ~ words:',
-      words
-    )
-
-    return {}
-
-    // const words = await this.prismaService.word.findMany({ where })
-
-    // const map = new Map<string, number>()
-    // words.forEach((item) => {
-    //   const date = item.createdAt.toISOString().slice(0, 10)
-    //   if (map.has(date)) {
-    //     map.set(date, map.get(date) + 1)
-    //   } else {
-    //     map.set(date, 1)
-    //   }
-    // })
-
-    // const result: CalendarDto = {}
-    // for (const [key, value] of map) {
-    //   result[key] = { count: value }
-    // }
-    // return result
+    const result: CalendarDto = {}
+    for (const dateCount of dateCounts) {
+      result[dateCount.date] = { count: dateCount.count }
+    }
+    return result
   }
 }

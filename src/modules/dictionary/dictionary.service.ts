@@ -33,11 +33,8 @@ export class DictionaryService {
       }
     })
 
-    console.log(
-      '🚀 ~ file: dictionary.service.ts:23 ~ DictionaryService ~ query ~ localResult:',
-      localResult
-    )
     if (localResult) {
+      logger.log(`local query: ${word}`, localResult)
       return localResult
     }
 
@@ -76,35 +73,39 @@ export class DictionaryService {
       where: eq(schema.dictionary.word, word)
     })
 
-    if (!result) {
-      try {
-        await this.drizzleDB.transaction(async (trx) => {
-          const current = (
-            await trx
-              .insert(schema.dictionary)
-              .values(dictionaryInsert)
-              .returning()
-          )[0]
+    if (result) {
+      logger.log(`writeDictionary: word [${word}] already exists, so skip`)
+      return
+    }
 
-          // TODO: extract map to a function
-          trx.insert(schema.dictionaryForms).values(
-            dictionaryFormsInsert.map((item) => ({
-              ...item,
-              word,
-              id: current.id
-            }))
-          )
-          trx.insert(schema.dictionaryTranslates).values(
-            dictionaryTranslatesInsert.map((item) => ({
-              ...item,
-              word,
-              id: current.id
-            }))
-          )
-        })
-      } catch (e) {
-        logger.error(`writeDictionary failed: ${word}`, e.message)
-      }
+    try {
+      this.drizzleDB.transaction(async (trx) => {
+        const current = (
+          await trx
+            .insert(schema.dictionary)
+            .values(dictionaryInsert)
+            .returning()
+        )[0]
+
+        // TODO: extract map to a function
+        await trx.insert(schema.dictionaryForms).values(
+          dictionaryFormsInsert.map((item) => ({
+            ...item,
+            word,
+            id: current.id
+          }))
+        )
+
+        await trx.insert(schema.dictionaryTranslates).values(
+          dictionaryTranslatesInsert.map((item) => ({
+            ...item,
+            word,
+            id: current.id
+          }))
+        )
+      })
+    } catch (e) {
+      logger.error(`writeDictionary failed: ${word}`, e.message)
     }
   }
 }

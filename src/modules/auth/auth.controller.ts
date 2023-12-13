@@ -37,17 +37,10 @@ export class AuthController {
     const authProvider = this.authService.getAuthProvider(provider)
 
     const user = await authProvider.getUserByCode(code)
-    console.log(
-      '🚀 ~ file: auth.controller.ts:44 ~ AuthController ~ user:',
-      user
-    )
+
     const info = await this.authService.getTokenUser(user)
     const cookieToken = `Bearer ${info.token}`
 
-    console.log(
-      '🚀 ~ file: auth.controller.ts:42 ~ AuthController ~ cookieToken:',
-      cookieToken
-    )
     response.cookie('token', cookieToken, { httpOnly: true })
     return info
   }
