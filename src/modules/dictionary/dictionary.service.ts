@@ -92,7 +92,7 @@ export class DictionaryService {
           dictionaryFormsInsert.map((item) => ({
             ...item,
             word,
-            id: current.id
+            dictionaryId: current.id
           }))
         )
 
@@ -100,7 +100,7 @@ export class DictionaryService {
           dictionaryTranslatesInsert.map((item) => ({
             ...item,
             word,
-            id: current.id
+            dictionaryId: current.id
           }))
         )
       })

@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, serial, varchar, date, primaryKey } from 'drizzle-orm/pg-core'
+import {
+  pgTable,
+  serial,
+  varchar,
+  date,
+  primaryKey,
+  integer
+} from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -95,6 +102,7 @@ export const dictionaryForms = pgTable('dictionary_forms', {
   word: varchar('word', { length: 20 }),
   name: varchar('name', { length: 10 }),
   value: varchar('value', { length: 20 }),
+  dictionaryId: integer('dictionary_id'),
 
   createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
@@ -103,7 +111,7 @@ export const dictionaryFormsRelations = relations(
   dictionaryForms,
   ({ one }) => ({
     dictionary: one(dictionary, {
-      fields: [dictionaryForms.id],
+      fields: [dictionaryForms.dictionaryId],
       references: [dictionary.id]
     })
   })
@@ -114,6 +122,7 @@ export const dictionaryTranslates = pgTable('dictionary_translates', {
   word: varchar('word', { length: 20 }),
   translate: varchar('translate', { length: 100 }),
   position: varchar('position', { length: 10 }),
+  dictionaryId: integer('dictionary_id'),
 
   createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
@@ -122,7 +131,7 @@ export const dictionaryTranslatesRelations = relations(
   dictionaryTranslates,
   ({ one }) => ({
     dictionary: one(dictionary, {
-      fields: [dictionaryTranslates.id],
+      fields: [dictionaryTranslates.dictionaryId],
       references: [dictionary.id]
     })
   })
