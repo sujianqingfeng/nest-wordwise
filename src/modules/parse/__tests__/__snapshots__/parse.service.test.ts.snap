@@ -1,0 +1,683 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParseService remove 1`] = `
+"<!DOCTYPE html><html lang="en"><head>
+        <title data-rh="true">Embracing SOLID Principles in JavaScript for Maintainable Code | by Ankit Kumar | Dec, 2023 | Medium</title>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </head>
+    <body>
+        <div id="root">
+            <div class="a b c">
+                
+                
+                <div class="l c">
+                    
+                    <div class="l">
+                        <div class="ds dt du dv dw l">
+                            
+                            <article>
+                                <div class="l">
+                                    <div class="l">
+                                        <span class="l"></span>
+                                        <section>
+                                            <div>
+                                                
+                                                <div class="eo ep eq er es">
+                                                    <div class="ab ca">
+                                                        <div class="ch bg dx dy dz ea">
+                                                            <div>
+                                                                <h1 id="febc" class="pw-post-title et eu ev be ew ex ey ez fa fb fc fd fe ff fg fh fi fj fk fl fm fn fo fp fq fr fs ft fu fv bj" data-testid="storyTitle">Embracing SOLID Principles in JavaScript for Maintainable Code</h1>
+                                                                <div class="fw fx fy fz ga">
+                                                                    <div class="speechify-ignore ab co">
+                                                                        <div class="speechify-ignore bg l">
+                                                                            <div class="gb gc gd ge gf ab">
+                                                                                
+                                                                                <div class="bm bg l">
+                                                                                    <div class="ab">
+                                                                                        <div style="flex:1">
+                                                                                            <span class="be b bf z bj">
+                                                                                                <div class="gp ab q">
+                                                                                                    <div class="ab q gq">
+                                                                                                        <div class="ab q">
+                                                                                                            <div>
+                                                                                                                <div class="bl" aria-hidden="false">
+                                                                                                                    <p class="be b gr gs bj">
+                                                                                                                        <a class="af ag ah ai aj ak al am an ao ap aq ar gt" data-testid="authorName" rel="noopener follow" href="/?source=post_page-----ce153d74d326--------------------------------">Ankit Kumar</a>
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <span class="gu gv" aria-hidden="true">
+                                                                                                            <span class="be b bf z gw">·</span>
+                                                                                                        </span>
+                                                                                                        <p class="be b gr gs gw">
+                                                                                                            <span>
+                                                                                                                <a class="gx gy ah ai aj ak al am an ao ap aq ar gz ha hb" href="https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Fsubscribe%2Fuser%2F38b7ad28d009&amp;operation=register&amp;redirect=https%3A%2F%2Farchitectak.medium.com%2Fembracing-solid-principles-in-javascript-for-maintainable-code-ce153d74d326&amp;user=Ankit+Kumar&amp;userId=38b7ad28d009&amp;source=post_page-38b7ad28d009----ce153d74d326---------------------post_header-----------" rel="noopener follow">Follow</a>
+                                                                                                            </span>
+                                                                                                        </p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="l hc">
+                                                                                        <span class="be b bf z gw">
+                                                                                            <div class="ab cm hd he hf">
+                                                                                                <span class="be b bf z gw">
+                                                                                                    <div class="ab ae">
+                                                                                                        <span data-testid="storyReadTime">3 min read</span>
+                                                                                                        <div class="hg hh l" aria-hidden="true">
+                                                                                                            <span class="l" aria-hidden="true">
+                                                                                                                <span class="be b bf z gw">·</span>
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                        2 days ago
+                                                                                                    </div>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="ab co hi hj hk hl hm hn ho hp hq hr hs ht hu hv hw hx">
+                                                                                <div class="h k w in io q">
+                                                                                    <div class="ip l">
+                                                                                        <div class="ab q iq">
+                                                                                            
+                                                                                            <div class="pw-multi-vote-count l jf jg jh ji jj jk jl">
+                                                                                                <p class="be b jm z gw">
+                                                                                                    <span class="iw">--</span>
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <div class="bl" aria-hidden="false">
+                                                                                            <button class="ao iv jp jq ab q jr js jt" aria-label="responses">
+                                                                                                
+                                                                                                <p class="be b jm z gw">
+                                                                                                    <span class="pw-responses-count jn jo">1</span>
+                                                                                                </p>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="ab q hy hz ia ib ic id ie if ig ih ii ij ik il im">
+                                                                                    
+                                                                                    
+                                                                                    <div class="ec jv cm">
+                                                                                        <div class="l ae">
+                                                                                            <div class="ab ca">
+                                                                                                <div class="jw jx jy jz ka kb ch bg">
+                                                                                                    <div class="ab">
+                                                                                                        <div class="bl bg" aria-hidden="false">
+                                                                                                            <div>
+                                                                                                                <div class="bl" aria-hidden="false">
+                                                                                                                    <button aria-label="Listen" data-testid="audioPlayButton" class="af jr ah ai aj ak al kc an ao ap gz kd ke jt kf kg kh ki kj s kk kl km kn ko kp kq u kr ks kt">
+                                                                                                                        
+                                                                                                                        <div class="j i d">
+                                                                                                                            <p class="be b bf z gw">Listen</p>
+                                                                                                                        </div>
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="bl" aria-hidden="false" aria-describedby="postFooterSocialMenu" aria-labelledby="postFooterSocialMenu">
+                                                                                        <div>
+                                                                                            <div class="bl" aria-hidden="false">
+                                                                                                <button aria-controls="postFooterSocialMenu" aria-expanded="false" aria-label="Share Post" data-testid="headerSocialShareButton" class="af jr ah ai aj ak al kc an ao ap gz kd ke jt kf kg kh ki kj s kk kl km kn ko kp kq u kr ks kt">
+                                                                                                    
+                                                                                                    <div class="j i d">
+                                                                                                        <p class="be b bf z gw">Share</p>
+                                                                                                    </div>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p id="5e0b" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">In the dynamic world of JavaScript development, writing scalable and maintainable code is crucial. One effective approach to achieve this is by adhering to SOLID principles — a set of five design principles that promote robust, flexible, and extensible software architecture.</p>
+                                                            <figure class="lv lw lx ly lz ma ls lt paragraph-image">
+                                                                
+                                                            </figure>
+                                                            <p id="46dc" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">Let’s explore each principle and its practical application in JavaScript.</p>
+                                                            <p id="3106" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">Let’s briefly explain each principle with a JavaScript perspective:</p>
+                                                            <h2 id="23ac" class="mg mh ev be mi mj mk ml mm mn mo mp mq lf mr ms mt lj mu mv mw ln mx my mz na bj">Single Responsibility Principle (SRP):</h2>
+                                                            <ul class="">
+                                                                <li id="7640" class="ku kv ev kw b kx nb kz la lb nc ld le lf nd lh li lj ne ll lm ln nf lp lq lr ng nh ni bj">Each function, class, or module should have only one reason to change.</li>
+                                                                <li id="9fcb" class="ku kv ev kw b kx nj kz la lb nk ld le lf nl lh li lj nm ll lm ln nn lp lq lr ng nh ni bj">Example: Instead of having a function that handles both data retrieval and presentation, separate these concerns into different functions or classes.</li>
+                                                            </ul>
+                                                            <pre class="lv lw lx ly lz no np nq bo nr ba bj">                                                                <span id="c4fd" class="ns mh ev np b bf nt nu l nv nw">
+                                                                    // Before SRP<br>
+                                                                    function fetchDataAndRender() {<br>
+                                                                    // Logic for data retrieval<br>
+                                                                    // ...<br>
+                                                                    <br>
+                                                                    // Logic for rendering<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    // After SRP<br>
+                                                                    function fetchData() {<br>
+                                                                    // Logic for data retrieval<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    function renderData(data) {<br>
+                                                                    // Logic for rendering<br>
+                                                                    // ...<br>}
+                                                                </span>
+                                                            </pre>
+                                                            <h2 id="133d" class="mg mh ev be mi mj mk ml mm mn mo mp mq lf mr ms mt lj mu mv mw ln mx my mz na bj">Open/Closed Principle (OCP):</h2>
+                                                            <ul class="">
+                                                                <li id="251e" class="ku kv ev kw b kx nb kz la lb nc ld le lf nd lh li lj ne ll lm ln nf lp lq lr ng nh ni bj">Software entities (classes, modules, functions) should be open for extension but closed for modification.</li>
+                                                                <li id="ea37" class="ku kv ev kw b kx nj kz la lb nk ld le lf nl lh li lj nm ll lm ln nn lp lq lr ng nh ni bj">Example: Use inheritance or interfaces to extend behavior without modifying existing code.</li>
+                                                            </ul>
+                                                            <pre class="lv lw lx ly lz no np nq bo nr ba bj">                                                                <span id="c0ce" class="ns mh ev np b bf nt nu l nv nw">
+                                                                    // Before OCP<br>
+                                                                    class Shape {<br>
+                                                                    // Existing code<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    // Extending the Shape class<br>
+                                                                    class ExtendedShape extends Shape {<br>
+                                                                    // New functionality<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    // After OCP<br>
+                                                                    class Shape {<br>
+                                                                    // Existing code<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class ExtendedShape {<br>
+                                                                    // New functionality<br>
+                                                                    // ...<br>}
+                                                                </span>
+                                                            </pre>
+                                                            <h2 id="8398" class="mg mh ev be mi mj mk ml mm mn mo mp mq lf mr ms mt lj mu mv mw ln mx my mz na bj">Liskov Substitution Principle (LSP):</h2>
+                                                            <ul class="">
+                                                                <li id="e7ad" class="ku kv ev kw b kx nb kz la lb nc ld le lf nd lh li lj ne ll lm ln nf lp lq lr ng nh ni bj">Subtypes must be substitutable for their base types without altering the correctness of the program.</li>
+                                                                <li id="3251" class="ku kv ev kw b kx nj kz la lb nk ld le lf nl lh li lj nm ll lm ln nn lp lq lr ng nh ni bj">Example: If you have a base class representing shapes, any subclass representing a specific shape should be able to replace the base class without issues.</li>
+                                                            </ul>
+                                                            <pre class="lv lw lx ly lz no np nq bo nr ba bj">                                                                <span id="b983" class="ns mh ev np b bf nt nu l nv nw">
+                                                                    // Before LSP<br>
+                                                                    class Bird {<br>
+                                                                    fly() {<br>
+                                                                    // Logic for flying<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class Penguin extends Bird {<br>
+                                                                    // Penguins can 't fly, violating LSP<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    // After LSP<br>
+                                                                    class Bird {<br>
+                                                                    // Common bird methods<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class Penguin extends Bird {<br>
+                                                                    swim() {<br>
+                                                                    // Logic for swimming<br>
+                                                                    // ...<br>
+                                                                    }<br>}
+                                                                </span>
+                                                            </pre>
+                                                            <h2 id="0496" class="mg mh ev be mi mj mk ml mm mn mo mp mq lf mr ms mt lj mu mv mw ln mx my mz na bj">Interface Segregation Principle (ISP):</h2>
+                                                            <ul class="">
+                                                                <li id="58c8" class="ku kv ev kw b kx nb kz la lb nc ld le lf nd lh li lj ne ll lm ln nf lp lq lr ng nh ni bj">A class should not be forced to implement interfaces it does not use.</li>
+                                                                <li id="8701" class="ku kv ev kw b kx nj kz la lb nk ld le lf nl lh li lj nm ll lm ln nn lp lq lr ng nh ni bj">Example: Instead of having a large interface, create smaller, specific interfaces, and let classes implement only the ones relevant to them.</li>
+                                                            </ul>
+                                                            <pre class="lv lw lx ly lz no np nq bo nr ba bj">                                                                <span id="018c" class="ns mh ev np b bf nt nu l nv nw">
+                                                                    // Before ISP<br>
+                                                                    class Worker {<br>
+                                                                    work() {<br>
+                                                                    // Logic for work<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    eat() {<br>
+                                                                    // Logic for eating<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    // After ISP<br>
+                                                                    class Workable {<br>
+                                                                    work() {<br>
+                                                                    // Logic for work<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class Eatable {<br>
+                                                                    eat() {<br>
+                                                                    // Logic for eating<br>
+                                                                    // ...<br>
+                                                                    }<br>}
+                                                                </span>
+                                                            </pre>
+                                                            <h2 id="6bde" class="mg mh ev be mi mj mk ml mm mn mo mp mq lf mr ms mt lj mu mv mw ln mx my mz na bj">Dependency Inversion Principle (DIP):</h2>
+                                                            <ul class="">
+                                                                <li id="253b" class="ku kv ev kw b kx nb kz la lb nc ld le lf nd lh li lj ne ll lm ln nf lp lq lr ng nh ni bj">High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
+                                                                <li id="f1af" class="ku kv ev kw b kx nj kz la lb nk ld le lf nl lh li lj nm ll lm ln nn lp lq lr ng nh ni bj">Example: Use dependency injection or inversion of control to decouple components and depend on abstractions (interfaces) rather than concrete implementations.</li>
+                                                            </ul>
+                                                            <pre class="lv lw lx ly lz no np nq bo nr ba bj">                                                                <span id="8a6c" class="ns mh ev np b bf nt nu l nv nw">
+                                                                    // Before DIP<br>
+                                                                    class LightBulb {<br>
+                                                                    turnOn() {<br>
+                                                                    // Logic for turning on<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class Switch {<br>
+                                                                    constructor(bulb) {<br>
+                                                                    this.bulb = bulb;<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    operate() {<br>
+                                                                    this.bulb.turnOn();<br>
+                                                                    }<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    // After DIP<br>
+                                                                    class Switchable {<br>
+                                                                    operate();<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class LightBulb {<br>
+                                                                    turnOn() {<br>
+                                                                    // Logic for turning on<br>
+                                                                    // ...<br>
+                                                                    }<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    class Switch {<br>
+                                                                    constructor(device) {<br>
+                                                                    this.device = device;<br>
+                                                                    }<br>
+                                                                    <br>
+                                                                    operate() {<br>
+                                                                    this.device.operate();<br>
+                                                                    }<br>}
+                                                                </span>
+                                                            </pre>
+                                                            <p id="9e2d" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">Applying these principles in JavaScript often involves careful module and class design, use of interfaces (achieved informally through object shapes), and leveraging design patterns like dependency injection or composition over inheritance.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="eo ep eq er es">
+                                                    <div class="ab ca">
+                                                        <div class="ch bg dx dy dz ea">
+                                                            <p id="a43b" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">
+                                                                If you like this post, <a class="af of" href="https://www.buymeacoffee.com/ArchitectAK" rel="noopener ugc nofollow" target="_blank">you can buy me a coffee</a>
+                                                                .
+                                                            </p>
+                                                            <p id="9a64" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">
+                                                                Also, to be notified about my new articles and stories: Follow me on 
+                                                                <a class="af of" rel="noopener" href="/">
+                                                                    <em class="og">Medium</em>
+                                                                </a>
+                                                                <em class="og">.</em>
+                                                            </p>
+                                                            <p id="2c2f" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">
+                                                                Subscribe to my 
+                                                                <a class="af of" href="https://www.youtube.com/TechTalksWithAK" rel="noopener ugc nofollow" target="_blank">
+                                                                    <em class="og">YouTube Channel</em>
+                                                                </a>
+                                                                <em class="og">for educational content on similar topics</em>
+                                                            </p>
+                                                            <p id="4f0d" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">
+                                                                Follow me on 
+                                                                <a class="af of" rel="noopener" href="/">
+                                                                    <em class="og">Medium</em>
+                                                                </a>
+                                                                <em class="og">and</em>
+                                                                <a class="af of" href="https://github.com/ArchitectAK" rel="noopener ugc nofollow" target="_blank">
+                                                                    <em class="og">GitHub</em>
+                                                                </a>
+                                                                , to connect <em class="og">quickly</em>
+                                                            </p>
+                                                            <p id="1279" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">
+                                                                You can find me on 
+                                                                <a class="af of" href="https://www.linkedin.com/in/ArchitectAK" rel="noopener ugc nofollow" target="_blank">
+                                                                    <em class="og">LinkedIn</em>
+                                                                </a>
+                                                                as it’s a professional network for people like me and you.
+                                                            </p>
+                                                            <p id="aebb" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj oh">
+                                                                <span class="l oi oj ok bn ol om on oo op go">C</span>
+                                                                heers!!
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="eo ep eq er es">
+                                                    <div class="ab ca">
+                                                        <div class="ch bg dx dy dz ea">
+                                                            <p id="958c" class="pw-post-body-paragraph ku kv ev kw b kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr eo bj">#JavaScript #SoftwareDevelopment #SOLIDPrinciples #CodeQuality #ProgrammingTips</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+                            
+                        </div>
+                        <div class="ab ca">
+                            <div class="ch bg dx dy dz ea">
+                                <div class="oq or ab hf">
+                                    <div class="os ab">
+                                        <a class="ot ax am ao" href="https://medium.com/tag/javascript?source=post_page-----ce153d74d326---------------javascript-----------------" rel="noopener follow">
+                                            <div class="ou go cw ov ed ow ox be b bf z bj oy">JavaScript</div>
+                                        </a>
+                                    </div>
+                                    <div class="os ab">
+                                        <a class="ot ax am ao" href="https://medium.com/tag/software-development?source=post_page-----ce153d74d326---------------software_development-----------------" rel="noopener follow">
+                                            <div class="ou go cw ov ed ow ox be b bf z bj oy">Software Development</div>
+                                        </a>
+                                    </div>
+                                    <div class="os ab">
+                                        <a class="ot ax am ao" href="https://medium.com/tag/solid?source=post_page-----ce153d74d326---------------solid-----------------" rel="noopener follow">
+                                            <div class="ou go cw ov ed ow ox be b bf z bj oy">Solid</div>
+                                        </a>
+                                    </div>
+                                    <div class="os ab">
+                                        <a class="ot ax am ao" href="https://medium.com/tag/code-quality?source=post_page-----ce153d74d326---------------code_quality-----------------" rel="noopener follow">
+                                            <div class="ou go cw ov ed ow ox be b bf z bj oy">Code Quality</div>
+                                        </a>
+                                    </div>
+                                    <div class="os ab">
+                                        <a class="ot ax am ao" href="https://medium.com/tag/programming-tips?source=post_page-----ce153d74d326---------------programming_tips-----------------" rel="noopener follow">
+                                            <div class="ou go cw ov ed ow ox be b bf z bj oy">Programming Tips</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <footer class="oz pa pb pc pd pe pf pg ph ab q pi pj c">
+                            <div class="l ae">
+                                <div class="ab ca">
+                                    <div class="ch bg dx dy dz ea">
+                                        <div class="ab co pk">
+                                            <div class="ab q iq">
+                                                <div class="pl l">
+                                                    <span class="l pm pn po e d">
+                                                        <div class="ab q iq">
+                                                            
+                                                            <div class="pw-multi-vote-count l jf jg jh ji jj jk jl">
+                                                                <p class="be b jm z gw">
+                                                                    <span class="iw">--</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                    <span class="l h g f pp pq">
+                                                        <div class="ab q iq">
+                                                            
+                                                            <div class="pw-multi-vote-count l jf jg jh ji jj jk jl">
+                                                                <p class="be b jm z gw">
+                                                                    <span class="iw">--</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="bp ab">
+                                                    <div>
+                                                        <div class="bl" aria-hidden="false">
+                                                            <button class="ao iv jp jq ab q jr js jt" aria-label="responses">
+                                                                
+                                                                <p class="be b bf z gw">
+                                                                    <span class="pw-responses-count jn jo">1</span>
+                                                                </p>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                        <div class="pr ps pt pu pv l bw">
+                            <div class="ab ca">
+                                <div class="ch bg dx dy dz ea">
+                                    <div class="ck ab pw co">
+                                        
+                                        <div class="j i d">
+                                            <div class="ab">
+                                                <span>
+                                                    <button class="be b bf z qc ou qd qe qf qg qh qi qj gz qk ql qm qn qo qp ec bl qq qr">Follow</button>
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ab cm co">
+                                        <div class="l">
+                                            <div class="ab q">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at ab q" rel="noopener follow" href="/?source=post_page-----ce153d74d326--------------------------------">
+                                                    <h2 class="pw-author-name be rf rg rh ri bj">
+                                                        <span class="eo">Written by 
+                                                        <!-- -->
+                                                        Ankit Kumar</span>
+                                                    </h2>
+                                                </a>
+                                            </div>
+                                            <div class="os ab">
+                                                <div class="l hc">
+                                                    <span class="pw-follower-count be b bf z bj">
+                                                        <a class="af ag ah ai aj ak al am an ao ap aq ar gt" rel="noopener follow" href="/followers?source=post_page-----ce153d74d326--------------------------------">39 Followers</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="rj l">
+                                                <p class="be b bf z bj">
+                                                    <span class="eo">Engineer | Solution Architect | Microservices | Mentor | GB Pant University | JNV</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="h k">
+                                            <div class="ab">
+                                                <span>
+                                                    <button class="be b bf z qc ou qd qe qf qg qh qi qj gz qk ql qm qn qo qp ec bl qq qr">Follow</button>
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="h k j">
+                                
+                                <div class="ab ca">
+                                    <div class="ch bg dx dy dz ea">
+                                        <div class="rs ab iq hf">
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://help.medium.com/hc/en-us?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Help</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://medium.statuspage.io/?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Status</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://medium.com/about?autoplay=1&amp;source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">About</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://medium.com/jobs-at-medium/work-at-medium-959d1a85284e?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Careers</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://blog.medium.com/?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Blog</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://policy.medium.com/medium-privacy-policy-f03bf92035c9?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Privacy</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://policy.medium.com/medium-terms-of-service-9db0094a1e0f?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Terms</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt ru l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://speechify.com/medium?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Text to speech</p>
+                                                </a>
+                                            </div>
+                                            <div class="rt l">
+                                                <a class="af ag ah ai aj ak al am an ao ap aq ar as at" href="https://medium.com/business?source=post_page-----ce153d74d326--------------------------------" rel="noopener follow">
+                                                    <p class="be b jm z gw">Teams</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+
+</body></html>"
+`;

@@ -19,11 +19,11 @@ describe('ParseService', () => {
 
   it('remove', async () => {
     // https://architectak.medium.com/embracing-solid-principles-in-javascript-for-maintainable-code-ce153d74d326
-    const html = await readFile(resolve(__dirname, './test1.html'))
+    const html = await readFile(resolve(__dirname, './test.html'))
     const result = service.removeUselessTags(html)
-    // expect(result).toMatchSnapshot()
+    expect(result).toMatchSnapshot()
 
-    const r = await service.parseNode(result)
-    expect(r).toMatchSnapshot()
+    // const r = await service.parseNode(result)
+    // expect(r).toMatchSnapshot()
   }, 20000)
 })
