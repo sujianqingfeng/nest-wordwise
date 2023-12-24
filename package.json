@@ -23,6 +23,7 @@
     "dev:db": "docker-compose -f docker-compose-dev.yml up"
   },
   "dependencies": {
+    "@mozilla/readability": "^0.5.0",
     "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.1.1",
@@ -36,6 +37,7 @@
     "class-validator": "^0.14.0",
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.29.1",
+    "jsdom": "^23.0.1",
     "openai": "^4.20.1",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",

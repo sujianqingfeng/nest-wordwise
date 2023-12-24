@@ -1,5 +1,7 @@
+import { Readability } from '@mozilla/readability'
 import { Injectable } from '@nestjs/common'
 import * as cheerio from 'cheerio'
+import { JSDOM } from 'jsdom'
 import { OpenAiService } from '../open-ai/open-ai.service'
 
 @Injectable()
@@ -33,5 +35,12 @@ export class ParseService {
         content: html
       }
     ])
+  }
+
+  parseHtml(html: string) {
+    const doc = new JSDOM(html)
+    const render = new Readability(doc.window.document)
+    const result = render.parse()
+    return result
   }
 }
