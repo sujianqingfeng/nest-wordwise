@@ -1,16 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
 import { IDictionaryQueryResult } from './providers/provider.interface'
 import { stripWord } from './providers/utils'
 import { YouDaoDictionaryService } from './providers/youdao.service'
-import { DrizzleProvider } from '../drizzle/drizzle.provider'
 
+import { DrizzleService } from '../drizzle/drizzle.service'
 import schema from '../drizzle/export-all-schema'
 import {
   DictionaryFormInsert,
   DictionaryInsert,
-  DictionaryTranslateInsert,
-  DrizzleDB
+  DictionaryTranslateInsert
 } from '../drizzle/types'
 import { createLogger } from '@/utils/logger'
 
@@ -18,29 +17,31 @@ const logger = createLogger('DictionaryService')
 @Injectable()
 export class DictionaryService {
   constructor(
-    @Inject(DrizzleProvider) private drizzleDB: DrizzleDB,
+    private drizzleService: DrizzleService,
     private youdaoDictionaryService: YouDaoDictionaryService
   ) {}
 
   async query(word: string): Promise<IDictionaryQueryResult> {
     // query local
 
-    const localResult = await this.drizzleDB.query.dictionary.findFirst({
-      where: eq(schema.dictionary.word, word),
-      with: {
-        forms: true,
-        translations: true
-      }
-    })
+    const localResult =
+      await this.drizzleService.drizzle.query.dictionary.findFirst({
+        where: eq(schema.dictionary.word, word),
+        with: {
+          forms: true,
+          translations: true
+        }
+      })
 
     if (localResult) {
       logger.log(`local query: ${word}`, localResult)
       return localResult
     }
 
-    const wordForm = await this.drizzleDB.query.dictionaryForms.findFirst({
-      where: eq(schema.dictionaryForms.word, word)
-    })
+    const wordForm =
+      await this.drizzleService.drizzle.query.dictionaryForms.findFirst({
+        where: eq(schema.dictionaryForms.word, word)
+      })
     if (wordForm) {
       return this.query(wordForm.word)
     }
@@ -69,9 +70,11 @@ export class DictionaryService {
   ) {
     const { word } = dictionaryInsert
 
-    const result = await this.drizzleDB.query.dictionary.findFirst({
-      where: eq(schema.dictionary.word, word)
-    })
+    const result = await this.drizzleService.drizzle.query.dictionary.findFirst(
+      {
+        where: eq(schema.dictionary.word, word)
+      }
+    )
 
     if (result) {
       logger.log(`writeDictionary: word [${word}] already exists, so skip`)
@@ -79,7 +82,7 @@ export class DictionaryService {
     }
 
     try {
-      this.drizzleDB.transaction(async (trx) => {
+      this.drizzleService.drizzle.transaction(async (trx) => {
         const current = (
           await trx
             .insert(schema.dictionary)

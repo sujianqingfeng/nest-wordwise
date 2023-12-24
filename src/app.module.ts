@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { APP_PIPE, APP_GUARD } from '@nestjs/core'
 import { JwtModule } from '@nestjs/jwt'
+import { ZodValidationPipe } from 'nestjs-zod'
 import { AppController } from './app.controller'
 
 import { JWT_SECRET } from './constants'
@@ -11,6 +13,7 @@ import { ProfileModule } from './modules/profile/profile.module'
 import { TranslatorModule } from './modules/translator/translator.module'
 import { UserModule } from './modules/user/user.module'
 import { WordModule } from './modules/word/word.module'
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,8 +34,12 @@ import { WordModule } from './modules/word/word.module'
   controllers: [AppController],
   providers: [
     {
-      provide: 'APP_GUARD',
+      provide: APP_GUARD,
       useClass: AuthGuard
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe
     }
   ]
 })

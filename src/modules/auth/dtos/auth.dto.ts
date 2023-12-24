@@ -1,4 +1,4 @@
-import type { User } from './providers/provider.interface'
+import type { User } from '../providers/provider.interface'
 
 export type AuthProvidersItemResp = {
   provider: string

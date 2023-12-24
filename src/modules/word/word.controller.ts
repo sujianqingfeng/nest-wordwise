@@ -5,7 +5,7 @@ import {
   QueryCollectedResultDto,
   QueryCollectedWordDto,
   QueryWordListDto
-} from './word.dto'
+} from './dtos/word.dto'
 import { WordService } from './word.service'
 
 @Controller('word')
@@ -26,8 +26,8 @@ export class WordController {
   @Get('/list')
   getWords(@Req() req: Request, @Query() query: QueryWordListDto) {
     const { id: userId } = req.user
-    const { limit, offset } = query
-    return this.wordService.words({ limit, offset, userId })
+    const { page, size } = query
+    return this.wordService.words({ page, size, userId })
   }
 
   @Get('/all')

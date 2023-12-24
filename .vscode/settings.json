@@ -16,6 +16,7 @@
   "eslint.experimental.useFlatConfig": true,
   "cSpell.words": [
     "Deepl",
+    "dtos",
     "ecdict",
     "volcengine",
     "wordwise",

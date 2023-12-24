@@ -1,6 +1,6 @@
 import { Controller, Req, Post, Body } from '@nestjs/common'
 import { type Request } from 'express'
-import { TranslateDto } from './translator.dto'
+import { TranslateDto } from './dtos/translator.dto'
 import { TranslatorService } from './translator.service'
 import { UserService } from '../user/user.service'
 

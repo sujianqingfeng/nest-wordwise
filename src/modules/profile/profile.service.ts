@@ -1,26 +1,30 @@
-import type { DrizzleDB, ProfileInsert } from '../drizzle/types'
-import { Inject, Injectable } from '@nestjs/common'
+import type { ProfileInsert } from '../drizzle/types'
+import { Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
-import { DrizzleProvider } from '../drizzle/drizzle.provider'
+import { DrizzleService } from '../drizzle/drizzle.service'
 import schema from '../drizzle/export-all-schema'
 
 @Injectable()
 export class ProfileService {
-  constructor(@Inject(DrizzleProvider) private drizzleDB: DrizzleDB) {}
+  constructor(private drizzleService: DrizzleService) {}
 
   profile(useId: number) {
-    return this.drizzleDB.query.profiles.findFirst({
+    return this.drizzleService.drizzle.query.profiles.findFirst({
       where: eq(schema.profiles.userId, useId)
     })
   }
 
   createProfile(profile: ProfileInsert) {
-    return this.drizzleDB.insert(schema.profiles).values(profile).returning()
+    return this.drizzleService.drizzle
+      .insert(schema.profiles)
+      .values(profile)
+      .returning()
   }
 
   updateProfile(useId: number, profile: ProfileInsert) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, userId, createAt, ...rest } = profile
-    return this.drizzleDB
+    return this.drizzleService.drizzle
       .update(schema.profiles)
       .set(rest)
       .where(eq(schema.profiles.userId, useId))

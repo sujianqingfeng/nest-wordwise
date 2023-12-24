@@ -2,7 +2,7 @@ import type {
   AuthProvidersItemResp,
   AuthReq,
   AuthTokenReq
-} from './auth.interface'
+} from './dtos/auth.dto'
 import type { Response } from 'express'
 import { Body, Controller, Get, Post, Res } from '@nestjs/common'
 import { from } from 'rxjs'

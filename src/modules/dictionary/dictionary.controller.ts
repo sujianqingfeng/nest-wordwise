@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { DictQueryDto, DictQueryResultDto } from './dictionary.dto'
+import { DictQueryDto, DictQueryResultDto } from './dtos/dictionary.dto'
 import { DictionaryService } from './dictionary.service'
 
 @Controller('dictionary')

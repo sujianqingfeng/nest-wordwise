@@ -1,7 +1,7 @@
-import type { DrizzleDB, UserInsert } from '../drizzle/types'
-import { Inject, Injectable } from '@nestjs/common'
+import type { UserInsert } from '../drizzle/types'
+import { Injectable } from '@nestjs/common'
 import { eq, or } from 'drizzle-orm'
-import { DrizzleProvider } from '../drizzle/drizzle.provider'
+import { DrizzleService } from '../drizzle/drizzle.service'
 import { users } from '../drizzle/schema'
 import { ProfileService } from '../profile/profile.service'
 
@@ -9,7 +9,7 @@ import { ProfileService } from '../profile/profile.service'
 export class UserService {
   constructor(
     private profileService: ProfileService,
-    @Inject(DrizzleProvider) private drizzleDB: DrizzleDB
+    private drizzleService: DrizzleService
   ) {}
 
   profile(useId: number) {
@@ -22,17 +22,20 @@ export class UserService {
   }
 
   user(where: { id?: number; email?: string }) {
-    return this.drizzleDB.query.users.findFirst({
+    return this.drizzleService.drizzle.query.users.findFirst({
       where: this._createUserWhere(where)
     })
   }
 
   async createUser(user: UserInsert) {
-    return await this.drizzleDB.insert(users).values(user).returning()
+    return await this.drizzleService.drizzle
+      .insert(users)
+      .values(user)
+      .returning()
   }
 
   updateUser(user: UserInsert, where: { id?: number; email?: string }) {
-    return this.drizzleDB
+    return this.drizzleService.drizzle
       .update(users)
       .set(user)
       .where(this._createUserWhere(where))
@@ -40,7 +43,7 @@ export class UserService {
   }
 
   upsert(user: UserInsert) {
-    return this.drizzleDB
+    return this.drizzleService.drizzle
       .insert(users)
       .values(user)
       .onConflictDoUpdate({

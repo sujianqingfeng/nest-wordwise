@@ -1,24 +1,17 @@
-import type { DrizzleDB, Word, WordInsert } from '../drizzle/types'
-import type { QueryPageResult } from 'types'
-import { Inject, Injectable } from '@nestjs/common'
+import type { Word, WordInsert } from '../drizzle/types'
+import { Injectable } from '@nestjs/common'
 import { subYears } from 'date-fns'
 import { and, eq, gt, lte, sql } from 'drizzle-orm'
-import { CalendarDto } from './word.dto'
-import {
-  DrizzleHelperProvider,
-  DrizzleProvider,
-  schema,
-  type PageHelper
-} from '../drizzle/drizzle.provider'
-import { QueryPageDto } from '@/utils/page'
+import { CalendarDto } from './dtos/word.dto'
+import { DrizzleService } from '../drizzle/drizzle.service'
+import schema from '../drizzle/export-all-schema'
+import { PagerDto } from '@/shared/dtos/pager.dto'
+import { PaginationResult } from '@/shared/interfaces/paginator.interface'
 
 type PersonWordWhere = { word: string; userId: number }
 @Injectable()
 export class WordService {
-  constructor(
-    @Inject(DrizzleProvider) private drizzleDB: DrizzleDB,
-    @Inject(DrizzleHelperProvider) private drizzleDBHelper: PageHelper
-  ) {}
+  constructor(private drizzleService: DrizzleService) {}
 
   _createUserWordWhere(where: PersonWordWhere) {
     return and(
@@ -36,19 +29,19 @@ export class WordService {
   }
 
   allWords(where: { userId: number }) {
-    return this.drizzleDB.query.words.findMany({
+    return this.drizzleService.drizzle.query.words.findMany({
       where: this._createUserWhere(where.userId)
     })
   }
 
   word(where: PersonWordWhere) {
-    return this.drizzleDB.query.words.findFirst({
+    return this.drizzleService.drizzle.query.words.findFirst({
       where: this._createUserWordWhere(where)
     })
   }
 
   deleteWord(where: PersonWordWhere) {
-    return this.drizzleDB
+    return this.drizzleService.drizzle
       .delete(schema.words)
       .where(this._createUserWordWhere(where))
   }
@@ -57,11 +50,11 @@ export class WordService {
     const { word } = data
 
     const firstTranslation =
-      await this.drizzleDB.query.dictionaryTranslates.findFirst({
+      await this.drizzleService.drizzle.query.dictionaryTranslates.findFirst({
         where: this._createWordWhere(word)
       })
 
-    const result = await this.drizzleDB
+    const result = await this.drizzleService.drizzle
       .insert(schema.words)
       .values({
         ...data,
@@ -73,15 +66,15 @@ export class WordService {
   }
 
   async words(
-    params: QueryPageDto & { userId: number }
-  ): Promise<QueryPageResult<Word>> {
-    const { userId, limit, offset } = params
+    params: PagerDto & { userId: number }
+  ): Promise<PaginationResult<Word>> {
+    const { userId, page, size } = params
 
-    const result = await this.drizzleDBHelper.queryPageList({
-      where: this._createUserWhere(userId),
-      limit,
-      offset,
-      from: schema.words
+    const result = await this.drizzleService.queryPagination({
+      from: schema.words,
+      page,
+      size,
+      where: this._createUserWhere(userId)
     })
 
     return result
@@ -91,7 +84,7 @@ export class WordService {
     const now = new Date()
     const beforeAYear = subYears(now, 1)
 
-    const dateCounts = await this.drizzleDB
+    const dateCounts = await this.drizzleService.drizzle
       .select({
         count: sql<number>`COUNT(${schema.words.id})`.mapWith(Number),
         date: sql<string>`DATE(${schema.words.createAt})`
