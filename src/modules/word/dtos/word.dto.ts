@@ -6,18 +6,14 @@ const CreateWordSchema = z.object({
   word: z.string()
 })
 
-export class CreateWordDto extends createZodDto(CreateWordSchema) {}
+const WordDto = createZodDto(CreateWordSchema)
+
+export class CreateWordDto extends WordDto {}
 
 export class QueryWordListDto extends PagerDto {}
 
 // collected
-export class QueryCollectedWordDto extends createZodDto(CreateWordSchema) {
-  word: string
-}
-
-export class QueryCollectedResultDto {
-  isCollected: boolean
-}
+export class QueryCollectedWordDto extends WordDto {}
 
 export interface CalendarDto {
   [key: string]: {

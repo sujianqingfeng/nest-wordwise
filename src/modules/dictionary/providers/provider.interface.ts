@@ -1,3 +1,13 @@
+export interface IDictionaryForm {
+  name: string
+  value: string
+}
+
+export interface IDictionaryTranslation {
+  translation: string
+  position: string
+}
+
 export interface IDictionaryQueryResult {
   word: string
   ukPhonetic: string
@@ -5,15 +15,8 @@ export interface IDictionaryQueryResult {
   ukSpeech: string
   usSpeech: string
 
-  forms: {
-    name: string
-    value: string
-  }[]
-
-  translations: {
-    translate: string
-    position: string
-  }[]
+  forms: IDictionaryForm[]
+  translations: IDictionaryTranslation[]
 }
 
 export interface IDictionaryProvider {

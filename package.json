@@ -20,7 +20,7 @@
     "migrate": "drizzle-kit push:pg",
     "studio": "drizzle-kit studio",
     "dict:write": "node scripts/ecdict/write.mjs",
-    "dev:db": "docker-compose -f docker-compose-dev.yml up"
+    "dev:db": "sudo docker-compose -f docker-compose-dev.yml up"
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
@@ -57,7 +57,7 @@
     "@types/supertest": "^2.0.12",
     "csv-parse": "^5.5.2",
     "dotenv": "^16.3.1",
-    "drizzle-kit": "^0.20.6",
+    "drizzle-kit": "^0.20.7",
     "eslint": "^8.42.0",
     "jest": "^29.5.0",
     "source-map-support": "^0.5.21",

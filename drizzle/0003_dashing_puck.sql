@@ -1,0 +1,1 @@
+ALTER TABLE "profiles" ALTER COLUMN "user_id" SET DATA TYPE integer;

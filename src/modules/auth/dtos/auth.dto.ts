@@ -1,20 +1,22 @@
-import type { User } from '../providers/provider.interface'
+import { createZodDto } from 'nestjs-zod'
+import { z } from 'nestjs-zod/z'
 
-export type AuthProvidersItemResp = {
-  provider: string
-  authUrl: string
-}
+const ProviderSchema = z.object({
+  provider: z.string()
+})
 
-export type AuthReq = {
-  code: string
-  provider: string
-}
+const CodeAuthSchema = z
+  .object({
+    code: z.string()
+  })
+  .merge(ProviderSchema)
 
-export type AuthTokenReq = {
-  token: string
-  provider: string
-}
+export class CodeAuthDto extends createZodDto(CodeAuthSchema) {}
 
-export type TokenUser = {
-  token: string
-} & User
+const TokenAuthSchema = z
+  .object({
+    token: z.string()
+  })
+  .merge(ProviderSchema)
+
+export class TokenAuthDto extends createZodDto(TokenAuthSchema) {}

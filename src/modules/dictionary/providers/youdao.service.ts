@@ -1,6 +1,6 @@
 import type {
   IDictionaryProvider,
-  IDictionaryQueryResult
+  IDictionaryTranslation
 } from './provider.interface'
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
@@ -20,7 +20,7 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
     return speech ? `https://dict.youdao.com/dictvoice?audio=${speech}` : ''
   }
 
-  async query(word: string): Promise<IDictionaryQueryResult> {
+  async query(word: string) {
     const r = createYDSign(''.concat(word).concat(KEY_FROM))
     const time = ''.concat(word).concat(KEY_FROM).length % 10
     const data = {
@@ -62,24 +62,24 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
       }
     } = ec
 
+    const translations: IDictionaryTranslation[] = trs.map((item: any) => ({
+      translation: item.tran,
+      position: item.pos
+    }))
+
+    const forms = wfs.map((item: any) => ({
+      name: item.wf.name,
+      value: item.wf.value
+    }))
+
     return {
       word,
       ukPhonetic,
       ukSpeech: this.getSpeechUrl(ukSpeech),
       usPhonetic,
       usSpeech: this.getSpeechUrl(usSpeech),
-      translations: trs.map((item: any) => {
-        return {
-          translate: item.tran,
-          position: item.pos
-        }
-      }),
-      forms: wfs.map((item: any) => {
-        return {
-          name: item.wf.name,
-          value: item.wf.value
-        }
-      })
+      translations,
+      forms
     }
   }
 }

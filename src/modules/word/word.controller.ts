@@ -2,7 +2,6 @@ import type { Request } from 'express'
 import { Controller, Get, Post, Body, Req, Delete, Query } from '@nestjs/common'
 import {
   CreateWordDto,
-  QueryCollectedResultDto,
   QueryCollectedWordDto,
   QueryWordListDto
 } from './dtos/word.dto'
@@ -16,7 +15,7 @@ export class WordController {
   async isCollected(
     @Req() req: Request,
     @Query() query: QueryCollectedWordDto
-  ): Promise<QueryCollectedResultDto> {
+  ) {
     const { id: userId } = req.user
     const { word } = query
     const isCollected = await this.wordService.word({ word, userId })

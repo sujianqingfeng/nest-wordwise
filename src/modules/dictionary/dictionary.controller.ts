@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { DictQueryDto, DictQueryResultDto } from './dtos/dictionary.dto'
 import { DictionaryService } from './dictionary.service'
+import { DictQueryDto } from './dtos/dictionary.dto'
 
 @Controller('dictionary')
 export class DictionaryController {
@@ -11,9 +11,6 @@ export class DictionaryController {
     const { word } = query
     const dictionary = await this.dictionaryService.query(word)
 
-    const result: DictQueryResultDto = {
-      ...dictionary
-    }
-    return result
+    return dictionary
   }
 }

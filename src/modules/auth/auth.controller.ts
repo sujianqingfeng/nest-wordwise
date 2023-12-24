@@ -1,14 +1,8 @@
-import type {
-  AuthProvidersItemResp,
-  AuthReq,
-  AuthTokenReq
-} from './dtos/auth.dto'
 import type { Response } from 'express'
 import { Body, Controller, Get, Post, Res } from '@nestjs/common'
-import { from } from 'rxjs'
-import { map, toArray } from 'rxjs/operators'
 import { AUTH_PROVIDERS } from 'src/constants'
 import { AuthService } from './auth.service'
+import { CodeAuthDto, TokenAuthDto } from './dtos/auth.dto'
 import { Public } from '@/decorator'
 
 @Public()
@@ -18,18 +12,18 @@ export class AuthController {
 
   @Get('providers')
   providers() {
-    const mapToProviders = (provider): AuthProvidersItemResp => {
+    const mapToProviders = (provider) => {
       return {
         provider: provider,
         authUrl: this.authService.getAuthProvider(provider).getAuthUrl()
       }
     }
-    return from(AUTH_PROVIDERS).pipe(map(mapToProviders), toArray())
+    return AUTH_PROVIDERS.map(mapToProviders)
   }
 
   @Post()
   async auth(
-    @Body() body: AuthReq,
+    @Body() body: CodeAuthDto,
     @Res({ passthrough: true }) response: Response
   ) {
     const { provider, code } = body
@@ -46,7 +40,7 @@ export class AuthController {
   }
 
   @Post('token')
-  async authByToken(@Body() body: AuthTokenReq) {
+  async authByToken(@Body() body: TokenAuthDto) {
     const { token, provider } = body
     const authProvider = this.authService.getAuthProvider(provider)
     const user = await authProvider.getUserByToken(token)

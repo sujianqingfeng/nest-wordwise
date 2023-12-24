@@ -15,6 +15,27 @@
       "when": 1703059259618,
       "tag": "0001_legal_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1703431264467,
+      "tag": "0002_elite_king_cobra",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1703432595976,
+      "tag": "0003_dashing_puck",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1703434200156,
+      "tag": "0004_moaning_smiling_tiger",
+      "breakpoints": true
     }
   ]
 }

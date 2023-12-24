@@ -18,8 +18,11 @@ export const users = pgTable('users', {
 })
 
 export const usersRelations = relations(users, ({ one, many }) => ({
-  profile: one(profiles),
-  usersToWords: many(usersToWords)
+  profile: one(profiles, {
+    fields: [users.id],
+    references: [profiles.userId]
+  }),
+  words: many(usersToWords)
 }))
 
 // profiles
@@ -31,9 +34,9 @@ export const profiles = pgTable('profiles', {
   deepLAuthKey: varchar('deep_l_auth_key', { length: 50 }),
   openAIKey: varchar('open_ai_key', { length: 50 }),
 
-  userId: serial('user_id')
-    .notNull()
-    .references(() => users.id),
+  userId: integer('user_id')
+    .references(() => users.id)
+    .notNull(),
 
   createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
@@ -43,7 +46,7 @@ export const profiles = pgTable('profiles', {
 export const words = pgTable('words', {
   id: serial('id').primaryKey(),
   word: varchar('word', { length: 20 }).unique(),
-  simpleTranslate: varchar('simple_translate', { length: 100 }),
+  simpleTranslation: varchar('simple_translate', { length: 100 }),
 
   userId: serial('user_id').references(() => users.id),
 
@@ -51,14 +54,18 @@ export const words = pgTable('words', {
 })
 
 export const wordsRelations = relations(words, ({ many }) => ({
-  usersToWords: many(usersToWords)
+  users: many(usersToWords)
 }))
 
 export const usersToWords = pgTable(
   'users_to_words',
   {
-    userId: serial('user_id').references(() => users.id),
-    wordId: serial('word_id').references(() => words.id)
+    userId: integer('user_id')
+      .notNull()
+      .references(() => users.id),
+    wordId: integer('word_id')
+      .notNull()
+      .references(() => words.id)
   },
   (t) => ({
     pk: primaryKey({
@@ -120,7 +127,7 @@ export const dictionaryFormsRelations = relations(
 export const dictionaryTranslates = pgTable('dictionary_translates', {
   id: serial('id').primaryKey(),
   word: varchar('word', { length: 20 }),
-  translate: varchar('translate', { length: 100 }),
+  translation: varchar('translation', { length: 100 }),
   position: varchar('position', { length: 10 }),
   dictionaryId: integer('dictionary_id'),
 

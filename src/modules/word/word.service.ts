@@ -58,7 +58,7 @@ export class WordService {
       .insert(schema.words)
       .values({
         ...data,
-        simpleTranslate: firstTranslation.translate
+        simpleTranslation: firstTranslation.translation
       })
       .returning()
 
