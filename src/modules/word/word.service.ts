@@ -68,7 +68,7 @@ export class WordService {
   async words(
     params: PagerDto & { userId: number }
   ): Promise<PaginationResult<Word>> {
-    const { userId, page, size } = params
+    const { userId, page, size = 10 } = params
 
     const result = await this.drizzleService.queryPagination({
       from: schema.words,

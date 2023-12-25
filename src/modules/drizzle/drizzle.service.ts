@@ -10,7 +10,6 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import { Client } from 'pg'
 import schema from './export-all-schema'
 import { type DrizzleDB } from './types'
-import { DATABASE_URL } from '@/constants'
 import { PagerDto } from '@/shared/dtos/pager.dto'
 import { createLogger } from '@/utils/logger'
 
@@ -40,9 +39,9 @@ export class DrizzleService implements OnModuleInit {
 
   constructor() {
     const client = new Client({
-      connectionString: DATABASE_URL
+      connectionString: process.env.DATABASE_URL
     })
-    // await client.connect()
+    client.connect()
     this.drizzle = drizzle(client, {
       schema,
       logger: new DefaultLogger({
