@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
-import { IDictionaryQueryResult } from './providers/provider.interface'
+import {
+  IDictionaryForm,
+  IDictionaryQueryResult
+} from './providers/provider.interface'
 import { stripWord } from './providers/utils'
 import { YouDaoDictionaryService } from './providers/youdao.service'
 
 import { DrizzleService } from '../drizzle/drizzle.service'
 import schema from '../drizzle/export-all-schema'
-import {
-  DictionaryFormInsert,
-  DictionaryInsert,
-  DictionaryTranslateInsert
-} from '../drizzle/types'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('DictionaryService')
@@ -28,84 +26,105 @@ export class DictionaryService {
       await this.drizzleService.drizzle.query.dictionary.findFirst({
         where: eq(schema.dictionary.word, word),
         with: {
-          forms: true,
-          translations: true
+          forms: {
+            columns: {
+              formName: true,
+              word: true
+            }
+          }
         }
       })
 
-    if (localResult) {
-      logger.log(`local query: ${word}`, localResult)
-      return localResult
+    if (
+      localResult &&
+      localResult.ukPhonetic &&
+      localResult.translations.length
+    ) {
+      const newData = {
+        ...localResult,
+        forms: localResult.forms.map((form) => {
+          return {
+            name: form.formName,
+            value: form.word
+          }
+        }) satisfies IDictionaryForm[]
+      }
+      logger.log(`local query: ${word}`)
+      return newData
     }
-
-    const wordForm =
-      await this.drizzleService.drizzle.query.dictionaryForms.findFirst({
-        where: eq(schema.dictionaryForms.word, word)
-      })
-    if (wordForm) {
-      return this.query(wordForm.word)
-    }
+    logger.log(`local query: [${word}] not found`)
 
     // query translates
     const result = await this.youdaoDictionaryService.query(word)
 
-    const { forms, translations, ...rest } = result
-    const { ukPhonetic, ukSpeech } = rest
-    //
-    if (ukPhonetic && ukSpeech) {
-      this.writeDictionary(
-        { word, sw: stripWord(word), ...rest },
-        forms,
-        translations
-      )
-    }
-
+    this.writeDictionary(result)
     return result
   }
 
-  async writeDictionary(
-    dictionaryInsert: DictionaryInsert,
-    dictionaryFormsInsert: DictionaryFormInsert[],
-    dictionaryTranslatesInsert: DictionaryTranslateInsert[]
-  ) {
-    const { word } = dictionaryInsert
-
-    const result = await this.drizzleService.drizzle.query.dictionary.findFirst(
-      {
-        where: eq(schema.dictionary.word, word)
-      }
-    )
-
-    if (result) {
-      logger.log(`writeDictionary: word [${word}] already exists, so skip`)
-      return
-    }
+  async writeDictionary(result: IDictionaryQueryResult) {
+    const { word } = result
 
     try {
-      this.drizzleService.drizzle.transaction(async (trx) => {
+      await this.drizzleService.drizzle.transaction(async (trx) => {
+        const { prototype, forms, ...rest } = result
+
+        // exists prototype
+        let prototypeRecord
+        if (prototype) {
+          prototypeRecord = await trx.query.dictionary.findFirst({
+            where: eq(schema.dictionary.word, prototype)
+          })
+          if (!prototypeRecord) {
+            prototypeRecord = (
+              await trx
+                .insert(schema.dictionary)
+                .values({
+                  word: prototype,
+                  sw: stripWord(prototype)
+                })
+                .returning()
+            )[0]
+          }
+        }
+
         const current = (
           await trx
             .insert(schema.dictionary)
-            .values(dictionaryInsert)
+            .values({
+              word,
+              sw: stripWord(word),
+              ...rest,
+              prototypeId: prototypeRecord ? prototypeRecord.id : null
+            })
+            .onConflictDoUpdate({
+              target: schema.dictionary.word,
+              set: {
+                ...rest
+              }
+            })
             .returning()
         )[0]
 
-        // TODO: extract map to a function
-        await trx.insert(schema.dictionaryForms).values(
-          dictionaryFormsInsert.map((item) => ({
-            ...item,
-            word,
-            dictionaryId: current.id
-          }))
-        )
+        if (!prototype && forms.length) {
+          forms.forEach(async (form) => {
+            const { name, value } = form
 
-        await trx.insert(schema.dictionaryTranslates).values(
-          dictionaryTranslatesInsert.map((item) => ({
-            ...item,
-            word,
-            dictionaryId: current.id
-          }))
-        )
+            await trx
+              .insert(schema.dictionary)
+              .values({
+                word: value,
+                formName: name,
+                sw: stripWord(value),
+                prototypeId: current.id
+              })
+              .onConflictDoUpdate({
+                target: schema.dictionary.word,
+                set: {
+                  formName: name
+                }
+              })
+          })
+        }
       })
     } catch (e) {
       logger.error(`writeDictionary failed: ${word}`, e.message)

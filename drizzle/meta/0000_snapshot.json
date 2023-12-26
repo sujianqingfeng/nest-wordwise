@@ -1,5 +1,5 @@
 {
-  "id": "2cee9c59-03bf-40df-92cd-4b3c5656a014",
+  "id": "b7993ada-0705-46c6-97f9-0f2aca5140b1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -50,6 +50,24 @@
           "primaryKey": false,
           "notNull": false
         },
+        "translations": {
+          "name": "translations",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prototype_id": {
+          "name": "prototype_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "form_name": {
+          "name": "form_name",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "create_at": {
           "name": "create_at",
           "type": "date",
@@ -70,88 +88,6 @@
           ]
         }
       }
-    },
-    "dictionary_forms": {
-      "name": "dictionary_forms",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "word": {
-          "name": "word",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(10)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "value": {
-          "name": "value",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "create_at": {
-          "name": "create_at",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "dictionary_translates": {
-      "name": "dictionary_translates",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "word": {
-          "name": "word",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "translate": {
-          "name": "translate",
-          "type": "varchar(100)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "position": {
-          "name": "position",
-          "type": "varchar(10)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "create_at": {
-          "name": "create_at",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
     },
     "profiles": {
       "name": "profiles",
@@ -189,7 +125,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -275,13 +211,13 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
         "word_id": {
           "name": "word_id",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }

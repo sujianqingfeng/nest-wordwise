@@ -5,7 +5,7 @@ export interface IDictionaryForm {
 
 export interface IDictionaryTranslation {
   translation: string
-  position: string
+  partName: string
 }
 
 export interface IDictionaryQueryResult {
@@ -14,6 +14,7 @@ export interface IDictionaryQueryResult {
   usPhonetic: string
   ukSpeech: string
   usSpeech: string
+  prototype?: string
 
   forms: IDictionaryForm[]
   translations: IDictionaryTranslation[]

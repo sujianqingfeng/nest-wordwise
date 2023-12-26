@@ -58,22 +58,24 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
         ukspeech: ukSpeech = '',
         usspeech: usSpeech = '',
         trs = [],
-        wfs = []
+        wfs = [],
+        prototype = ''
       }
     } = ec
 
     const translations: IDictionaryTranslation[] = trs.map((item: any) => ({
       translation: item.tran,
-      position: item.pos
+      partName: item.pos
     }))
 
-    const forms = wfs.map((item: any) => ({
+    const forms: { name: string; value: string }[] = wfs.map((item: any) => ({
       name: item.wf.name,
       value: item.wf.value
     }))
 
     return {
       word,
+      prototype,
       ukPhonetic,
       ukSpeech: this.getSpeechUrl(ukSpeech),
       usPhonetic,

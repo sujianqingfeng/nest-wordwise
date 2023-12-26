@@ -5,7 +5,8 @@ import {
   varchar,
   date,
   primaryKey,
-  integer
+  integer,
+  json
 } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -86,7 +87,6 @@ export const usersToWordsRelations = relations(usersToWords, ({ one }) => ({
 }))
 
 // dictionary
-
 export const dictionary = pgTable('dictionary', {
   id: serial('id').primaryKey(),
   word: varchar('word', { length: 20 }).unique(),
@@ -96,50 +96,60 @@ export const dictionary = pgTable('dictionary', {
   ukSpeech: varchar('uk_speech', { length: 100 }),
   usSpeech: varchar('us_speech', { length: 100 }),
 
+  translations:
+    json('translations').$type<{ partName: string; translation: string }[]>(),
+
+  prototypeId: integer('prototype_id'),
+  formName: varchar('form_name', { length: 10 }),
+
   createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
 
-export const dictionaryRelations = relations(dictionary, ({ many }) => ({
-  forms: many(dictionaryForms),
-  translations: many(dictionaryTranslates)
+export const dictionaryRelations = relations(dictionary, ({ many, one }) => ({
+  forms: many(dictionary, { relationName: 'prototype' }),
+  prototype: one(dictionary, {
+    fields: [dictionary.prototypeId],
+    references: [dictionary.id],
+    relationName: 'prototype'
+  })
 }))
 
-export const dictionaryForms = pgTable('dictionary_forms', {
-  id: serial('id').primaryKey(),
-  word: varchar('word', { length: 20 }),
-  name: varchar('name', { length: 10 }),
-  value: varchar('value', { length: 20 }),
-  dictionaryId: integer('dictionary_id'),
+// export const dictionaryForms = pgTable('dictionary_forms', {
+//   id: serial('id').primaryKey(),
+//   word: varchar('word', { length: 20 }),
+//   name: varchar('name', { length: 10 }),
+//   value: varchar('value', { length: 20 }),
+//   dictionaryId: integer('dictionary_id'),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
-})
+//   createAt: date('create_at', { mode: 'date' }).defaultNow()
+// })
 
-export const dictionaryFormsRelations = relations(
-  dictionaryForms,
-  ({ one }) => ({
-    dictionary: one(dictionary, {
-      fields: [dictionaryForms.dictionaryId],
-      references: [dictionary.id]
-    })
-  })
-)
+// export const dictionaryFormsRelations = relations(
+//   dictionaryForms,
+//   ({ one }) => ({
+//     dictionary: one(dictionary, {
+//       fields: [dictionaryForms.dictionaryId],
+//       references: [dictionary.id]
+//     })
+//   })
+// )
 
-export const dictionaryTranslates = pgTable('dictionary_translates', {
-  id: serial('id').primaryKey(),
-  word: varchar('word', { length: 20 }),
-  translation: varchar('translation', { length: 100 }),
-  position: varchar('position', { length: 10 }),
-  dictionaryId: integer('dictionary_id'),
+// export const dictionaryTranslates = pgTable('dictionary_translates', {
+//   id: serial('id').primaryKey(),
+//   word: varchar('word', { length: 20 }),
+//   translation: varchar('translation', { length: 100 }),
+//   position: varchar('position', { length: 10 }),
+//   dictionaryId: integer('dictionary_id'),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
-})
+//   createAt: date('create_at', { mode: 'date' }).defaultNow()
+// })
 
-export const dictionaryTranslatesRelations = relations(
-  dictionaryTranslates,
-  ({ one }) => ({
-    dictionary: one(dictionary, {
-      fields: [dictionaryTranslates.dictionaryId],
-      references: [dictionary.id]
-    })
-  })
-)
+// export const dictionaryTranslatesRelations = relations(
+//   dictionaryTranslates,
+//   ({ one }) => ({
+//     dictionary: one(dictionary, {
+//       fields: [dictionaryTranslates.dictionaryId],
+//       references: [dictionary.id]
+//     })
+//   })
+// )

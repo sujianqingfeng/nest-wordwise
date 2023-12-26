@@ -50,7 +50,7 @@ export class WordService {
     const { word } = data
 
     const firstTranslation =
-      await this.drizzleService.drizzle.query.dictionaryTranslates.findFirst({
+      await this.drizzleService.drizzle.query.dictionary.findFirst({
         where: this._createWordWhere(word)
       })
 
@@ -58,7 +58,7 @@ export class WordService {
       .insert(schema.words)
       .values({
         ...data,
-        simpleTranslation: firstTranslation.translation
+        simpleTranslation: firstTranslation.translations[0].translation
       })
       .returning()
 
