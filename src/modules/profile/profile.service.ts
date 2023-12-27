@@ -30,4 +30,6 @@ export class ProfileService {
       .where(eq(schema.profiles.userId, useId))
       .returning()
   }
+
+  updateTranslation(useId: number) {}
 }

@@ -6,7 +6,8 @@ import {
   date,
   primaryKey,
   integer,
-  json
+  json,
+  pgEnum
 } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -28,12 +29,20 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 
 // profiles
 
+export const defaultTranslationEnum = pgEnum('default_translation', [
+  'deepL',
+  'volcano',
+  'openAI'
+])
+
 export const profiles = pgTable('profiles', {
   id: serial('id').primaryKey(),
   volcanoAccessKeyId: varchar('volcano_access_key_id', { length: 50 }),
   volcanoSecretKey: varchar('volcano_secret_key', { length: 50 }),
   deepLAuthKey: varchar('deep_l_auth_key', { length: 50 }),
   openAIKey: varchar('open_ai_key', { length: 50 }),
+
+  defaultTranslation: defaultTranslationEnum('deepL'),
 
   userId: integer('user_id')
     .references(() => users.id)
@@ -113,43 +122,3 @@ export const dictionaryRelations = relations(dictionary, ({ many, one }) => ({
     relationName: 'prototype'
   })
 }))
-
-// export const dictionaryForms = pgTable('dictionary_forms', {
-//   id: serial('id').primaryKey(),
-//   word: varchar('word', { length: 20 }),
-//   name: varchar('name', { length: 10 }),
-//   value: varchar('value', { length: 20 }),
-//   dictionaryId: integer('dictionary_id'),
-
-//   createAt: date('create_at', { mode: 'date' }).defaultNow()
-// })
-
-// export const dictionaryFormsRelations = relations(
-//   dictionaryForms,
-//   ({ one }) => ({
-//     dictionary: one(dictionary, {
-//       fields: [dictionaryForms.dictionaryId],
-//       references: [dictionary.id]
-//     })
-//   })
-// )
-
-// export const dictionaryTranslates = pgTable('dictionary_translates', {
-//   id: serial('id').primaryKey(),
-//   word: varchar('word', { length: 20 }),
-//   translation: varchar('translation', { length: 100 }),
-//   position: varchar('position', { length: 10 }),
-//   dictionaryId: integer('dictionary_id'),
-
-//   createAt: date('create_at', { mode: 'date' }).defaultNow()
-// })
-
-// export const dictionaryTranslatesRelations = relations(
-//   dictionaryTranslates,
-//   ({ one }) => ({
-//     dictionary: one(dictionary, {
-//       fields: [dictionaryTranslates.dictionaryId],
-//       references: [dictionary.id]
-//     })
-//   })
-// )

@@ -8,7 +8,7 @@ const FREE_API_DOMAIN = 'https://api-free.deepl.com'
 
 @Injectable()
 export class DeepLService implements TranslatorProvider {
-  constructor(private httpService: HttpService) {}
+  constructor(public httpService: HttpService) {}
 
   async translate(text: string, profile: Profile) {
     const authKey = profile.deepLAuthKey

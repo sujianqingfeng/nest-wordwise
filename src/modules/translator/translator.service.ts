@@ -1,12 +1,21 @@
 import type { Profile } from '@/modules/drizzle/types'
+import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { DeepLService } from './providers/deep-l.service'
 
 @Injectable()
 export class TranslatorService {
-  constructor(private deepLService: DeepLService) {}
+  constructor(private httpService: HttpService) {}
+
+  getTranslator(translator: Profile['defaultTranslation']) {
+    const translators = {
+      deepL: () => new DeepLService(this.httpService)
+    }
+    return translators[translator]()
+  }
 
   translate(text: string, profile: Profile) {
-    return this.deepLService.translate(text, profile)
+    const translator = this.getTranslator(profile.defaultTranslation)
+    return translator.translate(text, profile)
   }
 }

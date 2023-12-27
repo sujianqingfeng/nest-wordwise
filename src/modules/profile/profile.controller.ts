@@ -24,4 +24,9 @@ export class ProfileController {
     const profile = await this.profileService.updateProfile(id, body)
     return profile
   }
+
+  async updateTranslation(@Req() req: Request) {
+    const { id } = req.user
+    this.profileService.updateTranslation(id)
+  }
 }
