@@ -3,18 +3,10 @@ import { Injectable } from '@nestjs/common'
 import { eq, or } from 'drizzle-orm'
 import { DrizzleService } from '../drizzle/drizzle.service'
 import { users } from '../drizzle/schema'
-import { ProfileService } from '../profile/profile.service'
 
 @Injectable()
 export class UserService {
-  constructor(
-    private profileService: ProfileService,
-    private drizzleService: DrizzleService
-  ) {}
-
-  profile(useId: number) {
-    return this.profileService.profile(useId)
-  }
+  constructor(private drizzleService: DrizzleService) {}
 
   _createUserWhere(where: { id?: number; email?: string }) {
     const { id, email } = where

@@ -1,12 +1,18 @@
-import type { ProfileInsert } from '../drizzle/types'
-import { Injectable } from '@nestjs/common'
+import type { Profile, ProfileInsert } from '../drizzle/types'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
+import { UpdateTranslationDto } from './dtos/profile.dto'
 import { DrizzleService } from '../drizzle/drizzle.service'
 import schema from '../drizzle/export-all-schema'
+import { TranslatorService } from '../translator/translator.service'
+import { BusinessException } from '@/exceptions/business.exception'
 
 @Injectable()
 export class ProfileService {
-  constructor(private drizzleService: DrizzleService) {}
+  constructor(
+    private translatorService: TranslatorService,
+    private drizzleService: DrizzleService
+  ) {}
 
   profile(useId: number) {
     return this.drizzleService.drizzle.query.profiles.findFirst({
@@ -31,5 +37,22 @@ export class ProfileService {
       .returning()
   }
 
-  updateTranslation(useId: number) {}
+  async updateTranslation(useId: number, profile: UpdateTranslationDto) {
+    try {
+      const { result } = await this.translatorService.translate(
+        'hello',
+        profile as Profile
+      )
+      if (!result) {
+        throw new Error('profile may not be set correctly')
+      }
+      return this.drizzleService.drizzle
+        .update(schema.profiles)
+        .set(profile)
+        .where(eq(schema.profiles.userId, useId))
+        .returning()
+    } catch (error) {
+      throw new BusinessException(error.message)
+    }
+  }
 }

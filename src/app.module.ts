@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_PIPE, APP_GUARD } from '@nestjs/core'
+import { APP_PIPE, APP_GUARD, APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core'
 import { JwtModule } from '@nestjs/jwt'
 import { ZodValidationPipe } from 'nestjs-zod'
 import { AppController } from './app.controller'
 
 import { JWT_SECRET } from './constants'
+import { BusinessExceptionFilter } from './filters/business.filter'
 import { AuthGuard } from './guards/auth'
+import { TransformInterceptor } from './interceptors/transform.interceptor'
 import { AuthModule } from './modules/auth/auth.module'
 import { DrizzleModule } from './modules/drizzle/drizzle.module'
 import { ProfileModule } from './modules/profile/profile.module'
@@ -40,6 +42,14 @@ import { WordModule } from './modules/word/word.module'
     {
       provide: APP_PIPE,
       useClass: ZodValidationPipe
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor
+    },
+    {
+      provide: APP_FILTER,
+      useClass: BusinessExceptionFilter
     }
   ]
 })

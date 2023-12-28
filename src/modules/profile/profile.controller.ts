@@ -1,5 +1,6 @@
 import { Controller, Get, Req, Put, Body } from '@nestjs/common'
 import { type Request } from 'express'
+import { UpdateTranslationDto } from './dtos/profile.dto'
 import { ProfileService } from './profile.service'
 import { ProfileInsert } from '../drizzle/types'
 
@@ -25,8 +26,12 @@ export class ProfileController {
     return profile
   }
 
-  async updateTranslation(@Req() req: Request) {
+  @Put('translation')
+  async updateTranslation(
+    @Req() req: Request,
+    @Body() body: UpdateTranslationDto
+  ) {
     const { id } = req.user
-    this.profileService.updateTranslation(id)
+    return this.profileService.updateTranslation(id, body)
   }
 }

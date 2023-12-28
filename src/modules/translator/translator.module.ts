@@ -1,14 +1,12 @@
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
-import { DeepLService } from './providers/deep-l.service'
-import { VolcanoEngineService } from './providers/volcano-engine.service'
 import { TranslatorController } from './translator.controller'
 import { TranslatorService } from './translator.service'
-import { UserModule } from '../user/user.module'
+import { ProfileService } from '../profile/profile.service'
 
 @Module({
-  imports: [HttpModule, UserModule],
+  imports: [HttpModule],
   controllers: [TranslatorController],
-  providers: [TranslatorService, VolcanoEngineService, DeepLService]
+  providers: [TranslatorService, ProfileService]
 })
 export class TranslatorModule {}

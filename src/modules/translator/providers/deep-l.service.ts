@@ -16,25 +16,29 @@ export class DeepLService implements TranslatorProvider {
       throw new Error('deepL-auth-key is not set')
     }
 
-    const res = await this.httpService.axiosRef.post(
-      `${FREE_API_DOMAIN}/v2/translate`,
-      {
-        text: [text],
-        target_lang: 'ZH'
-      },
-      {
-        headers: {
-          Authorization: `DeepL-Auth-Key ${authKey}`,
-          'Content-Type': 'application/json'
+    try {
+      const res = await this.httpService.axiosRef.post(
+        `${FREE_API_DOMAIN}/v2/translate`,
+        {
+          text: [text],
+          target_lang: 'ZH'
+        },
+        {
+          headers: {
+            Authorization: `DeepL-Auth-Key ${authKey}`,
+            'Content-Type': 'application/json'
+          }
         }
-      }
-    )
-    const { translations } = res.data
+      )
+      const { translations } = res.data
 
-    let result = ''
-    if (translations.length) {
-      result = translations[0].text
+      let result = ''
+      if (translations.length) {
+        result = translations[0].text
+      }
+      return createTranslateResult({ result })
+    } catch (error) {
+      throw new Error('deepL-auth-key may not be set correctly')
     }
-    return createTranslateResult({ result })
   }
 }
