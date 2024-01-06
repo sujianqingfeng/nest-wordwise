@@ -1,5 +1,5 @@
 {
-  "id": "b7993ada-0705-46c6-97f9-0f2aca5140b1",
+  "id": "56dcfc63-ab71-48a8-bf3b-ba1f08b760c0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -10,9 +10,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "word": {
           "name": "word",
@@ -58,7 +59,7 @@
         },
         "prototype_id": {
           "name": "prototype_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -95,9 +96,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "volcano_access_key_id": {
           "name": "volcano_access_key_id",
@@ -123,9 +125,15 @@
           "primaryKey": false,
           "notNull": false
         },
+        "deepL": {
+          "name": "deepL",
+          "type": "default_translation",
+          "primaryKey": false,
+          "notNull": false
+        },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -143,6 +151,7 @@
           "name": "profiles_user_id_users_id_fk",
           "tableFrom": "profiles",
           "tableTo": "users",
+          "schemaTo": "public",
           "columnsFrom": [
             "user_id"
           ],
@@ -162,9 +171,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "email": {
           "name": "email",
@@ -211,13 +221,13 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
         "word_id": {
           "name": "word_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -228,6 +238,7 @@
           "name": "users_to_words_user_id_users_id_fk",
           "tableFrom": "users_to_words",
           "tableTo": "users",
+          "schemaTo": "public",
           "columnsFrom": [
             "user_id"
           ],
@@ -241,6 +252,7 @@
           "name": "users_to_words_word_id_words_id_fk",
           "tableFrom": "users_to_words",
           "tableTo": "words",
+          "schemaTo": "public",
           "columnsFrom": [
             "word_id"
           ],
@@ -268,9 +280,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "word": {
           "name": "word",
@@ -286,9 +299,9 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "create_at": {
           "name": "create_at",
@@ -304,6 +317,7 @@
           "name": "words_user_id_users_id_fk",
           "tableFrom": "words",
           "tableTo": "users",
+          "schemaTo": "public",
           "columnsFrom": [
             "user_id"
           ],
@@ -326,11 +340,20 @@
       }
     }
   },
-  "enums": {},
+  "enums": {
+    "default_translation": {
+      "name": "default_translation",
+      "values": {
+        "deepL": "deepL",
+        "volcano": "volcano",
+        "openAI": "openAI"
+      }
+    }
+  },
   "schemas": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
+    "tables": {}
   }
 }

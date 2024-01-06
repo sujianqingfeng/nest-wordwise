@@ -1,17 +1,19 @@
 import { relations } from 'drizzle-orm'
 import {
   pgTable,
-  serial,
   varchar,
   date,
   primaryKey,
   integer,
   json,
-  pgEnum
+  pgEnum,
+  uuid
 } from 'drizzle-orm/pg-core'
 
+const defaultId = uuid('id').defaultRandom().notNull().primaryKey()
+
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
+  id: defaultId,
   email: varchar('email', { length: 50 }).unique(),
   name: varchar('name', { length: 12 }),
   avatar: varchar('avatar', { length: 255 }),
@@ -36,7 +38,7 @@ export const defaultTranslationEnum = pgEnum('default_translation', [
 ])
 
 export const profiles = pgTable('profiles', {
-  id: serial('id').primaryKey(),
+  id: defaultId,
   volcanoAccessKeyId: varchar('volcano_access_key_id', { length: 50 }),
   volcanoSecretKey: varchar('volcano_secret_key', { length: 50 }),
   deepLAuthKey: varchar('deep_l_auth_key', { length: 50 }),
@@ -44,7 +46,7 @@ export const profiles = pgTable('profiles', {
 
   defaultTranslation: defaultTranslationEnum('deepL'),
 
-  userId: integer('user_id')
+  userId: uuid('user_id')
     .references(() => users.id)
     .notNull(),
 
@@ -54,11 +56,11 @@ export const profiles = pgTable('profiles', {
 // words
 
 export const words = pgTable('words', {
-  id: serial('id').primaryKey(),
+  id: defaultId,
   word: varchar('word', { length: 20 }).unique(),
   simpleTranslation: varchar('simple_translate', { length: 100 }),
 
-  userId: serial('user_id').references(() => users.id),
+  userId: uuid('user_id').references(() => users.id),
 
   createAt: date('create_at', { mode: 'date' }).defaultNow()
 })
@@ -70,10 +72,10 @@ export const wordsRelations = relations(words, ({ many }) => ({
 export const usersToWords = pgTable(
   'users_to_words',
   {
-    userId: integer('user_id')
+    userId: uuid('user_id')
       .notNull()
       .references(() => users.id),
-    wordId: integer('word_id')
+    wordId: uuid('word_id')
       .notNull()
       .references(() => words.id)
   },
@@ -97,7 +99,7 @@ export const usersToWordsRelations = relations(usersToWords, ({ one }) => ({
 
 // dictionary
 export const dictionary = pgTable('dictionary', {
-  id: serial('id').primaryKey(),
+  id: defaultId,
   word: varchar('word', { length: 20 }).unique(),
   sw: varchar('sw', { length: 20 }),
   ukPhonetic: varchar('uk_phonetic', { length: 20 }),
@@ -108,7 +110,7 @@ export const dictionary = pgTable('dictionary', {
   translations:
     json('translations').$type<{ partName: string; translation: string }[]>(),
 
-  prototypeId: integer('prototype_id'),
+  prototypeId: uuid('prototype_id'),
   formName: varchar('form_name', { length: 10 }),
 
   createAt: date('create_at', { mode: 'date' }).defaultNow()

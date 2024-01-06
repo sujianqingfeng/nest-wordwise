@@ -8,12 +8,12 @@ import { users } from '../drizzle/schema'
 export class UserService {
   constructor(private drizzleService: DrizzleService) {}
 
-  _createUserWhere(where: { id?: number; email?: string }) {
+  _createUserWhere(where: { id?: string; email?: string }) {
     const { id, email } = where
     return or(eq(users.id, id), eq(users.email, email))
   }
 
-  user(where: { id?: number; email?: string }) {
+  user(where: { id?: string; email?: string }) {
     return this.drizzleService.drizzle.query.users.findFirst({
       where: this._createUserWhere(where)
     })
@@ -26,7 +26,7 @@ export class UserService {
       .returning()
   }
 
-  updateUser(user: UserInsert, where: { id?: number; email?: string }) {
+  updateUser(user: UserInsert, where: { id?: string; email?: string }) {
     return this.drizzleService.drizzle
       .update(users)
       .set(user)

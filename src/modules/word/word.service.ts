@@ -8,7 +8,7 @@ import schema from '../drizzle/export-all-schema'
 import { PagerDto } from '@/shared/dtos/pager.dto'
 import { PaginationResult } from '@/shared/interfaces/paginator.interface'
 
-type PersonWordWhere = { word: string; userId: number }
+type PersonWordWhere = { word: string; userId: string }
 @Injectable()
 export class WordService {
   constructor(private drizzleService: DrizzleService) {}
@@ -20,7 +20,7 @@ export class WordService {
     )
   }
 
-  _createUserWhere(userId: number) {
+  _createUserWhere(userId: string) {
     return eq(schema.words.userId, userId)
   }
 
@@ -28,7 +28,7 @@ export class WordService {
     return eq(schema.words.word, word)
   }
 
-  allWords(where: { userId: number }) {
+  allWords(where: { userId: string }) {
     return this.drizzleService.drizzle.query.words.findMany({
       where: this._createUserWhere(where.userId)
     })
@@ -66,7 +66,7 @@ export class WordService {
   }
 
   async words(
-    params: PagerDto & { userId: number }
+    params: PagerDto & { userId: string }
   ): Promise<PaginationResult<Word>> {
     const { userId, page, size = 10 } = params
 
@@ -80,7 +80,7 @@ export class WordService {
     return result
   }
 
-  async groupByCreatedAt(userId: number) {
+  async groupByCreatedAt(userId: string) {
     const now = new Date()
     const beforeAYear = subYears(now, 1)
 

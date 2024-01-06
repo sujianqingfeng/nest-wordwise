@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1703578244854,
-      "tag": "0000_famous_nick_fury",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1703732603358,
-      "tag": "0001_high_archangel",
+      "when": 1704558134423,
+      "tag": "0000_furry_smiling_tiger",
       "breakpoints": true
     }
   ]

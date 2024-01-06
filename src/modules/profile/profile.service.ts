@@ -1,5 +1,5 @@
 import type { Profile, ProfileInsert } from '../drizzle/types'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
 import { UpdateTranslationDto } from './dtos/profile.dto'
 import { DrizzleService } from '../drizzle/drizzle.service'
@@ -14,7 +14,7 @@ export class ProfileService {
     private drizzleService: DrizzleService
   ) {}
 
-  profile(useId: number) {
+  profile(useId: string) {
     return this.drizzleService.drizzle.query.profiles.findFirst({
       where: eq(schema.profiles.userId, useId)
     })
@@ -27,7 +27,7 @@ export class ProfileService {
       .returning()
   }
 
-  updateProfile(useId: number, profile: ProfileInsert) {
+  updateProfile(useId: string, profile: ProfileInsert) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, userId, createAt, ...rest } = profile
     return this.drizzleService.drizzle
@@ -37,7 +37,7 @@ export class ProfileService {
       .returning()
   }
 
-  async updateTranslation(useId: number, profile: UpdateTranslationDto) {
+  async updateTranslation(useId: string, profile: UpdateTranslationDto) {
     try {
       const { result } = await this.translatorService.translate(
         'hello',
