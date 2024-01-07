@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_PIPE, APP_GUARD, APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core'
 import { JwtModule } from '@nestjs/jwt'
 import { ZodValidationPipe } from 'nestjs-zod'
 import { AppController } from './app.controller'
 
-import { JWT_SECRET } from './constants'
 import { BusinessExceptionFilter } from './filters/business.filter'
 import { AuthGuard } from './guards/auth'
 import { TransformInterceptor } from './interceptors/transform.interceptor'
@@ -21,9 +20,14 @@ import { WordModule } from './modules/word/word.module'
     ConfigModule.forRoot({
       isGlobal: true
     }),
-    JwtModule.register({
-      secret: JWT_SECRET,
-      signOptions: { expiresIn: '30d' },
+    JwtModule.registerAsync({
+      useFactory: async () => {
+        const secret = process.env.JWT_SECRET
+        return {
+          secret,
+          signOptions: { expiresIn: '30d' }
+        }
+      },
       global: true
     }),
     DrizzleModule.forRoot(),
