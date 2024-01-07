@@ -1,8 +1,4 @@
 {
-  "cleanUrls": true,
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "dist",
   "version": 2,
   "builds": [
     {
