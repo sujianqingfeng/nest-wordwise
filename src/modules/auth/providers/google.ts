@@ -3,10 +3,16 @@ import { HttpService } from '@nestjs/axios'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { createLogger } from '@/utils/logger'
 
-const proxy = {
-  protocol: 'http',
-  host: '127.0.0.1',
-  port: 7890
+function getProxy() {
+  const isDev = process.env.NODE_ENV === 'development'
+  console.log('🚀 ~ file: google.ts:7 ~ isDev:', isDev)
+  return isDev
+    ? {
+        protocol: 'http',
+        host: '127.0.0.1',
+        port: 7890
+      }
+    : null
 }
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
@@ -41,7 +47,7 @@ export class GoogleAuthService implements AuthProvider {
   async getUserByToken(token: string) {
     const { data } = await this.httpService.axiosRef.get(GOOGLE_USER_INFO_URL, {
       params: { access_token: token },
-      proxy
+      proxy: getProxy()
     })
     const { name, email, picture: avatar } = data
     return { name, email, avatar }
@@ -62,7 +68,7 @@ export class GoogleAuthService implements AuthProvider {
           redirect_uri: redirectUri,
           grant_type: 'authorization_code'
         },
-        { proxy }
+        { proxy: getProxy() }
       )
 
       const { access_token } = data
