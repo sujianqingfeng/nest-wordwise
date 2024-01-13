@@ -401,3 +401,4 @@ dist
 .serverless/**/*.zip
 ecdict.csv
 .vercel
+drizzle.prod.config.ts

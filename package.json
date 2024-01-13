@@ -18,11 +18,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate": "drizzle-kit generate:pg",
     "migrate": "drizzle-kit push:pg",
+    "migrate:prod": "drizzle-kit push:pg --config drizzle.prod.config.ts",
     "studio": "drizzle-kit studio",
     "dict:write": "node scripts/ecdict/write.mjs",
     "dev:db": "sudo docker-compose up",
-    "deploy": "vercel --prod",
-    "preview": "node ./dist/src/main.js"
+    "deploy": "pnpm build && vercel --prod"
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
