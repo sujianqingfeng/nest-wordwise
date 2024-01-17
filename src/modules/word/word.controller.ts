@@ -1,11 +1,23 @@
 import type { Request } from 'express'
-import { Controller, Get, Post, Body, Req, Delete, Query } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Req,
+  Delete,
+  Query,
+  UseInterceptors,
+  UploadedFile
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 import {
   CreateWordDto,
   QueryCollectedWordDto,
   QueryWordListDto
 } from './dtos/word.dto'
 import { WordService } from './word.service'
+import { CurrentUser } from '@/decorator/user.decorator'
 
 @Controller('word')
 export class WordController {
@@ -39,6 +51,16 @@ export class WordController {
   getCollectionCalendar(@Req() req: Request) {
     const { id: userId } = req.user
     return this.wordService.groupByCreatedAt(userId)
+  }
+
+  @Post('/import')
+  @UseInterceptors(FileInterceptor('file'))
+  importWords(
+    @CurrentUser('id') userId: string,
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    const text = file.buffer.toString()
+    return this.wordService.importWords(userId, text)
   }
 
   @Post()

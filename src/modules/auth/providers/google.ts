@@ -5,7 +5,6 @@ import { createLogger } from '@/utils/logger'
 
 function getProxy() {
   const isDev = process.env.NODE_ENV === 'development'
-  console.log('🚀 ~ file: google.ts:7 ~ isDev:', isDev)
   return isDev
     ? {
         protocol: 'http',

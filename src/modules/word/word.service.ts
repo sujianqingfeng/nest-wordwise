@@ -46,6 +46,11 @@ export class WordService {
       .where(this._createUserWordWhere(where))
   }
 
+  importWords(userId: string, text: string) {
+    const words = text.split('\n').map((word) => ({ word, userId }))
+    return this.drizzleService.drizzle.insert(schema.words).values(words)
+  }
+
   async createWord(data: WordInsert): Promise<Word> {
     const { word } = data
 
