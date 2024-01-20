@@ -26,11 +26,11 @@ export class AuthController {
     @Body() body: CodeAuthDto,
     @Res({ passthrough: true }) response: Response
   ) {
-    const { provider, code } = body
+    const { provider, code, redirectUrl } = body
 
     const authProvider = this.authService.getAuthProvider(provider)
 
-    const user = await authProvider.getUserByCode(code)
+    const user = await authProvider.getUserByCode(code, redirectUrl)
 
     const info = await this.authService.getTokenUser(user)
     const cookieToken = `Bearer ${info.token}`

@@ -52,10 +52,10 @@ export class GoogleAuthService implements AuthProvider {
     return { name, email, avatar }
   }
 
-  async getUserByCode(code: string) {
+  async getUserByCode(code: string, redirectUri?: string) {
     const clientId = process.env.GOOGLE_CLIENT_ID
-    const redirectUri = process.env.GOOGLE_REDIRECT_URI
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+    redirectUri = redirectUri || process.env.GOOGLE_REDIRECT_URI
 
     try {
       const { data } = await this.httpService.axiosRef.post(

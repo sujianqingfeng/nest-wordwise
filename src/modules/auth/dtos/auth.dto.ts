@@ -7,7 +7,8 @@ const ProviderSchema = z.object({
 
 const CodeAuthSchema = z
   .object({
-    code: z.string()
+    code: z.string(),
+    redirectUrl: z.string().optional()
   })
   .merge(ProviderSchema)
 
