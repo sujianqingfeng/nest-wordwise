@@ -17,6 +17,7 @@ export const users = pgTable('users', {
   email: varchar('email', { length: 50 }).unique(),
   name: varchar('name', { length: 12 }),
   avatar: varchar('avatar', { length: 255 }),
+  password: varchar('password', { length: 50 }),
 
   createAt: date('create_at', { mode: 'date' }).defaultNow()
 })

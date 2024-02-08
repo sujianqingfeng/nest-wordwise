@@ -1,8 +1,8 @@
 import type { Response } from 'express'
-import { Body, Controller, Get, Post, Res } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common'
 import { AUTH_PROVIDERS } from 'src/constants'
 import { AuthService } from './auth.service'
-import { CodeAuthDto, TokenAuthDto } from './dtos/auth.dto'
+import { CodeAuthDto, TokenAuthDto,GetEmailCodeDto, SignInDto } from './dtos/auth.dto'
 import { Public } from '@/decorator'
 
 @Public()
@@ -45,5 +45,16 @@ export class AuthController {
     const authProvider = this.authService.getAuthProvider(provider)
     const user = await authProvider.getUserByToken(token)
     return this.authService.getTokenUser(user)
+  }
+
+  @Get('email-code')
+  async getCode(@Param() params: GetEmailCodeDto){
+    const { email } = params
+  }
+
+  @Post('sign-in')
+  async signIn(@Body() body: SignInDto){
+    const { email, password } = body
+    return this.authService.signIn(email,password)
   }
 }

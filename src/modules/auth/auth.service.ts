@@ -4,6 +4,8 @@ import { JwtService } from '@nestjs/jwt'
 import { GoogleAuthService } from './providers/google'
 import { User } from './providers/provider.interface'
 import { UserService } from '../user/user.service'
+import {MD5} from 'crypto-js'
+import { BusinessException } from '@/exceptions/business.exception'
 
 @Injectable()
 export class AuthService {
@@ -26,5 +28,22 @@ export class AuthService {
 
     const token = this.jwtService.sign({ email, name, id })
     return { token, id, ...user }
+  }
+
+  async signIn(email: string, password: string) {
+    const user = await this.userService.user({email})
+
+    if (!user) {
+      throw new BusinessException('User not found')
+    }
+
+    if(!user.password){
+      throw new BusinessException('Password not set')
+    }
+
+    if (user.password !== MD5(password).toString()) {
+      throw new BusinessException('Password incorrect')
+    }
+    return this.getTokenUser(user)
   }
 }
