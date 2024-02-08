@@ -1,10 +1,10 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { MD5 } from 'crypto-js'
 import { GoogleAuthService } from './providers/google'
 import { User } from './providers/provider.interface'
 import { UserService } from '../user/user.service'
-import {MD5} from 'crypto-js'
 import { BusinessException } from '@/exceptions/business.exception'
 
 @Injectable()
@@ -23,21 +23,21 @@ export class AuthService {
   }
 
   async getTokenUser(user: User) {
-    const { email, name } = user
+    const { email, name, avatar } = user
     const { id } = (await this.userService.upsert(user))[0]
 
     const token = this.jwtService.sign({ email, name, id })
-    return { token, id, ...user }
+    return { token, id, email, name, avatar }
   }
 
   async signIn(email: string, password: string) {
-    const user = await this.userService.user({email})
+    const user = await this.userService.user({ email })
 
     if (!user) {
       throw new BusinessException('User not found')
     }
 
-    if(!user.password){
+    if (!user.password) {
       throw new BusinessException('Password not set')
     }
 

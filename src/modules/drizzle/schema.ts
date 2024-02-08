@@ -4,7 +4,6 @@ import {
   varchar,
   date,
   primaryKey,
-  integer,
   json,
   pgEnum,
   uuid

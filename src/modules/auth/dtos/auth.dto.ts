@@ -22,15 +22,13 @@ const TokenAuthSchema = z
 
 export class TokenAuthDto extends createZodDto(TokenAuthSchema) {}
 
-
 const EmailCodeSchema = z.object({
   email: z.string()
 })
-export class GetEmailCodeDto extends createZodDto(EmailCodeSchema){}
-
+export class GetEmailCodeDto extends createZodDto(EmailCodeSchema) {}
 
 const SignInSchema = z.object({
   email: z.string(),
   password: z.string()
 })
-export class SignInDto extends createZodDto(SignInSchema){}
+export class SignInDto extends createZodDto(SignInSchema) {}
