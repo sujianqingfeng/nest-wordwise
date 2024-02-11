@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module'
 import { DrizzleModule } from './modules/drizzle/drizzle.module'
 import { ProfileModule } from './modules/profile/profile.module'
 import { ProxyModule } from './modules/proxy/proxy.module'
+import { ReadLaterModule } from './modules/read-later/read-later.module'
 import { TranslatorModule } from './modules/translator/translator.module'
 import { UserModule } from './modules/user/user.module'
 import { WordModule } from './modules/word/word.module'
@@ -37,7 +38,8 @@ import { WordModule } from './modules/word/word.module'
     WordModule,
     ProfileModule,
     TranslatorModule,
-    ProxyModule
+    ProxyModule,
+    ReadLaterModule
   ],
   controllers: [AppController],
   providers: [

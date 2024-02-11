@@ -47,6 +47,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.29.3
     version: 0.29.3(@types/pg@8.10.9)(pg@8.11.3)(react@18.2.0)
+  drizzle-zod:
+    specifier: ^0.5.1
+    version: 0.5.1(drizzle-orm@0.29.3)(zod@3.22.4)
   http-proxy-middleware:
     specifier: ^2.0.6
     version: 2.0.6(@types/express@4.17.21)
@@ -4201,6 +4204,16 @@ packages:
       '@types/pg': 8.10.9
       pg: 8.11.3
       react: 18.2.0
+    dev: false
+
+  /drizzle-zod@0.5.1(drizzle-orm@0.29.3)(zod@3.22.4):
+    resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
+    peerDependencies:
+      drizzle-orm: '>=0.23.13'
+      zod: '*'
+    dependencies:
+      drizzle-orm: 0.29.3(@types/pg@8.10.9)(pg@8.11.3)(react@18.2.0)
+      zod: 3.22.4
     dev: false
 
   /eastasianwidth@0.2.0:

@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm'
 import {
   pgTable,
   varchar,
+  text,
   date,
   primaryKey,
   json,
@@ -26,7 +27,8 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     fields: [users.id],
     references: [profiles.userId]
   }),
-  words: many(usersToWords)
+  words: many(usersToWords),
+  readLaterList: many(readLater)
 }))
 
 // profiles
@@ -122,5 +124,27 @@ export const dictionaryRelations = relations(dictionary, ({ many, one }) => ({
     fields: [dictionary.prototypeId],
     references: [dictionary.id],
     relationName: 'prototype'
+  })
+}))
+
+// later
+export const readLater = pgTable('read_later', {
+  id: defaultId,
+  source: varchar('url', { length: 100 }),
+  title: varchar('title', { length: 50 }),
+  desc: varchar('desc', { length: 100 }),
+  author: varchar('author', { length: 20 }),
+  publishedTime: date('published_time', { mode: 'date' }),
+  content: text('content'),
+
+  userId: uuid('user_id').references(() => users.id),
+
+  createAt: date('create_at', { mode: 'date' }).defaultNow()
+})
+
+export const readLaterRelations = relations(readLater, ({ one }) => ({
+  user: one(users, {
+    fields: [readLater.userId],
+    references: [users.id]
   })
 }))
