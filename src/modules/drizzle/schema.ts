@@ -3,7 +3,7 @@ import {
   pgTable,
   varchar,
   text,
-  date,
+  timestamp,
   primaryKey,
   json,
   pgEnum,
@@ -11,6 +11,7 @@ import {
 } from 'drizzle-orm/pg-core'
 
 const defaultId = uuid('id').defaultRandom().notNull().primaryKey()
+const createAt = timestamp('create_at', { mode: 'date' }).notNull().defaultNow()
 
 export const users = pgTable('users', {
   id: defaultId,
@@ -19,7 +20,7 @@ export const users = pgTable('users', {
   avatar: varchar('avatar', { length: 255 }),
   password: varchar('password', { length: 50 }),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
+  createAt
 })
 
 export const usersRelations = relations(users, ({ one, many }) => ({
@@ -52,7 +53,7 @@ export const profiles = pgTable('profiles', {
     .references(() => users.id)
     .notNull(),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
+  createAt
 })
 
 // words
@@ -64,7 +65,7 @@ export const words = pgTable('words', {
 
   userId: uuid('user_id').references(() => users.id),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
+  createAt
 })
 
 export const wordsRelations = relations(words, ({ many }) => ({
@@ -115,7 +116,7 @@ export const dictionary = pgTable('dictionary', {
   prototypeId: uuid('prototype_id'),
   formName: varchar('form_name', { length: 10 }),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
+  createAt
 })
 
 export const dictionaryRelations = relations(dictionary, ({ many, one }) => ({
@@ -134,12 +135,12 @@ export const readLater = pgTable('read_later', {
   title: varchar('title', { length: 50 }),
   desc: varchar('desc', { length: 100 }),
   author: varchar('author', { length: 20 }),
-  publishedTime: date('published_time', { mode: 'date' }),
+  publishedTime: timestamp('published_time', { mode: 'date' }).defaultNow(),
   content: text('content'),
 
   userId: uuid('user_id').references(() => users.id),
 
-  createAt: date('create_at', { mode: 'date' }).defaultNow()
+  createAt
 })
 
 export const readLaterRelations = relations(readLater, ({ one }) => ({
