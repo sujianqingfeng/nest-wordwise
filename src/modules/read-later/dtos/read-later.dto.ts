@@ -4,7 +4,7 @@ import { z } from 'zod'
 import schema from '@/modules/drizzle/export-all-schema'
 
 const ReadLaterInsertSchema = createInsertSchema(schema.readLater, {
-  publishedTime: z.date()
+  publishedTime: z.coerce.date()
 }).omit({
   userId: true,
   id: true,

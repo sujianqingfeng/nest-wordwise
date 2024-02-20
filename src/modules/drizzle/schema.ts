@@ -132,8 +132,8 @@ export const dictionaryRelations = relations(dictionary, ({ many, one }) => ({
 export const readLater = pgTable('read_later', {
   id: defaultId,
   source: varchar('url', { length: 100 }),
-  title: varchar('title', { length: 50 }),
-  desc: varchar('desc', { length: 100 }),
+  title: varchar('title', { length: 100 }),
+  desc: varchar('desc', { length: 200 }),
   author: varchar('author', { length: 20 }),
   publishedTime: timestamp('published_time', { mode: 'date' }).defaultNow(),
   content: text('content'),

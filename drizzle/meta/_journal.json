@@ -36,6 +36,13 @@
       "when": 1707740778563,
       "tag": "0004_fantastic_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1708419897455,
+      "tag": "0005_hot_crystal",
+      "breakpoints": true
     }
   ]
 }
