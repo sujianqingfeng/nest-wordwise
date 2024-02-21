@@ -3,10 +3,15 @@ import { and, eq } from 'drizzle-orm'
 import { CreateReadLaterDto } from './dtos/read-later.dto'
 import { DrizzleService } from '../drizzle/drizzle.service'
 import schema from '../drizzle/export-all-schema'
+import { PagerDto } from '@/shared/dtos/pager.dto'
 
 @Injectable()
 export class ReadLaterService {
   constructor(private drizzleService: DrizzleService) {}
+
+  _createUserWhere(userId: string) {
+    return eq(schema.readLater.userId, userId)
+  }
 
   create(userId: string, value: CreateReadLaterDto) {
     const values = {
@@ -24,9 +29,19 @@ export class ReadLaterService {
       .delete(schema.readLater)
       .where(
         and(
-          eq(schema.readLater.userId, where.userId),
+          this._createUserWhere(where.userId),
           eq(schema.readLater.id, where.id)
         )
       )
+  }
+
+  list(params: PagerDto & { userId: string }) {
+    const { page, size, userId } = params
+    return this.drizzleService.queryPagination({
+      from: schema.readLater,
+      page,
+      size,
+      where: this._createUserWhere(userId)
+    })
   }
 }
