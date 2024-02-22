@@ -105,11 +105,12 @@ export const dictionary = pgTable('dictionary', {
   id: defaultId,
   word: varchar('word', { length: 20 }).unique(),
   sw: varchar('sw', { length: 20 }),
-  ukPhonetic: varchar('uk_phonetic', { length: 20 }),
-  usPhonetic: varchar('us_phonetic', { length: 20 }),
+  ukPhonetic: varchar('uk_phonetic', { length: 30 }),
+  usPhonetic: varchar('us_phonetic', { length: 30 }),
   ukSpeech: varchar('uk_speech', { length: 100 }),
   usSpeech: varchar('us_speech', { length: 100 }),
 
+  examTypes: json('exam_types').$type<string[]>().default([]),
   translations:
     json('translations').$type<{ partName: string; translation: string }[]>(),
 

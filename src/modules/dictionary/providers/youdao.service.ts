@@ -60,7 +60,8 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
         trs = [],
         wfs = [],
         prototype = ''
-      }
+      },
+      exam_type = []
     } = ec
 
     const translations: IDictionaryTranslation[] = trs.map((item: any) => ({
@@ -81,7 +82,8 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
       usPhonetic,
       usSpeech: this.getSpeechUrl(usSpeech),
       translations,
-      forms
+      forms,
+      examTypes: exam_type
     }
   }
 }
