@@ -13,6 +13,10 @@ export class ReadLaterService {
     return eq(schema.readLater.userId, userId)
   }
 
+  _createReadLaterIdWhere(id: string) {
+    return eq(schema.readLater.id, id)
+  }
+
   create(userId: string, value: CreateReadLaterDto) {
     const values = {
       userId,
@@ -30,7 +34,7 @@ export class ReadLaterService {
       .where(
         and(
           this._createUserWhere(where.userId),
-          eq(schema.readLater.id, where.id)
+          this._createReadLaterIdWhere(where.id)
         )
       )
   }
@@ -42,6 +46,15 @@ export class ReadLaterService {
       page,
       size,
       where: this._createUserWhere(userId)
+    })
+  }
+
+  detail(where: { id: string; userId: string }) {
+    return this.drizzleService.drizzle.query.readLater.findFirst({
+      where: and(
+        this._createUserWhere(where.userId),
+        this._createReadLaterIdWhere(where.id)
+      )
     })
   }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query
+} from '@nestjs/common'
 import {
   CreateReadLaterDto,
   QueryReadLaterListDto
@@ -34,5 +42,10 @@ export class ReadLaterController {
       size,
       userId
     })
+  }
+
+  @Get(':id')
+  async detail(@CurrentUser('id') userId: string, @Param('id') id: string) {
+    return this.readLaterService.detail({ userId, id })
   }
 }
