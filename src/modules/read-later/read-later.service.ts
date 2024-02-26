@@ -41,8 +41,13 @@ export class ReadLaterService {
 
   list(params: PagerDto & { userId: string }) {
     const { page, size, userId } = params
+
+    const all = schema.readLater.$inferSelect
+    delete all.content
+
     return this.drizzleService.queryPagination({
       from: schema.readLater,
+      select: all,
       page,
       size,
       where: this._createUserWhere(userId)

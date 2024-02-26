@@ -51,9 +51,9 @@ export class DrizzleService implements OnModuleInit {
   }
 
   async queryPagination<T extends PgTableWithColumns<any>>(
-    data: PagerDto & { where: SQL; from: T }
+    data: PagerDto & { where: SQL; from: T; select?: T['$inferSelect'] }
   ): Promise<PaginationResult<T['$inferSelect']>> {
-    const { page, size, where, from } = data
+    const { page, size, where, from, select } = data
 
     const totalRecord = await this.drizzle
       .select({
@@ -69,7 +69,7 @@ export class DrizzleService implements OnModuleInit {
     }
 
     const list = await this.drizzle
-      .select()
+      .select(select || from)
       .from(from)
       .limit(size)
       .offset((page - 1) * size)
