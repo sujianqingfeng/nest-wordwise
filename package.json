@@ -20,7 +20,6 @@
     "migrate": "drizzle-kit push:pg",
     "migrate:prod": "drizzle-kit push:pg --config drizzle.prod.config.ts",
     "studio": "drizzle-kit studio",
-    "dict:write": "node scripts/ecdict/write.mjs",
     "dev:db": "sudo docker-compose up",
     "deploy": "pnpm build && vercel --prod"
   },
