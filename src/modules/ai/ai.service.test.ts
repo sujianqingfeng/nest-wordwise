@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AIService } from './ai.service'
 import { GeminiProvider } from './providers/genimi.provider'
+import type { Profile } from '@/modules/drizzle/types'
 
 describe('AIService', () => {
   let service: AIService
@@ -20,7 +21,12 @@ describe('AIService', () => {
   })
 
   it('connected', async () => {
-    const result = await service.generateContent('hello', 'xxx')
+    const profile = {
+      defaultAIEngine:'gemini',
+      geminiKey:''
+    } as Profile
+
+    const { result } = await service.generateContent('hello', profile)
     expect(result).toMatchInlineSnapshot(
       `"Hello there. How can I help you today?"`
     )

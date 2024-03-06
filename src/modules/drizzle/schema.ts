@@ -40,14 +40,21 @@ export const defaultTranslationEnum = pgEnum('default_translation', [
   'openAI'
 ])
 
+export const defaultAIEngineEnum = pgEnum('default_ai_engine', [
+  'openAI',
+  'gemini'
+])
+
 export const profiles = pgTable('profiles', {
   id: defaultId,
   volcanoAccessKeyId: varchar('volcano_access_key_id', { length: 50 }),
   volcanoSecretKey: varchar('volcano_secret_key', { length: 50 }),
   deepLAuthKey: varchar('deep_l_auth_key', { length: 50 }),
   openAIKey: varchar('open_ai_key', { length: 50 }),
+  geminiKey: varchar('gemini_key', { length: 50 }),
 
   defaultTranslation: defaultTranslationEnum('deepL'),
+  defaultAIEngine: defaultAIEngineEnum('gemini'),
 
   userId: uuid('user_id')
     .references(() => users.id)
