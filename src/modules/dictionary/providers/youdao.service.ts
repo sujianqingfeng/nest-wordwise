@@ -69,10 +69,17 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
       partName: item.pos
     }))
 
-    const forms: { name: string; value: string }[] = wfs.map((item: any) => ({
-      name: item.wf.name,
-      value: item.wf.value
-    }))
+    const forms: { name: string; value: string }[] = wfs.map((item: any) => {
+      let value = item.wf.value
+      const linkLetter = '和'
+      if (typeof value === 'string' && value.includes(linkLetter)) {
+        value = value.split(linkLetter)[0]
+      }
+      return {
+        name: item.wf.name,
+        value
+      }
+    })
 
     return {
       word,
