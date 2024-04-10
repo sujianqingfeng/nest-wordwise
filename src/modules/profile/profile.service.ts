@@ -1,7 +1,7 @@
 import type { Profile, ProfileInsert } from '../drizzle/types'
 import { Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
-import { UpdateTranslationDto } from './dtos/profile.dto'
+import { UpdateAIEngineDto, UpdateTranslationDto } from './dtos/profile.dto'
 import { DrizzleService } from '../drizzle/drizzle.service'
 import schema from '../drizzle/export-all-schema'
 import { TranslatorService } from '../translator/translator.service'
@@ -54,5 +54,17 @@ export class ProfileService {
     } catch (error) {
       throw new BusinessException(error.message)
     }
+  }
+
+
+
+  async updateAIEngine(useId: string, profile: UpdateAIEngineDto) {
+    // TODO: check if the profile is set correctly
+
+    return this.drizzleService.drizzle
+      .update(schema.profiles)
+      .set(profile)
+      .where(eq(schema.profiles.userId, useId))
+      .returning()
   }
 }

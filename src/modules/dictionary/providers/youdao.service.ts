@@ -60,7 +60,8 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
         trs = [],
         wfs = [],
         prototype = ''
-      }
+      },
+      exam_type = []
     } = ec
 
     const translations: IDictionaryTranslation[] = trs.map((item: any) => ({
@@ -68,10 +69,17 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
       partName: item.pos
     }))
 
-    const forms: { name: string; value: string }[] = wfs.map((item: any) => ({
-      name: item.wf.name,
-      value: item.wf.value
-    }))
+    const forms: { name: string; value: string }[] = wfs.map((item: any) => {
+      let value = item.wf.value
+      const linkLetter = '和'
+      if (typeof value === 'string' && value.includes(linkLetter)) {
+        value = value.split(linkLetter)[0]
+      }
+      return {
+        name: item.wf.name,
+        value
+      }
+    })
 
     return {
       word,
@@ -81,7 +89,8 @@ export class YouDaoDictionaryService implements IDictionaryProvider {
       usPhonetic,
       usSpeech: this.getSpeechUrl(usSpeech),
       translations,
-      forms
+      forms,
+      examTypes: exam_type
     }
   }
 }

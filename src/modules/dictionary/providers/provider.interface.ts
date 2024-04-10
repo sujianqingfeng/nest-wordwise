@@ -18,6 +18,8 @@ export interface IDictionaryQueryResult {
 
   forms: IDictionaryForm[]
   translations: IDictionaryTranslation[]
+
+  examTypes: string[]
 }
 
 export interface IDictionaryProvider {

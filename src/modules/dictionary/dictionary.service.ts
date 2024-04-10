@@ -66,7 +66,7 @@ export class DictionaryService {
 
     try {
       await this.drizzleService.drizzle.transaction(async (trx) => {
-        const { prototype, forms, ...rest } = result
+        const { prototype, forms, examTypes, ...rest } = result
 
         // exists prototype
         let prototypeRecord
@@ -80,7 +80,8 @@ export class DictionaryService {
                 .insert(schema.dictionary)
                 .values({
                   word: prototype,
-                  sw: stripWord(prototype)
+                  sw: stripWord(prototype),
+                  examTypes
                 })
                 .returning()
             )[0]
@@ -93,12 +94,14 @@ export class DictionaryService {
             .values({
               word,
               sw: stripWord(word),
+              examTypes,
               ...rest,
               prototypeId: prototypeRecord ? prototypeRecord.id : null
             })
             .onConflictDoUpdate({
               target: schema.dictionary.word,
               set: {
+                examTypes,
                 ...rest
               }
             })
@@ -113,6 +116,7 @@ export class DictionaryService {
               .insert(schema.dictionary)
               .values({
                 word: value,
+                examTypes,
                 formName: name,
                 sw: stripWord(value),
                 prototypeId: current.id

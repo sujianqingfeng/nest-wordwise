@@ -1,18 +1,8 @@
 import type { AuthProvider } from './provider.interface'
 import { HttpService } from '@nestjs/axios'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { getProxy } from '@/utils'
 import { createLogger } from '@/utils/logger'
-
-function getProxy() {
-  const isDev = process.env.NODE_ENV === 'development'
-  return isDev
-    ? {
-        protocol: 'http',
-        host: '127.0.0.1',
-        port: 7890
-      }
-    : null
-}
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const GOOGLE_ACCESS_TOKEN_OBTAIN_URL = 'https://oauth2.googleapis.com/token'

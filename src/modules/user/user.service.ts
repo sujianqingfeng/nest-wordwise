@@ -1,8 +1,11 @@
 import type { UserInsert } from '../drizzle/types'
 import { Injectable } from '@nestjs/common'
+import { MD5 } from 'crypto-js'
 import { eq, or } from 'drizzle-orm'
+import { ChangePwdDto } from './dtos/user.dto'
 import { DrizzleService } from '../drizzle/drizzle.service'
 import { users } from '../drizzle/schema'
+import { BusinessException } from '@/exceptions/business.exception'
 
 @Injectable()
 export class UserService {
@@ -45,6 +48,24 @@ export class UserService {
           name: user.name
         }
       })
+      .returning()
+  }
+
+  async changePwd(userId: string, { password, newPassword }: ChangePwdDto) {
+    const user = await this.drizzleService.drizzle.query.users.findFirst({
+      where: eq(users.id, userId)
+    })
+
+    if (user.password && user.password !== MD5(password).toString()) {
+      throw new BusinessException('Password incorrect')
+    }
+
+    const p = MD5(newPassword).toString()
+
+    return this.drizzleService.drizzle
+      .update(users)
+      .set({ password: p })
+      .where(eq(users.id, userId))
       .returning()
   }
 }

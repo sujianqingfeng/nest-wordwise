@@ -59,3 +59,52 @@ const UpdateTranslationSchema = z
 export class UpdateTranslationDto extends createZodDto(
   UpdateTranslationSchema
 ) {}
+
+
+
+const AIEngineEnum = ['gemini', 'openAI'] as const
+
+const UpdateAIEngineSchema = z
+  .object({
+    defaultAIEngine: z.enum(AIEngineEnum),
+    openAIKey: z.string().optional(),
+    geminiKey: z.string().optional()
+  })
+  .refine(
+    (data) => {
+      return !!data.defaultAIEngine
+    },
+    {
+      message: 'defaultAIEngine is required',
+      path: ['defaultAIEngine']
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.defaultAIEngine === 'openAI') {
+        return !!data.openAIKey
+      }
+      return true
+    },
+    {
+      message: 'openAIKey is required',
+      path: ['openAIKey']
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.defaultAIEngine === 'gemini') {
+        return !!data.geminiKey
+      }
+      return true
+    },
+    {
+      message: 'geminiKey is required',
+      path: ['geminiKey']
+    }
+  )
+
+
+export class UpdateAIEngineDto extends createZodDto(
+  UpdateAIEngineSchema
+) {}

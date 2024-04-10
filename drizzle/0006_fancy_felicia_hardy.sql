@@ -1,0 +1,1 @@
+ALTER TABLE "dictionary" ADD COLUMN "exam_types" json DEFAULT '[]'::json;
