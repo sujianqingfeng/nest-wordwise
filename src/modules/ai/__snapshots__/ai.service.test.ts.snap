@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AIService open-ai 1`] = `"Hello! How can I assist you today?"`;

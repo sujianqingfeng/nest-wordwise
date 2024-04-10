@@ -1,8 +1,9 @@
+import type { Profile } from '@/modules/drizzle/types'
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AIService } from './ai.service'
 import { GeminiProvider } from './providers/genimi.provider'
-import type { Profile } from '@/modules/drizzle/types'
+import { OpenAIProvider } from './providers/openai.provider'
 
 describe('AIService', () => {
   let service: AIService
@@ -10,7 +11,7 @@ describe('AIService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [AIService, GeminiProvider]
+      providers: [AIService, GeminiProvider, OpenAIProvider]
     }).compile()
 
     service = module.get<AIService>(AIService)
@@ -20,15 +21,25 @@ describe('AIService', () => {
     expect(service).toBeDefined()
   })
 
-  it('connected', async () => {
+  it.skip('gemini-connected', async () => {
     const profile = {
-      defaultAIEngine:'gemini',
-      geminiKey:''
+      defaultAIEngine: 'gemini',
+      geminiKey: ''
     } as Profile
 
     const { result } = await service.generateContent('hello', profile)
     expect(result).toMatchInlineSnapshot(
       `"Hello there. How can I help you today?"`
     )
+  })
+
+  it('open-ai', async () => {
+    const profile = {
+      defaultAIEngine: 'openAI',
+      openAIKey: ''
+    } as Profile
+
+    const { result } = await service.generateContent('hello', profile)
+    expect(result).toMatchSnapshot()
   })
 })

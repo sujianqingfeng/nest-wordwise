@@ -1,14 +1,31 @@
+import type { Profile } from '@/modules/drizzle/types'
 import { Injectable } from '@nestjs/common'
 import { GeminiProvider } from './providers/genimi.provider'
-import type { Profile } from '@/modules/drizzle/types'
+import { OpenAIProvider } from './providers/openai.provider'
 
 @Injectable()
 export class AIService {
-  constructor(private readonly geminiProvider: GeminiProvider) {}
+  constructor(
+    private geminiProvider: GeminiProvider,
+    private openAIProvider: OpenAIProvider
+  ) {}
 
   async generateContent(prompt: string, profile: Profile) {
-    const { geminiKey } = profile
-    const result = await this.geminiProvider.generateContent(prompt, geminiKey)
+    const { defaultAIEngine, geminiKey, openAIKey } = profile
+
+    let result = null
+
+    switch (defaultAIEngine) {
+      case 'gemini':
+        result = await this.geminiProvider.generateContent(prompt, geminiKey)
+        break
+      case 'openAI':
+        result = await this.openAIProvider.generateContent(prompt, openAIKey)
+        break
+
+      default:
+        throw new Error('Unsupported AI engine')
+    }
 
     return {
       result
